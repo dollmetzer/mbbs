@@ -1,0 +1,31 @@
+
+ul.nav li.user {
+    position: relative;
+    padding: 15px;
+    display: block;
+    line-height: 20px;
+    float: left;
+    color:#eeeeee;
+}
+
+table.maillist {
+    width:100%;
+    border-bottom: 1px solid #999999;
+    border-collapse: collapse;
+}
+table.maillist tr {
+    border-top: 1px solid #999999;
+    padding:10px 0 10px 0;
+    cursor: pointer;
+}
+table.maillist td {
+    padding:10px 0 10px 0;
+}
+table.striped tr:nth-child(odd) {
+   background-color: #eeeeee;
+}
+
+h1 {
+    margin-top:10px;
+    margin-bottom:5px;
+}

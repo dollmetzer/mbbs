@@ -1,0 +1,14 @@
+
+Feature
+=======
+
+Wall     - jeder kann etwas an die Wand schreiben.
+userlist - Jeder kann alle User sehen.
+contact  - suggest 
+
+install script - wenn noch nicht installiert
+
+admin area - Name des Systemeinstellungen
+admin area - user blocken, admin- und transferrechte geben
+transfer - messages zusammenpacken und exportieren
+transfer - messages importieren

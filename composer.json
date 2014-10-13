@@ -1,0 +1,18 @@
+{
+	"name" : "blog",
+	"require-dev" : {
+		"dollmetzer/zzaplib" : "dev-master"
+	},
+	"repositories" : [
+		{
+			"type" : "vcs",
+			"url" : "git://github.com/dollmetzer/zzaplib",
+			"reference": "master"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Application\\" : "app/"
+		}
+	}
+}
