@@ -51,6 +51,7 @@
                         </li>
                         <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('/bbs/board'); ?>"><?php $this->lang('nav_board') ?></a></li>
 
+                        <li><a href="<?php $this->buildURL('account/settings') ?>"><?php $this->lang('nav_settings') ?></a></li>
                         <li><a href="<?php $this->buildURL('account/logout') ?>"><?php $this->lang('nav_logout') ?></a></li>
                         <li class="user">(<?php echo sprintf($this->lang('nav_loggedin', false), $this->app->session->user_handle); ?>)</li>
                         <?php } ?>

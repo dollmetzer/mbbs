@@ -83,8 +83,8 @@ class accountController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_in'));
         }
         $this->app->view->content['form'] = $form->getViewdata();
-
         $this->app->view->content['nav_main'] = 'login';
+
     }
 
 
@@ -116,6 +116,66 @@ class accountController extends \dollmetzer\zzaplib\Controller
         
     }
 
+    /**
+     * Basic settings
+     */
+    public function settingsAction() {
+        $languages = array();
+        foreach($this->app->config['languages'] as $lang) {
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
+        }
+        
+        $form = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name = 'loginform';
+        $form->fields = array(
+            'language' => array(
+                'type' => 'select',
+                'required' => true,
+                'options' => $languages,
+                'value' => $this->app->session->user_language
+            ),
+            'password' => array(
+                'type' => 'password',
+                'maxlength' => 32,
+            ),
+            'password2' => array(
+                'type' => 'password',
+                'maxlength' => 32,
+            ),
+            'submit' => array(
+                'type' => 'submit',
+                'value' => 'login'
+            ),
+        );
+
+        if ($form->process()) {
+
+            // get user
+            $values = $form->getValues();
+            
+            if($values['password'] != $values['password2']) {
+                $form->fields['password']['error'] = $this->lang('form_error_not_identical');
+                $form->fields['password2']['error'] = $this->lang('form_error_not_identical');
+            } else {
+                
+                $dbVal = array('language' => $values[language]);
+                if(!empty($values['password'])) {
+                    $dbVal['password'] = sha1($values['password']);
+                }                
+                $userModel = new \Application\modules\core\models\userModel($this->app);
+                $userModel->update($this->app->session->user_id, $dbVal);
+                
+                $this->app->forward($this->buildURL('/'), $this->lang('msg_settings_saved'));
+                
+            }
+                        
+        }
+        
+        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['nav_main'] = 'settings';
+    
+    }
+    
 }
 
 ?>

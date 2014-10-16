@@ -29,7 +29,8 @@ define('DEBUG_DB', false);
 $config = array(
     'systemname' => 'imac',
     'languages' => array(
-        'de'
+        'de',
+        'en'
     ),
     'themes' => array(
         'web'

@@ -1,0 +1,3 @@
+Changes
+=======
+16.10.2014 - Added settings page

@@ -27,6 +27,8 @@ use dollmetzer\zzaplib\DBModel;
  */
 class userModel extends \dollmetzer\zzaplib\DBModel {
 
+    protected $tablename = 'user';
+    
     /**
      * Get a user by his handle
      * 

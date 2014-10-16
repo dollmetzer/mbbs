@@ -25,6 +25,8 @@ namespace Application\modules\core\models;
  */
 class groupModel extends \dollmetzer\zzaplib\DBModel {
 
+    protected $tablename = 'group';
+    
     /**
      * Get a list of all groups for a certain user
      *  
