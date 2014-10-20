@@ -13,7 +13,7 @@
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
         <td><?php if($mail['read'] == '0000-00-00 00:00:00') {
             echo '<strong><span class="glyphicon glyphicon-asterisk" title="';
-            echo $this->lang('text_unread');
+            echo $this->lang('txt_unread');
             echo '"></span></strong>&nbsp;'; } ?><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
             <?php echo $this->toDatetimeShort($mail['written'], false); ?><br />
             <strong><?php echo $mail['subject']; ?></strong></td>

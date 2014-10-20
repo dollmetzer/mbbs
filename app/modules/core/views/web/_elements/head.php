@@ -8,7 +8,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>mBBS</title>
+        <title>mBBS<?php if(!empty($content['title'])) echo ' - '.$content['title']; ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="<?php $this->buildMediaURL('/css/bootstrap.min.css'); ?>" rel="stylesheet">

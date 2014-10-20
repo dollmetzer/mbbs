@@ -1,15 +1,27 @@
 <?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
 
-      <div class="well">
-          <h2>mBBS</h2>
-          <h2>zzaplib ist ein PHP Microframework für Webapplikationen</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.</p>
-      </div>
+<div class="well">
+    <h2>mBBS</h2>
+    <p>mBBS steht für Micro Bulletin Board System.
+        Inspiriert wurde das Projekt durch die Mailbox Systeme (englisch
+        bulletin board system) der 80er und 90er Jahre, die bereits Mails und
+        Diskussionsforen boten, bevor der Zugang zum Internet für normale 
+        Menschen möglich war.</p>
+    <p>Diese Fokussierung auf das Wesentliche der Kommunikation war seinerzeit
+        der einfachen Technik geschuldet. Heutzutage ist zwar die Technik 
+        erheblich Leistungsfähiger geworden, aber durch die Nutzung auf mobilen
+        Endgeräten wird eine funktionale Fokussierung sinnvoller den je.</p>
+</div>
 
-
-      <div class="well">
-          <h2>Diese Applikation ist ein Beispiel</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.</p>
-      </div>
+<div class="well">
+    <h2>zzaplib</h2>
+    <p>Die Basis von mBBS ist das zzaplib PHP Microframework für 
+        Webapplikationen. Es ist auf geringen Ressourcenverbrauch und hohe 
+        Ausführungsgeschwindigkeit optimiert. Das wird durch den Verzicht auf 
+        unnötige Zwischenlayer wie Object Relation Manager und den massvollen 
+        Einsatz von OOP Prinzipien erreicht. Hierin unterscheidet sich zzaplib 
+        von den weit verbreiteten "großen" Frameworks, wie Symfony und Zend.</p>
+    
+</div>
 
 <?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>

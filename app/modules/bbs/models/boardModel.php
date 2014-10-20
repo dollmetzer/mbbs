@@ -1,16 +1,27 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * BBS - Bulletin Board System
+ * 
+ * A small BBS package for mobile use
+ * 
+ * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
+ * @copyright (c) 2014, Dirk Ollmetzer
+ * @package Application
+ * @subpackage bbs
  */
 
 namespace Application\modules\bbs\models;
 
 /**
- * Description of boardModel
- *
- * @author dirk
+ * BBS Board Model
+ * 
+ * Database Methods for Board handling
+ * 
+ * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
+ * @copyright (c) 2014, Dirk Ollmetzer
+ * @package Application
+ * @subpackage bbs
  */
 class boardModel extends \dollmetzer\zzaplib\DBModel
 {
