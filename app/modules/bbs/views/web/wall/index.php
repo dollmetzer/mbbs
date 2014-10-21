@@ -37,4 +37,11 @@
 </table>
 <?php } ?>
 
+<script type="text/javascript">
+    function jumpto(id) {
+        url = '<?php $this->buildURL('bbs/wall/read/') ?>' + id;        
+        location.href = url;
+    }
+</script>
+
 <?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>

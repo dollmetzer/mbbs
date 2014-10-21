@@ -1,4 +1,5 @@
 Changes
 =======
+21.10.2014 - Added wall details
 20.10.2014 - Added member wall
 16.10.2014 - Added settings page

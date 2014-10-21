@@ -23,6 +23,7 @@
         <!-- Fixed navbar -->
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
+                
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -32,6 +33,7 @@
                     </button>
                     <a class="navbar-brand" href="<?php $this->buildURL(''); ?>">mBBS</a>
                 </div>
+                
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <?php 
@@ -57,6 +59,7 @@
                         <?php } ?>
                     </ul>
                 </div><!--/.nav-collapse -->
+                
             </div>
         </div>
 
@@ -69,14 +72,20 @@ if(!empty($content['title'])) {
 //    echo "</div>\n";
 }
 if(!empty($_SESSION['flasherror'])) {
-    echo '<div class="alert alert-danger" role="alert">';
+    echo '<div class="alert alert-danger" role="alert" onclick="closeAlert()">';
     echo '<p><strong>Fehler!</strong></p>'.$_SESSION['flasherror'].'<p>';
     echo "</div>\n";
 
 } 
 if(!empty($_SESSION['flashmessage'])) {
-    echo '<div class="alert alert-info" role="alert">';
+    echo '<div class="alert alert-info" role="alert" onclick="closeAlert()">';
     echo '<p><strong>Hinweis!</strong></p>'.$_SESSION['flashmessage'].'<p>';
     echo "</div>\n";
 } 
 ?>
+
+<script>
+    function closeAlert() {
+        $(".alert").slideUp();
+    }
+</script>

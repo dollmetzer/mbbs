@@ -28,7 +28,8 @@ class wallController extends \dollmetzer\zzaplib\Controller
  
     protected $accessGroups = array(
         'index'  => array('user'),
-        'new'    => array('user')
+        'new'    => array('user'),
+        'read'   => array('user')
     );
     
     /**
@@ -46,6 +47,33 @@ class wallController extends \dollmetzer\zzaplib\Controller
         
     }
     
+    /**
+     * Show a single mail
+     */
+    public function readAction()
+    {
+        if (empty($this->app->params)) {
+            $this->app->forward($this->buildURL('/bbs/wall'), $this->lang('error_access_denied'), 'error');
+        }
+        $id = (int) $this->app->params[0];
+
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+        $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+        $mail = $mailModel->read($id);
+
+        if (empty($mail)) {
+            $this->app->forward($this->buildURL('/bbs/wall'), $this->lang('error_data_not_found'), 'error');
+        }
+
+        if($mail['read'] == '0000-00-00 00:00:00') {
+            $mailModel->markRead($mail['id']);
+        }
+        
+//        $this->app->view->content['title'] = $this->lang('title_mail_read');
+        $this->app->view->content['nav_main'] = 'mail';
+        $this->app->view->content['mail'] = $mail;
+    }
+
     /**
      * New entry
      */
