@@ -45,6 +45,7 @@
                         <li<?php if($content['nav_main'] == 'login') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/login') ?>"><?php $this->lang('nav_login') ?></a></li>
                         <li class="user">(<?php $this->lang('nav_not_loggedin'); ?>)</li>
                         <?php } else { ?>
+                        <li<?php if($content['nav_main'] == 'wall') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('/bbs/wall'); ?>"><?php $this->lang('nav_wall') ?></a></li>
                         <li class="dropdown<?php if($content['nav_main'] == 'mail') { echo ' active'; } ?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_mail') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="<?php $this->buildURL('/bbs/mail/in'); ?>"><?php $this->lang('nav_mail_inbox') ?></a></li>
@@ -52,7 +53,13 @@
                             </ul>                            
                         </li>
                         <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('/bbs/board'); ?>"><?php $this->lang('nav_board') ?></a></li>
-
+                        
+                        <?php if(in_array('admin', $this->app->session->groups)) { ?>
+                        <li class="dropdown<?php if($content['nav_main'] == 'admin') { echo ' active'; } ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_admin') ?> <span class="caret"></span></a>
+                        </li>
+                        <?php } ?>
+                        
                         <li><a href="<?php $this->buildURL('account/settings') ?>"><?php $this->lang('nav_settings') ?></a></li>
                         <li><a href="<?php $this->buildURL('account/logout') ?>"><?php $this->lang('nav_logout') ?></a></li>
                         <li class="user">(<?php echo sprintf($this->lang('nav_loggedin', false), $this->app->session->user_handle); ?>)</li>

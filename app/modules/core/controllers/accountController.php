@@ -114,12 +114,64 @@ class accountController extends \dollmetzer\zzaplib\Controller
     public function registerAction()
     {
         
+        // exit, if self register is not allowed
+        if($this->app->config['register']['selfregister'] !== true) {
+            $this->app->forward($this->buildURL('/'));
+        }
+
+        $languages = array();
+        foreach($this->app->config['languages'] as $lang) {
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
+        }
+        
+        $form = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name = 'loginform';
+        $form->fields = array(
+            'handle' => array(
+                'type' => 'text',
+                'required' => true,
+                'maxlength' => 32,
+            ),
+            'language' => array(
+                'type' => 'select',
+                'options' => $languages,
+                'required' => true,
+                'value' => $this->app->session->user_language
+            ),
+            'password' => array(
+                'type' => 'password',
+                'required' => true,
+                'maxlength' => 32,
+            ),
+            'password2' => array(
+                'type' => 'password',
+                'required' => true,
+                'maxlength' => 32,
+            ),
+            'submit' => array(
+                'type' => 'submit',
+                'value' => 'register'
+            ),
+        );
+
+        if ($form->process()) {
+
+            $values = $form->getValues();
+            var_dump($values);
+            die();
+
+        }
+        
+        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['nav_main'] = 'settings';
+        
     }
 
     /**
      * Basic settings
      */
     public function settingsAction() {
+        
         $languages = array();
         foreach($this->app->config['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_'.$lang);

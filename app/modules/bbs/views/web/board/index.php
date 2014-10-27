@@ -24,12 +24,25 @@ if(!empty($content['board']['description'])) {
 <?php foreach($content['themes'] as $theme) { ?>
     <tr onclick="showboard(<?php echo $theme['id']; ?>);">
         <td>
-            <strong><?php echo $theme['name']; ?></strong> - <?php echo $theme['description']; ?></a>
+            <?php if(in_array('admin', $this->app->session->groups)) { ?>
+            <a href="<?php $this->buildURL('bbs/boardadmin/edit/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a> 
+            <a href="<?php $this->buildURL('bbs/boardadmin/delete/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a> 
+            <?php } ?>
+            <strong><?php echo $theme['name']; ?></strong><br /><?php echo $theme['description']; ?></a>
         </td>
     </tr>
     <?php } ?>
 </table>
-<?php } ?>
+<?php 
+if(in_array('admin', $this->app->session->groups)) {
+    echo '<br /><p><a href="';
+    echo $this->buildURL('bbs/boardadmin/add/'.$content['id']);
+    echo '" class="btn btn-default btn-xs">';
+    echo '<span class="glyphicon glyphicon-plus"></span> ';
+    $this->lang('link_board_add');
+    echo "</a></p>\n";
+}
+} ?>
 
 <?php if(!empty($content['mails'])) { ?>
 <table class="maillist striped">
