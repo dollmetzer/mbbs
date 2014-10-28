@@ -154,6 +154,15 @@ if (!empty($content['form']['name'])) {
                         echo $oName . '&nbsp;&nbsp;&nbsp;';
                     }
                     break;
+                    
+                case 'checkbox':
+                    echo '<input type="checkbox" name="' . $name;
+                    if(!empty($field['value'])) {
+                        echo '" checked="checked';
+                    }
+                    echo '" />&nbsp;';
+                    echo $oName . '&nbsp;&nbsp;&nbsp;';
+                    break;
 
                 case 'textarea':
                     echo '<textarea class="form-control" name="' . $name;

@@ -45,10 +45,10 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = $this->app->params[0];
-
-        die('boardadmin:add:'.$id);
         
-                $form = new \dollmetzer\zzaplib\Form($this->app);
+        // todo: exist parent id
+        
+        $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
         $form->fields = array(
             'board' => array(
@@ -64,6 +64,10 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
                 'maxlength' => 255,
                 'value' => $board['description']
             ),
+            'content' => array(
+                'type' => 'checkbox',
+                'value' => 'on'
+            ),
             'submit' => array(
                 'type' => 'submit',
                 'value' => 'change'
@@ -73,11 +77,22 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            var_dump($values);
-            die();
+            
+            $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
+            $content = 0;
+            if(!empty($values['content'])) $content = 1;
+            
+            $data = array(
+                'parent_id' => $id,
+                'content' => $content,
+                'name' => $values['board'],
+                'description' => $values['description']
+            );
+            $boardModel->create($data);
+            $this->app->forward($this->buildURL('/bbs/board/list/'.$id));
         }
         $this->app->view->content['form'] = $form->getViewdata();
-        
+        $this->app->view->template = 'modules/bbs/views/web/boardadmin/edit.php';
     }
     
     /**

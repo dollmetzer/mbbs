@@ -33,16 +33,19 @@ if(!empty($content['board']['description'])) {
     </tr>
     <?php } ?>
 </table>
+<br />
 <?php 
-if(in_array('admin', $this->app->session->groups)) {
-    echo '<br /><p><a href="';
+} 
+
+if(in_array('admin', $this->app->session->groups) && empty($content['board']['content'])) {
+    echo '<p><a href="';
     echo $this->buildURL('bbs/boardadmin/add/'.$content['id']);
     echo '" class="btn btn-default btn-xs">';
     echo '<span class="glyphicon glyphicon-plus"></span> ';
     $this->lang('link_board_add');
     echo "</a></p>\n";
 }
-} ?>
+?>
 
 <?php if(!empty($content['mails'])) { ?>
 <table class="maillist striped">
