@@ -58,9 +58,7 @@ INSERT INTO `group` (`id`, `active`, `name`, `description`) VALUES
 (1, 1, 'operator', 'System Operator'),
 (2, 1, 'administrator', 'User/Group Administrator'),
 (3, 1, 'moderator', 'Content Moderator'),
-(4, 1, 'base', 'Base User'),
-(5, 1, 'normal', 'Normal User'),
-(6, 1, 'premium', 'Premium User');
+(4, 1, 'user', 'Basic User');
 
 -- --------------------------------------------------------
 

@@ -45,5 +45,34 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    
+    public function getByName($_name) {
+        
+        $sql = "SELECT * FROM `group` WHERE name=?";
+        $values = array($_name);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+    }
 
+    public function setUserGroup($_userId, $_groupId) {
+        
+        $sql = "INSERT INTO `user_group` (
+                    user_id, 
+                    group_id
+                ) VALUES (
+                    ?,
+                    ?
+                )";
+        $values = array($_userId, $_groupId);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        
+    }
+    
+    public function deleteUserGroup($_userId, $_groupId) {
+        
+    }
+    
 }

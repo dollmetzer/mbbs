@@ -157,9 +157,43 @@ class accountController extends \dollmetzer\zzaplib\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            var_dump($values);
-            die();
+            
+            if($values['password'] != $values['password2']) {
+                $form->fields['password']['error'] = $this->lang('form_error_not_identical');
+            } else {
+                
+                $userModel = new \Application\modules\core\models\userModel($this->app);
+                $user = $userModel->getByHandle($values['handle']);
+                if(!empty($user)) {
+                    $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');
+                } else {
+                    $data = array(
+                        'active' => 1,
+                        'handle' => $values['handle'],
+                        'password' => sha1($values['password']),
+                        'language' => $values['language'],
+                        'created' => strftime('%Y-%m-%d %H:%M:%S', time())
+                    );
+                    $id = $userModel->create($data);
+                    
+                    // ...and now login
+                    $userModel->setLastlogin($id);
+                    $this->app->session->user_id = $id;
+                    $this->app->session->user_handle = $values['handle'];
+                    $this->app->session->user_lastlogin = strftime('%Y-%m-%d %H:%M:%S', time());
+                    $this->app->session->user_language = $values['language'];
 
+                    // add user to standard user group (5)
+                    $groupModel = new \Application\modules\core\models\groupModel($this->app);
+                    $group = $groupModel->getByName('user');
+                    $groupModel->setUserGroup($id, $group['id']);
+                    $sessionGroups[$group['id']] = $group['name'];
+                    $this->app->session->groups = $sessionGroups;
+                    
+                    $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_in'));
+            
+                }
+            }
         }
         
         $this->app->view->content['form'] = $form->getViewdata();
