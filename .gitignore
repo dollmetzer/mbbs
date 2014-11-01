@@ -1,5 +1,4 @@
-/nbproject/private/
+/nbproject/
+/composer.phar
 /composer.lock
 /vendor/
-/logs/
-/nbproject/
