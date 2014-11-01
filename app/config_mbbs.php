@@ -10,6 +10,6 @@
 include __DIR__ . '/config.php';
 
 // URL Settings
-define('URL_BASE', $_SERVER['SERVER_NAME'].'/');
-define('URL_MEDIA', $_SERVER['SERVER_NAME'].'/');
+define('URL_BASE', $_SERVER['SERVER_NAME']);
+define('URL_MEDIA', $_SERVER['SERVER_NAME']);
 define('URL_REWRITE', false);

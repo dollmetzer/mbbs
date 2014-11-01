@@ -27,9 +27,9 @@ class wallController extends \dollmetzer\zzaplib\Controller
 {
  
     protected $accessGroups = array(
-        'index'  => array('user'),
-        'new'    => array('user'),
-        'read'   => array('user')
+        'index'  => array('user','operator','administrator','moderator'),
+        'new'    => array('user','operator','administrator','moderator'),
+        'read'   => array('user','operator','administrator','moderator')
     );
     
     /**

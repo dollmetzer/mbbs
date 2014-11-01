@@ -30,11 +30,11 @@ class boardController extends \dollmetzer\zzaplib\Controller
      * @var array $accessGroups
      */
     protected $accessGroups = array(
-        'index' => array('user'),
-        'list'  => array('user'),
-        'read'  => array('user'),
-        'new'   => array('user'),
-        'reply' => array('user')
+        'index' => array('user','operator','administrator','moderator'),
+        'list'  => array('user','operator','administrator','moderator'),
+        'read'  => array('user','operator','administrator','moderator'),
+        'new'   => array('user','operator','administrator','moderator'),
+        'reply' => array('user','operator','administrator','moderator')
     );
 
 
@@ -252,6 +252,19 @@ class boardController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
+            $from = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+
+            $data = array(
+                'from' => $from,
+                'to' => '#'.$to,
+                'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
+                'subject' => $values['subject'],
+                'message' => $values['message']
+            );
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            $mailId = $mailModel->create($data);
+
+            $this->app->forward($this->buildURL('bbs/board/list/' . $board['id']), $this->lang('msg_post_sent'), 'message');
             
         }
         $this->app->view->template = 'modules/bbs/views/web/board/new.php';

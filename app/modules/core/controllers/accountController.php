@@ -32,9 +32,9 @@ class accountController extends \dollmetzer\zzaplib\Controller
     protected $accessGroups = array(
         'login'         => array('guest'),
         'register'      => array('guest'),
-        'logout'        => array('user'),
-        'resetpassword' => array('user'),
-        'settings'      => array('user')
+        'logout'        => array('user','operator','administrator','moderator'),
+        'resetpassword' => array('user','operator','administrator','moderator'),
+        'settings'      => array('user','operator','administrator','moderator')
     );
     
     /**

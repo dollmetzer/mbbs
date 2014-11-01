@@ -44,9 +44,9 @@
                         <li<?php if($content['nav_main'] == 'privacy') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('privacy'); ?>"><?php $this->lang('nav_privacy') ?></a></li>
                         <li<?php if($content['nav_main'] == 'imprint') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('imprint'); ?>"><?php $this->lang('nav_imprint') ?></a></li>
                         <li<?php if($content['nav_main'] == 'login') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/login') ?>"><?php $this->lang('nav_login') ?></a></li>
-                        
+                        <?php if($this->app->config['register']['selfregister'] === true) { ?>
                         <li<?php if($content['nav_main'] == 'register') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/register') ?>"><?php $this->lang('nav_register') ?></a></li>
-                        
+                        <?php } ?>
                         <li class="user">(<?php $this->lang('nav_not_loggedin'); ?>)</li>
                         
                         <?php } else { ?>

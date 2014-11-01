@@ -161,7 +161,6 @@ if (!empty($content['form']['name'])) {
                         echo '" checked="checked';
                     }
                     echo '" />&nbsp;';
-                    echo $oName . '&nbsp;&nbsp;&nbsp;';
                     break;
 
                 case 'textarea':

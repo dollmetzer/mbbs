@@ -27,12 +27,12 @@ class mailController extends \dollmetzer\zzaplib\Controller
 {
 
     protected $accessGroups = array(
-        'in'     => array('user'),
-        'out'    => array('user'),
-        'read'   => array('user'),
-        'new'    => array('user'),
-        'reply'  => array('user'),
-        'delete' => array('user')
+        'in'     => array('user','operator','administrator','moderator'),
+        'out'    => array('user','operator','administrator','moderator'),
+        'read'   => array('user','operator','administrator','moderator'),
+        'new'    => array('user','operator','administrator','moderator'),
+        'reply'  => array('user','operator','administrator','moderator'),
+        'delete' => array('user','operator','administrator','moderator')
     );
 
     /**
@@ -148,7 +148,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
             );
             $id = $mailModel->create($data);
 
-            $this->app->forward($this->buildURL('bbs/mail'), $this->lang('msg_mail_sent'), 'message');
+            $this->app->forward($this->buildURL('bbs/mail/out'), $this->lang('msg_mail_sent'), 'message');
         }
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['title'] = $this->lang('title_mail_new');
@@ -234,6 +234,23 @@ class mailController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
+
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            $from = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+            $to = $values['to'];
+            if (strpos($to, '@') === false) {
+                $to .= '@' . $this->app->config['systemname'];
+            }
+            $data = array(
+                'from' => $from,
+                'to' => $to,
+                'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
+                'subject' => $values['subject'],
+                'message' => $values['message']
+            );
+            
+            $id = $mailModel->create($data);
+            $this->app->forward($this->buildURL('bbs/mail/out'), $this->lang('msg_mail_sent'), 'message');
             
         }
         $this->app->view->template = 'modules/bbs/views/web/mail/new.php';

@@ -30,9 +30,9 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
      * @var array $accessGroups
      */
     protected $accessGroups = array(
-        'add' => array('admin'),
-        'edit'  => array('admin'),
-        'delete'  => array('admin')
+        'add' => array('administrator'),
+        'edit'  => array('administrator'),
+        'delete'  => array('administrator')
     );
     
     
@@ -47,6 +47,13 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
         $id = $this->app->params[0];
         
         // todo: exist parent id
+        $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
+        if($id != 0) {
+            $board = $boardModel->read($id);
+            if(empty($board)) {
+                $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
+            }
+        }
         
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
@@ -54,15 +61,13 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
             'board' => array(
                 'type' => 'text',
                 'required' => true,
-                'maxlength' => 32,
-                'value' => $board['name']
+                'maxlength' => 32
             ),
             'description' => array(
                 'type' => 'text',
                 'required' => true,
                 'rows' => 8,
-                'maxlength' => 255,
-                'value' => $board['description']
+                'maxlength' => 255
             ),
             'content' => array(
                 'type' => 'checkbox',
@@ -78,7 +83,6 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
 
             $values = $form->getValues();
             
-            $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
             $content = 0;
             if(!empty($values['content'])) $content = 1;
             
@@ -92,6 +96,7 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/board/list/'.$id));
         }
         $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['nav_main'] = 'board';
         $this->app->view->template = 'modules/bbs/views/web/boardadmin/edit.php';
     }
     
@@ -104,15 +109,15 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = $this->app->params[0];
-        
+
         $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
         $board = $boardModel->read($id);
         if(empty($board)) {
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
         }
-        
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'mailform';
+        $form->name = 'boardform';
         $form->fields = array(
             'board' => array(
                 'type' => 'text',
@@ -145,6 +150,7 @@ class boardadminController extends \dollmetzer\zzaplib\Controller
             
         }
         $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['nav_main'] = 'board';
         
     }
 
