@@ -16,7 +16,7 @@ namespace Application\modules\core\controllers;
 /**
  * CORE Account Controller
  * 
- * Methods fpr Account Handling (login, logout, register, ...)
+ * Methods for account handling (login, logout, register, ...)
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
  * @copyright (c) 2014, Dirk Ollmetzer
@@ -26,7 +26,17 @@ namespace Application\modules\core\controllers;
 class accountController extends \dollmetzer\zzaplib\Controller
 {
 
-
+    /**
+     * @var type array neccessary access rights
+     */
+    protected $accessGroups = array(
+        'login'         => array('guest'),
+        'register'      => array('guest'),
+        'logout'        => array('user'),
+        'resetpassword' => array('user'),
+        'settings'      => array('user')
+    );
+    
     /**
      * Login form processing.
      * 
@@ -104,7 +114,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
      */
     public function resetpasswordAction()
     {
-        
+        die('Not yet implemented');
     }
 
 

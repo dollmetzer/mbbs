@@ -2,3 +2,6 @@
 /composer.phar
 /composer.lock
 /vendor/
+/logs/access.txt
+/logs/error.txt
+/app/config_imac.php

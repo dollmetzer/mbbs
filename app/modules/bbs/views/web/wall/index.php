@@ -19,7 +19,7 @@
 </div>
 
 <div id="inputswitch">
-    <p><a href="#" onclick="$('#inputswitch').slideToggle('slow');$('#inputform').slideToggle('slow');" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> Nachricht schreiben</a></p>
+    <p><a href="#" onclick="$('#inputswitch').slideToggle('slow');$('#inputform').slideToggle('slow');" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> <?php $this->lang('link_new_entry'); ?></a></p>
 </div>
 
 <?php if(empty($content['mails'])) { ?>

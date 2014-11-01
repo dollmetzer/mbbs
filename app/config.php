@@ -21,9 +21,9 @@ define('PATH_LOGS', PATH_BASE.'logs/');
 // Application Settings
 define('TIMEZONE', 'Europe/Berlin');
 define('DEBUG_REQUEST', false);
-define('DEBUG_SESSION', true);
+define('DEBUG_SESSION', false);
 define('DEBUG_CONTENT', false);
-define('DEBUG_PERFORMANCE', true);
+define('DEBUG_PERFORMANCE', false);
 define('DEBUG_DB', false);
 
 $config = array(

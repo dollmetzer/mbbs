@@ -39,7 +39,7 @@ class wallController extends \dollmetzer\zzaplib\Controller
     {
         
         $this->app->view->content['title'] = $this->lang('title_wall');
-        $this->app->view->content['nav_main'] = 'home';
+        $this->app->view->content['nav_main'] = 'wall';
         
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $mailList = $mailModel->getMaillist('to', '!wall');
@@ -70,7 +70,7 @@ class wallController extends \dollmetzer\zzaplib\Controller
         }
         
 //        $this->app->view->content['title'] = $this->lang('title_mail_read');
-        $this->app->view->content['nav_main'] = 'mail';
+        $this->app->view->content['nav_main'] = 'wall';
         $this->app->view->content['mail'] = $mail;
     }
 
@@ -111,7 +111,8 @@ class wallController extends \dollmetzer\zzaplib\Controller
 
         }
         
-        $this->app->forward($this->buildURL('bbs/wall' . $id), $this->lang('msg_post_sent'), 'message');
+        $this->app->view->content['nav_main'] = 'wall';
+        $this->app->forward($this->buildURL('bbs/wall'), $this->lang('msg_post_sent'), 'message');
         
     }
     
