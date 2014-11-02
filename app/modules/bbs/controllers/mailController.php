@@ -60,11 +60,10 @@ class mailController extends \dollmetzer\zzaplib\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
-        $mailList = $mailModel->getMaillist('from', $username);
+        $mailList = $mailModel->getMaillist('from', $username, true);
         $this->app->view->content['mails'] = $mailList;
         
     }
-
 
     /**
      * Show a single mail

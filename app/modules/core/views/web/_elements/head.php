@@ -16,6 +16,9 @@
         <link href="<?php $this->buildMediaURL('/css/bootstrap-theme.min.css'); ?>" rel="stylesheet">
         <link href="<?php $this->buildMediaURL('/css/web.css'); ?>" rel="stylesheet">
 
+        <script src="<?php $this->buildMediaURL('/js/jquery-2.1.1.min.js'); ?>"></script>
+        <script src="<?php $this->buildMediaURL('/js/bootstrap.min.js'); ?>"></script>
+        
     </head>
 
     <body role="document">
@@ -40,8 +43,6 @@
                         $userId = $this->app->session->user_id; 
                         if(empty($userId)) { ?>
                         
-                        <li<?php if($content['nav_main'] == 'about') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('about'); ?>"><?php $this->lang('nav_about') ?></a></li>
-                        <li<?php if($content['nav_main'] == 'privacy') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('privacy'); ?>"><?php $this->lang('nav_privacy') ?></a></li>
                         <li<?php if($content['nav_main'] == 'imprint') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('imprint'); ?>"><?php $this->lang('nav_imprint') ?></a></li>
                         <li<?php if($content['nav_main'] == 'login') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/login') ?>"><?php $this->lang('nav_login') ?></a></li>
                         <?php if($this->app->config['register']['selfregister'] === true) { ?>
@@ -100,4 +101,7 @@ if(!empty($_SESSION['flashmessage'])) {
     function closeAlert() {
         $(".alert").slideUp();
     }
+    setTimeout(function() {
+        $(".alert").slideUp();
+    },3000);
 </script>

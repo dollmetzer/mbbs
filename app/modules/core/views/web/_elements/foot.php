@@ -13,10 +13,5 @@ if(DEBUG_CONTENT) {
 ?>
 
         </div>
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="<?php $this->buildMediaURL('/js/jquery-2.1.1.min.js'); ?>"></script>
-        <script src="<?php $this->buildMediaURL('/js/bootstrap.min.js'); ?>"></script>
     </body>
 </html>

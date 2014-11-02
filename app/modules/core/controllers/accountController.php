@@ -94,6 +94,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         }
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'login';
+        $this->app->view->content['title'] = $this->lang('title_login');
 
     }
 
@@ -254,7 +255,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
                 $form->fields['password2']['error'] = $this->lang('form_error_not_identical');
             } else {
                 
-                $dbVal = array('language' => $values[language]);
+                $dbVal = array('language' => $values['language']);
                 if(!empty($values['password'])) {
                     $dbVal['password'] = sha1($values['password']);
                 }                
@@ -269,6 +270,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
+        $this->app->view->content['title'] = $this->lang('title_settings');
     
     }
     

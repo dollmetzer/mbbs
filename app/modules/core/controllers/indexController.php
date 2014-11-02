@@ -26,7 +26,6 @@ namespace Application\modules\core\controllers;
 class indexController extends \dollmetzer\zzaplib\Controller
 {
 
-
     /**
      * The Startpage
      */
@@ -39,19 +38,6 @@ class indexController extends \dollmetzer\zzaplib\Controller
         }
         
     }
-
-
-    /**
-     * A static page
-     */
-    public function aboutAction()
-    {
-        
-        $this->app->view->content['title'] = $this->lang('title_about');
-        $this->app->view->content['nav_main'] = 'about';
-        
-    }
-
 
     /**
      * A static page

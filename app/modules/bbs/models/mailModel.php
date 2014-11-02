@@ -32,12 +32,15 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     protected $tablename = 'mail';
     
     
-    public function getMaillist($_fromto, $_username)
+    public function getMaillist($_fromto, $_username, $outbox=false)
     {
         if($_fromto == 'to') {
             $sql = "SELECT * FROM mail WHERE `to`=?";
         } else if($_fromto == 'from') {
             $sql = "SELECT * FROM mail WHERE `from`=?";
+            if($outbox !== false) {
+                $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
+            }
         } else {
             $sql = "SELECT * FROM mail";
         }
