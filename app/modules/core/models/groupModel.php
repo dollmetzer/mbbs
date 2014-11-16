@@ -56,6 +56,19 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         
     }
 
+    public function getList($_first=null, $_length=null) {
+                
+        $sql = "SELECT * FROM `group`";
+        if(isset($_first) && isset($_length)) {
+            $sql .= ' LIMIT '.(int)$_first.','.(int)$_length;            
+        }
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $list = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $list;
+        
+    }
+    
     public function setUserGroup($_userId, $_groupId) {
         
         $sql = "INSERT INTO `user_group` (

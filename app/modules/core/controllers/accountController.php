@@ -241,7 +241,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'login'
+                'value' => 'save'
             ),
         );
 

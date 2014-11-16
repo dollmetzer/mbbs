@@ -60,9 +60,22 @@
                             </ul>                            
                         </li>
                         <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/board'); ?>"><?php $this->lang('nav_board') ?></a></li>
-                        <?php if(in_array('admin', $this->app->session->groups)) { ?>
+                        <?php if(in_array('operator', $this->app->session->groups)) { ?>
+                        <li class="dropdown<?php if($content['nav_main'] == 'admin') { echo ' active'; } ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_operation') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?php $this->buildURL('bbs/operation/export'); ?>"><?php $this->lang('nav_operation_export') ?></a></li>
+                                <li><a href="<?php $this->buildURL('bbs/operation/import'); ?>"><?php $this->lang('nav_operation_import') ?></a></li>
+                            </ul> 
+                        </li>
+                        <?php } ?>
+                        <?php if(in_array('administrator', $this->app->session->groups)) { ?>
                         <li class="dropdown<?php if($content['nav_main'] == 'admin') { echo ' active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_admin') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?php $this->buildURL('core/adminuser'); ?>"><?php $this->lang('nav_admin_user') ?></a></li>
+                                <li><a href="<?php $this->buildURL('core/admingroup'); ?>"><?php $this->lang('nav_admin_group') ?></a></li>
+                            </ul>
                         </li>
                         <?php } ?>
                         <li<?php if($content['nav_main'] == 'settings') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/settings') ?>"><?php $this->lang('nav_settings') ?></a></li>

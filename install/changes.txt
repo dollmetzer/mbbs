@@ -1,5 +1,6 @@
 Changes
 =======
+16.11.2014 - Added user admninistration: List and detail view
 01.11.2014 - Added register function
 28.10.2014 - Added new board function
 27.10.2014 - Started: register and admin board edit

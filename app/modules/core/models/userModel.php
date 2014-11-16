@@ -89,6 +89,20 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         $stmt->execute($values);
     }
 
+    
+    public function getList($_first=null, $_length=null) {
+                
+        $sql = "SELECT * FROM user";
+        if(isset($_first) && isset($_length)) {
+            $sql .= ' LIMIT '.(int)$_first.','.(int)$_length;            
+        }
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $list = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $list;
+        
+    }
+    
 }
 
 ?>
