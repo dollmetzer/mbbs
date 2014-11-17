@@ -30,13 +30,13 @@ class accountController extends \dollmetzer\zzaplib\Controller
      * @var type array neccessary access rights
      */
     protected $accessGroups = array(
-        'login'         => array('guest'),
-        'register'      => array('guest'),
-        'logout'        => array('user','operator','administrator','moderator'),
-        'resetpassword' => array('user','operator','administrator','moderator'),
-        'settings'      => array('user','operator','administrator','moderator')
+        'login' => array('guest'),
+        'register' => array('guest'),
+        'logout' => array('user', 'operator', 'administrator', 'moderator'),
+        'resetpassword' => array('user', 'operator', 'administrator', 'moderator'),
+        'settings' => array('user', 'operator', 'administrator', 'moderator')
     );
-    
+
     /**
      * Login form processing.
      * 
@@ -95,9 +95,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'login';
         $this->app->view->content['title'] = $this->lang('title_login');
-
     }
-
 
     /**
      * Destroys the Session and jumps to the startpage
@@ -109,7 +107,6 @@ class accountController extends \dollmetzer\zzaplib\Controller
         $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_out'));
     }
 
-
     /**
      * Not yet implemented
      */
@@ -118,23 +115,22 @@ class accountController extends \dollmetzer\zzaplib\Controller
         die('Not yet implemented');
     }
 
-
     /**
      * Not yet implemented
      */
     public function registerAction()
     {
-        
+
         // exit, if self register is not allowed
-        if($this->app->config['register']['selfregister'] !== true) {
+        if ($this->app->config['register']['selfregister'] !== true) {
             $this->app->forward($this->buildURL('/'));
         }
 
         $languages = array();
-        foreach($this->app->config['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_'.$lang);
+        foreach ($this->app->config['languages'] as $lang) {
+            $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
-        
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'loginform';
         $form->fields = array(
@@ -168,14 +164,14 @@ class accountController extends \dollmetzer\zzaplib\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            
-            if($values['password'] != $values['password2']) {
+
+            if ($values['password'] != $values['password2']) {
                 $form->fields['password']['error'] = $this->lang('form_error_not_identical');
             } else {
-                
+
                 $userModel = new \Application\modules\core\models\userModel($this->app);
                 $user = $userModel->getByHandle($values['handle']);
-                if(!empty($user)) {
+                if (!empty($user)) {
                     $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');
                 } else {
                     $data = array(
@@ -186,7 +182,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
                         'created' => strftime('%Y-%m-%d %H:%M:%S', time())
                     );
                     $id = $userModel->create($data);
-                    
+
                     // ...and now login
                     $userModel->setLastlogin($id);
                     $this->app->session->user_id = $id;
@@ -200,28 +196,27 @@ class accountController extends \dollmetzer\zzaplib\Controller
                     $groupModel->setUserGroup($id, $group['id']);
                     $sessionGroups[$group['id']] = $group['name'];
                     $this->app->session->groups = $sessionGroups;
-                    
+
                     $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_in'));
-            
                 }
             }
         }
-        
+
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
-        
     }
 
     /**
      * Basic settings
      */
-    public function settingsAction() {
-        
+    public function settingsAction()
+    {
+
         $languages = array();
-        foreach($this->app->config['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_'.$lang);
+        foreach ($this->app->config['languages'] as $lang) {
+            $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
-        
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'loginform';
         $form->fields = array(
@@ -249,31 +244,28 @@ class accountController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
-            
-            if($values['password'] != $values['password2']) {
+
+            if ($values['password'] != $values['password2']) {
                 $form->fields['password']['error'] = $this->lang('form_error_not_identical');
                 $form->fields['password2']['error'] = $this->lang('form_error_not_identical');
             } else {
-                
+
                 $dbVal = array('language' => $values['language']);
-                if(!empty($values['password'])) {
+                if (!empty($values['password'])) {
                     $dbVal['password'] = sha1($values['password']);
-                }                
+                }
                 $userModel = new \Application\modules\core\models\userModel($this->app);
                 $userModel->update($this->app->session->user_id, $dbVal);
-                
+
                 $this->app->forward($this->buildURL('/'), $this->lang('msg_settings_saved'));
-                
             }
-                        
         }
-        
+
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
         $this->app->view->content['title'] = $this->lang('title_settings');
-    
     }
-    
+
 }
 
 ?>

@@ -25,8 +25,8 @@ if(!empty($content['board']['description'])) {
     <tr onclick="showboard(<?php echo $theme['id']; ?>);">
         <td>
             <?php if(in_array('administrator', $this->app->session->groups)) { ?>
-            <a href="<?php $this->buildURL('bbs/boardadmin/edit/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a> 
-            <a href="<?php $this->buildURL('bbs/boardadmin/delete/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a> 
+            <a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a> 
+            <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a> 
             <?php } ?>
             <strong><?php echo $theme['name']; ?></strong><br /><?php echo $theme['description']; ?></a>
         </td>
@@ -39,7 +39,7 @@ if(!empty($content['board']['description'])) {
 
 if(in_array('administrator', $this->app->session->groups) && empty($content['board']['content'])) {
     echo '<p><a href="';
-    echo $this->buildURL('bbs/boardadmin/add/'.$content['id']);
+    echo $this->buildURL('bbs/adminboard/add/'.$content['id']);
     echo '" class="btn btn-default btn-xs">';
     echo '<span class="glyphicon glyphicon-plus"></span> ';
     $this->lang('link_board_add');

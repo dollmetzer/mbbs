@@ -30,16 +30,15 @@ class boardController extends \dollmetzer\zzaplib\Controller
      * @var array $accessGroups
      */
     protected $accessGroups = array(
-        'index' => array('user','operator','administrator','moderator'),
-        'list'  => array('user','operator','administrator','moderator'),
-        'read'  => array('user','operator','administrator','moderator'),
-        'new'   => array('user','operator','administrator','moderator'),
-        'reply' => array('user','operator','administrator','moderator')
+        'index' => array('user', 'operator', 'administrator', 'moderator'),
+        'list' => array('user', 'operator', 'administrator', 'moderator'),
+        'read' => array('user', 'operator', 'administrator', 'moderator'),
+        'new' => array('user', 'operator', 'administrator', 'moderator'),
+        'reply' => array('user', 'operator', 'administrator', 'moderator')
     );
 
-
     /**
-     * Show a list
+     * Show a list of boards
      */
     public function indexAction()
     {
@@ -51,17 +50,17 @@ class boardController extends \dollmetzer\zzaplib\Controller
 
         // Get Path and List of the Themes 
         $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
-        if(!empty($id)) {
-            $board = $boardModel->read($id);        
+        if (!empty($id)) {
+            $board = $boardModel->read($id);
         } else {
             $board = array(
-                'description'=>$this->lang('txt_default_board_description')
+                'description' => $this->lang('txt_default_board_description')
             );
         }
-        
+
         $path = $boardModel->getPath($id);
         $themes = $boardModel->getList($id, true);
-        
+
         if ($id != 0) {
             $theme = $boardModel->read($id);
             // Get Messages for the current Theme
@@ -73,7 +72,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
             $mailList = array();
         }
 
-        if(empty($board['name'])) {
+        if (empty($board['name'])) {
             $this->app->view->content['title'] = $this->lang('title_board_top');
         } else {
             $this->app->view->content['title'] = sprintf($this->lang('title_board'), $board['name']);
@@ -87,9 +86,8 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->template = 'modules/bbs/views/web/board/index.php';
     }
 
-
     /**
-     * Show a list (alias of index)
+     * Show a list of boards (alias of index)
      * 
      * @return type
      */
@@ -97,7 +95,6 @@ class boardController extends \dollmetzer\zzaplib\Controller
     {
         return $this->indexAction();
     }
-
 
     /**
      * Show a single mail
@@ -124,7 +121,6 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['mail'] = $mail;
     }
 
-
     /**
      * Create a new mail
      */
@@ -141,16 +137,16 @@ class boardController extends \dollmetzer\zzaplib\Controller
         if (empty($board)) {
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
         }
-        if(empty($board['content'])) {
+        if (empty($board['content'])) {
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_not_allowed'), 'error');
         }
-        
+
         $path = $boardModel->getPath($id);
         $boardPath = 'main';
-        foreach($path as $step) {
-            $boardPath .= ' / '. $step['name'];
+        foreach ($path as $step) {
+            $boardPath .= ' / ' . $step['name'];
         }
-        
+
         $to = '#' . $board['name'];
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
@@ -158,7 +154,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $form->fields = array(
             'board' => array(
                 'type' => 'static',
-                'value' => $boardPath.'<br />'.$board['description']
+                'value' => $boardPath . '<br />' . $board['description']
             ),
             'subject' => array(
                 'type' => 'text',
@@ -200,7 +196,6 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['form'] = $form->getViewdata();
     }
 
-
     /**
      * reply to a mail
      */
@@ -212,7 +207,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_access_denied'), 'error');
         }
         $id = (int) $this->app->params[0];
-                
+
         // Get Messages for the current Theme
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         //$username = '#' . $theme['name'];
@@ -223,17 +218,17 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
         $board = $boardModel->getByName($to);
 
-        $message = sprintf($this->lang('txt_reply_header'), $mail['from'], $mail['written']).$mail['message'];
+        $message = sprintf($this->lang('txt_reply_header'), $mail['from'], $mail['written']) . $mail['message'];
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
-        $form->action = $this->buildURL('bbs/board/new/'.$board['id']);
+        $form->action = $this->buildURL('bbs/board/new/' . $board['id']);
         $form->fields = array(
             'subject' => array(
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 80,
-                'value' => 'RE: '.$mail['subject']
+                'value' => 'RE: ' . $mail['subject']
             ),
             'message' => array(
                 'type' => 'textarea',
@@ -256,7 +251,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
 
             $data = array(
                 'from' => $from,
-                'to' => '#'.$to,
+                'to' => '#' . $to,
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
                 'subject' => $values['subject'],
                 'message' => $values['message']
@@ -265,13 +260,11 @@ class boardController extends \dollmetzer\zzaplib\Controller
             $mailId = $mailModel->create($data);
 
             $this->app->forward($this->buildURL('bbs/board/list/' . $board['id']), $this->lang('msg_post_sent'), 'message');
-            
         }
         $this->app->view->template = 'modules/bbs/views/web/board/new.php';
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['title'] = $this->lang('title_board_reply');
         $this->app->view->content['nav_main'] = 'board';
-
     }
 
 }

@@ -14,9 +14,9 @@
 namespace Application\modules\core\controllers;
 
 /**
- * CORE Account Controller
+ * CORE Group Administration Controller
  * 
- * Methods for account handling (login, logout, register, ...)
+ * Methods for handling usergroups
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
  * @copyright (c) 2014, Dirk Ollmetzer
@@ -25,23 +25,23 @@ namespace Application\modules\core\controllers;
  */
 class admingroupController extends \dollmetzer\zzaplib\Controller
 {
-    
+
     /**
      * @var type array neccessary access rights
      */
     protected $accessGroups = array(
-        'index'         => array('administrator')
+        'index' => array('administrator')
     );
-    
-    public function indexAction() {
-        
+
+    public function indexAction()
+    {
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $list = $groupModel->getList();
-                
+
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_group');
         $this->app->view->content['list'] = $list;
-
     }
-    
+
 }

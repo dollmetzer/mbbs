@@ -31,12 +31,11 @@ class indexController extends \dollmetzer\zzaplib\Controller
      */
     public function indexAction()
     {
-        
+
         $this->app->view->content['nav_main'] = 'home';
-        if($this->app->session->user_id != 0) {
+        if ($this->app->session->user_id != 0) {
             $this->forward($this->buildURL('bbs/wall'));
         }
-        
     }
 
     /**
@@ -44,10 +43,9 @@ class indexController extends \dollmetzer\zzaplib\Controller
      */
     public function imprintAction()
     {
-        
+
         $this->app->view->content['title'] = $this->lang('title_imprint');
         $this->app->view->content['nav_main'] = 'imprint';
-        
     }
 
 }

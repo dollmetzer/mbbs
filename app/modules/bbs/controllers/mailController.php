@@ -27,12 +27,12 @@ class mailController extends \dollmetzer\zzaplib\Controller
 {
 
     protected $accessGroups = array(
-        'in'     => array('user','operator','administrator','moderator'),
-        'out'    => array('user','operator','administrator','moderator'),
-        'read'   => array('user','operator','administrator','moderator'),
-        'new'    => array('user','operator','administrator','moderator'),
-        'reply'  => array('user','operator','administrator','moderator'),
-        'delete' => array('user','operator','administrator','moderator')
+        'in' => array('user', 'operator', 'administrator', 'moderator'),
+        'out' => array('user', 'operator', 'administrator', 'moderator'),
+        'read' => array('user', 'operator', 'administrator', 'moderator'),
+        'new' => array('user', 'operator', 'administrator', 'moderator'),
+        'reply' => array('user', 'operator', 'administrator', 'moderator'),
+        'delete' => array('user', 'operator', 'administrator', 'moderator')
     );
 
     /**
@@ -49,12 +49,13 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $mailList = $mailModel->getMaillist('to', $username);
         $this->app->view->content['mails'] = $mailList;
     }
-    
+
     /**
      * Show the Mail Outbox
      */
-    public function outAction() {
-        
+    public function outAction()
+    {
+
         $this->app->view->content['title'] = $this->lang('title_mail_out');
         $this->app->view->content['nav_main'] = 'mail';
 
@@ -62,7 +63,6 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
         $mailList = $mailModel->getMaillist('from', $username, true);
         $this->app->view->content['mails'] = $mailList;
-        
     }
 
     /**
@@ -83,19 +83,18 @@ class mailController extends \dollmetzer\zzaplib\Controller
         if (empty($mail)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_data_not_found'), 'error');
         }
-        if ( ($mail['to'] != $username) && ($mail['from'] != $username) ) {
+        if (($mail['to'] != $username) && ($mail['from'] != $username)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
 
-        if($mail['read'] == '0000-00-00 00:00:00') {
+        if ($mail['read'] == '0000-00-00 00:00:00') {
             $mailModel->markRead($mail['id']);
         }
-        
+
         $this->app->view->content['title'] = $this->lang('title_mail_read');
         $this->app->view->content['nav_main'] = 'mail';
         $this->app->view->content['mail'] = $mail;
     }
-
 
     /**
      * Input form for a new mail
@@ -154,9 +153,9 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'mail';
     }
 
-    
-    public function deleteAction() {
-        
+    public function deleteAction()
+    {
+
         if (empty($this->app->params)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
@@ -172,22 +171,21 @@ class mailController extends \dollmetzer\zzaplib\Controller
         if ($mail['to'] != $username) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
-        
-        $mailModel->delete($id);
-        
-        $this->app->forward($this->buildURL('bbs/mail'), $this->lang('msg_mail_deleted'), 'message');
 
+        $mailModel->delete($id);
+
+        $this->app->forward($this->buildURL('bbs/mail'), $this->lang('msg_mail_deleted'), 'message');
     }
-    
-    
-    public function replyAction() {
+
+    public function replyAction()
+    {
 
         // check if mail id exists
         if (empty($this->app->params)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
         $id = (int) $this->app->params[0];
-        
+
         // test, if mail is available and owned by the user
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
@@ -198,9 +196,9 @@ class mailController extends \dollmetzer\zzaplib\Controller
         if ($mail['to'] != $username) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
-        
-        $message = sprintf($this->lang('txt_reply_header'), $mail['from'], $mail['written']).$mail['message'];
-        
+
+        $message = sprintf($this->lang('txt_reply_header'), $mail['from'], $mail['written']) . $mail['message'];
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
         $form->action = $this->buildURL('bbs/mail/new');
@@ -215,7 +213,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 80,
-                'value' => 'RE: '.$mail['subject']
+                'value' => 'RE: ' . $mail['subject']
             ),
             'message' => array(
                 'type' => 'textarea',
@@ -247,18 +245,16 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
-            
+
             $id = $mailModel->create($data);
             $this->app->forward($this->buildURL('bbs/mail/out'), $this->lang('msg_mail_sent'), 'message');
-            
         }
         $this->app->view->template = 'modules/bbs/views/web/mail/new.php';
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['title'] = $this->lang('title_mail_reply');
         $this->app->view->content['nav_main'] = 'mail';
-        
     }
-    
+
 }
 
 ?>

@@ -25,28 +25,27 @@ namespace Application\modules\bbs\controllers;
  */
 class wallController extends \dollmetzer\zzaplib\Controller
 {
- 
+
     protected $accessGroups = array(
-        'index'  => array('user','operator','administrator','moderator'),
-        'new'    => array('user','operator','administrator','moderator'),
-        'read'   => array('user','operator','administrator','moderator')
+        'index' => array('user', 'operator', 'administrator', 'moderator'),
+        'new' => array('user', 'operator', 'administrator', 'moderator'),
+        'read' => array('user', 'operator', 'administrator', 'moderator')
     );
-    
+
     /**
      * The Startpage
      */
     public function indexAction()
     {
-        
+
         $this->app->view->content['title'] = $this->lang('title_wall');
         $this->app->view->content['nav_main'] = 'wall';
-        
+
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $mailList = $mailModel->getMaillist('to', '!wall');
         $this->app->view->content['mails'] = $mailList;
-        
     }
-    
+
     /**
      * Show a single mail
      */
@@ -65,10 +64,10 @@ class wallController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/wall'), $this->lang('error_data_not_found'), 'error');
         }
 
-        if($mail['read'] == '0000-00-00 00:00:00') {
+        if ($mail['read'] == '0000-00-00 00:00:00') {
             $mailModel->markRead($mail['id']);
         }
-        
+
 //        $this->app->view->content['title'] = $this->lang('title_mail_read');
         $this->app->view->content['nav_main'] = 'wall';
         $this->app->view->content['mail'] = $mail;
@@ -77,8 +76,9 @@ class wallController extends \dollmetzer\zzaplib\Controller
     /**
      * New entry
      */
-    public function newAction() {
-        
+    public function newAction()
+    {
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
         $form->fields = array(
@@ -98,7 +98,7 @@ class wallController extends \dollmetzer\zzaplib\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            
+
             $data = array(
                 'from' => $this->app->session->user_handle,
                 'to' => '!wall',
@@ -108,12 +108,10 @@ class wallController extends \dollmetzer\zzaplib\Controller
             );
             $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
             $mailId = $mailModel->create($data);
-
         }
-        
+
         $this->app->view->content['nav_main'] = 'wall';
         $this->app->forward($this->buildURL('bbs/wall'), $this->lang('msg_post_sent'), 'message');
-        
     }
-    
+
 }
