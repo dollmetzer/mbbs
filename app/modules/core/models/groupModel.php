@@ -23,9 +23,14 @@ namespace Application\modules\core\models;
  * @package Application
  * @subpackage core
  */
-class groupModel extends \dollmetzer\zzaplib\DBModel {
-
+class groupModel extends \dollmetzer\zzaplib\DBModel 
+{
+    
+    /**
+     * @var string $tablename Name for standard CRUD
+     */
     protected $tablename = 'group';
+    
     
     /**
      * Get a list of all groups for a certain user
@@ -46,6 +51,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     
+    /**
+     * Get a group by its name
+     * 
+     * @param string $_name
+     * @return array
+     */
     public function getByName($_name) {
         
         $sql = "SELECT * FROM `group` WHERE name=?";
@@ -56,6 +67,13 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         
     }
 
+    /**
+     * Get a list of groups
+     * 
+     * @param integer $_first
+     * @param integer $_length
+     * @return array
+     */
     public function getList($_first=null, $_length=null) {
                 
         $sql = "SELECT * FROM `group`";
@@ -69,6 +87,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         
     }
     
+    /**
+     * Attach a user to a group
+     * 
+     * @param integer $_userId
+     * @param integer $_groupId
+     */
     public function setUserGroup($_userId, $_groupId) {
         
         $sql = "INSERT INTO `user_group` (
@@ -84,6 +108,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
         
     }
     
+    /**
+     * Delete a user from a group
+     * 
+     * @param type $_userId
+     * @param type $_groupId
+     */
     public function deleteUserGroup($_userId, $_groupId) {
         
     }

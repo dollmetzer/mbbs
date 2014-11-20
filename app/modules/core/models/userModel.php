@@ -13,8 +13,6 @@
 
 namespace Application\modules\core\models;
 
-use dollmetzer\zzaplib\DBModel;
-
 /**
  * User Model
  *
@@ -26,8 +24,12 @@ use dollmetzer\zzaplib\DBModel;
  * @subpackage core
  */
 class userModel extends \dollmetzer\zzaplib\DBModel {
-
+    
+    /**
+     * @var string $tablename Name for standard CRUD
+     */
     protected $tablename = 'user';
+    
     
     /**
      * Get a user by his handle

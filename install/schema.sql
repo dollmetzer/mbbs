@@ -63,6 +63,27 @@ INSERT INTO `group` (`id`, `active`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `host`
+--
+
+CREATE TABLE `host` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) NOT NULL,
+  `lastexport` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `confirmed` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `host`
+--
+
+INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
+(1, 'mbbs', '0000-00-00 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `mail`
 --
 
