@@ -1,6 +1,7 @@
 Changes
 =======
-20.11.2014 - Export Function for Mails
+21.11.2014 - Import Function for mail transfer files
+20.11.2014 - Export Function for mail transfer files
 17.11.2014 - Added Operation:Export/Import Dummy pages, inline-documention
 16.11.2014 - Added user admninistration: List and detail view
 01.11.2014 - Added register function

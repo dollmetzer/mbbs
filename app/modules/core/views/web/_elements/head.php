@@ -61,9 +61,10 @@
                         </li>
                         <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/board'); ?>"><?php $this->lang('nav_board') ?></a></li>
                         <?php if(in_array('operator', $this->app->session->groups)) { ?>
-                        <li class="dropdown<?php if($content['nav_main'] == 'admin') { echo ' active'; } ?>">
+                        <li class="dropdown<?php if($content['nav_main'] == 'operation') { echo ' active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_operation') ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="<?php $this->buildURL('bbs/operation/hosts'); ?>"><?php $this->lang('nav_operation_hosts') ?></a></li>
                                 <li><a href="<?php $this->buildURL('bbs/operation/export'); ?>"><?php $this->lang('nav_operation_export') ?></a></li>
                                 <li><a href="<?php $this->buildURL('bbs/operation/import'); ?>"><?php $this->lang('nav_operation_import') ?></a></li>
                             </ul> 

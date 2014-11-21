@@ -7,7 +7,7 @@
 <?php 
 for($i=1; $i<sizeof($content['list']); $i++) {
     echo '    <option value="'.$content['list'][$i]['id'].'">';
-    echo $content['list'][$i]['name'];
+    echo $content['list'][$i]['name'].' - ';
     if($content['list'][$i]['lastexport'] == '0000-00-00 00:00:00') {
         echo $this->lang('txt_never_exported');
     } else {
