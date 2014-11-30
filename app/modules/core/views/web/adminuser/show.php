@@ -1,7 +1,7 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
-
-<table>
+<table class="table table-striped">
+    <tbody>
     <tr>
         <td><strong><?php $this->lang('table_col_handle') ?></strong></td>
         <td><?php echo $content['user']['handle'] ?></td>
@@ -30,6 +30,7 @@
         <td>&nbsp;</td>
         <td><a href="<?php $this->buildURL('core/adminuser/edit/'.$content['user']['id']); ?>" class="btn btn-default"><?php $this->lang('link_edit'); ?></a></td>
     </tr>
+    </tbody>
 </table>
 
 <?php include PATH_APP.'/modules/core/views/web/_elements/foot.php'; ?>

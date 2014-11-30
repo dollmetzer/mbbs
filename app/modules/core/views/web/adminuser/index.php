@@ -3,6 +3,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>&nbsp;</th>
             <th><?php $this->lang('table_col_handle'); ?></th>
             <th><?php $this->lang('table_col_language'); ?></th>
             <th><?php $this->lang('table_col_created'); ?></th>
@@ -16,13 +17,13 @@
                 <span class="glyphicon glyphicon-ban-circle"></span>
             <?php } else { ?>
                 <span class="glyphicon glyphicon-ok-circle"></span>
-            <?php }
-                echo $entry['handle'] 
-            ?>
+            <?php } ?>
+            </td>
+            <td><?php echo $entry['handle'] ?>
             </td>
             <td><?php echo $entry['language'] ?></td>
-            <td><?php echo $this->toDateTimeShort($entry['created']); ?></td>
-            <td><?php echo $this->toDateTimeShort($entry['lastlogin']); ?></td>
+            <td><?php echo $this->toDate($entry['created']); ?></td>
+            <td><?php echo $this->toDate($entry['lastlogin']); ?></td>
         </tr>
         <?php } ?>
     </tbody>

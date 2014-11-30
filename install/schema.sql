@@ -89,6 +89,8 @@ INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
 
 CREATE TABLE `mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `mid` varchar(32) NOT NULL,
+  `parent_mid` varchar(32) NOT NULL,
   `from` varchar(32) NOT NULL,
   `to` varchar(32) NOT NULL,
   `subject` varchar(80) NOT NULL,

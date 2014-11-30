@@ -99,7 +99,7 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
             $sql .= ' LIMIT '.(int)$_first.','.(int)$_length;            
         }
         $stmt = $this->app->dbh->prepare($sql);
-        $stmt->execute($values);
+        $stmt->execute();
         $list = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $list;
         
