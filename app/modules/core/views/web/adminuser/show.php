@@ -12,7 +12,11 @@
     </tr>
     <tr>
         <td><strong><?php $this->lang('table_col_active') ?></strong></td>
-        <td><?php echo $content['user']['active'] ?></td>
+        <td><?php if($content['group']['active'] == 1) { 
+                $this->lang('txt_active');
+            } else {
+                $this->lang('txt_inactive');
+            } ?></td>
     </tr>
     <tr>
         <td><strong><?php $this->lang('table_col_created') ?></strong></td>

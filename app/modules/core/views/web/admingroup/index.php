@@ -9,7 +9,7 @@
     </thead>
     <tbody>
         <?php foreach($content['list'] as $entry) { ?>
-        <tr>
+        <tr onclick="location.href='<?php $this->buildURL('core/admingroup/show/'.$entry['id']); ?>';" style="cursor: pointer;">
             <td><?php if(empty($entry['active'])) { ?>
                 <span class="glyphicon glyphicon-ban-circle"></span>
             <?php } else { ?>

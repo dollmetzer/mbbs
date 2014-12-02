@@ -30,7 +30,8 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
      * @var type array neccessary access rights
      */
     protected $accessGroups = array(
-        'index' => array('administrator')
+        'index' => array('administrator'),
+        'show' => array('administrator')
     );
 
     public function indexAction()
@@ -42,6 +43,23 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_group');
         $this->app->view->content['list'] = $list;
+        
     }
 
+    public function showAction() {
+                
+        if (sizeof($this->app->params) == 0) {
+            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+        }
+        $id = (int) $this->app->params[0];
+        
+        $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        $group = $groupModel->read($id);
+        
+        $this->app->view->content['nav_main'] = 'admin';
+        $this->app->view->content['title'] = $this->lang('title_admin_group');
+        $this->app->view->content['group'] = $group;
+        
+    }
+    
 }

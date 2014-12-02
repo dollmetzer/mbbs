@@ -1,5 +1,6 @@
 Changes
 =======
+02.12.2014 - core::admingroup added list and detail view
 30.11.2014 - core::adminuser base functionality
 21.11.2014 - Import Function for mail transfer files
 20.11.2014 - Export Function for mail transfer files
