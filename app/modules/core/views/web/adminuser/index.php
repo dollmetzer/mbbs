@@ -1,5 +1,6 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
+<a href="<?php $this->buildURL('core/adminuser/add'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> <?php $this->lang('link_user_add'); ?></a><br />
 <table class="table table-striped">
     <thead>
         <tr>

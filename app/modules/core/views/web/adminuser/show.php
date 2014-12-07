@@ -20,20 +20,26 @@
     </tr>
     <tr>
         <td><strong><?php $this->lang('table_col_created') ?></strong></td>
-        <td><?php echo $content['user']['created'] ?></td>
+        <td><?php echo $this->toDate($content['user']['created']) ?></td>
     </tr>
     <tr>
         <td><strong><?php $this->lang('table_col_lastlogin') ?></strong></td>
-        <td><?php echo $content['user']['lastlogin'] ?></td>
+        <td><?php echo $this->toDate($content['user']['lastlogin']) ?></td>
     </tr>
-        <tr>
+    <tr>
         <td><strong><?php $this->lang('table_col_groups') ?></strong></td>
         <td></td>
     </tr>
-        <tr>
+    <tr>
         <td>&nbsp;</td>
         <td><a href="<?php $this->buildURL('core/adminuser/edit/'.$content['user']['id']); ?>" class="btn btn-default"><?php $this->lang('link_edit'); ?></a></td>
     </tr>
+    <?php if($content['user']['lastlogin'] == '0000-00-00 00:00:00') { ?>
+    <tr>
+        <td>&nbsp;</td>
+        <td><a href="<?php $this->buildURL('core/adminuser/delete/'.$content['user']['id']); ?>" class="btn btn-default"><?php $this->lang('link_delete'); ?></a></td>
+    </tr>
+    <?php } ?>
     </tbody>
 </table>
 
