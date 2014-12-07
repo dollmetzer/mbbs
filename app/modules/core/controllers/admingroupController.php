@@ -31,9 +31,15 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
      */
     protected $accessGroups = array(
         'index' => array('administrator'),
-        'show' => array('administrator')
+        'show' => array('administrator'),
+        'edit' => array('administrator'),
+        'add' => array('administrator')
     );
 
+
+    /**
+     * List Groups
+     */
     public function indexAction()
     {
 
@@ -43,23 +49,48 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_group');
         $this->app->view->content['list'] = $list;
-        
     }
 
-    public function showAction() {
-                
+
+    /**
+     * Show Group Details
+     */
+    public function showAction()
+    {
+
         if (sizeof($this->app->params) == 0) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
-        
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $group = $groupModel->read($id);
-        
+
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_group');
         $this->app->view->content['group'] = $group;
-        
     }
-    
+
+
+    /**
+     * Add a new group
+     */
+    public function addAction()
+    {
+
+        $this->app->view->content['nav_main'] = 'admin';
+        $this->app->view->content['title'] = $this->lang('title_admin_groupadd');
+        $this->app->view->content['group'] = $group;
+    }
+
+
+    /**
+     * Delete a group
+     */
+    public function deleteAction()
+    {
+
+        die('delete action');
+    }
+
 }

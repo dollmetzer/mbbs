@@ -37,6 +37,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         'delete' => array('administrator')
     );
 
+    /**
+     * Show a listof user
+     */
     public function indexAction()
     {
 
@@ -48,6 +51,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['list'] = $list;
     }
 
+    /**
+     * Show user details
+     */
     public function showAction()
     {
 
@@ -67,6 +73,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['user'] = $user;
     }
     
+    /**
+     * Edit user
+     */
     public function editAction() {
         
         if (sizeof($this->app->params) == 0) {
@@ -125,7 +134,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
                 'active'   => 0,
                 'language' => $values['language']
             );
-            if($values['active'] == 'on') $newValues['active'] = 1;
+            if(!empty($values['active'])) $newValues['active'] = 1;
             
             $userModel->update($id,$newValues);
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_changed'), 'notice');
@@ -137,6 +146,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['title'] = $this->lang('title_admin_user');        
     }
 
+    /**
+     * Add a new user
+     */
     public function addAction() {
                 
         $languages = array();
@@ -183,7 +195,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
             if(empty($user)) {
                 
                 $active = 0;
-                if($values['active'] == 'on') $active = 1;
+                if(!empty($values['active'])) $active = 1;
                 $newValues = array(
                     'active' => $active,
                     'handle' => $values['handle'],
@@ -207,6 +219,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         
     }
     
+    /**
+     * Delete user
+     */
     public function deleteAction() {
 
         if (sizeof($this->app->params) == 0) {

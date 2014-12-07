@@ -1,5 +1,6 @@
 Changes
 =======
+07.12.2014 - Form update checkbox, prepare admingroup add and delete
 07.12.2014 - core:adminuser added actions add and delete
 02.12.2014 - core::admingroup added list and detail view
 30.11.2014 - core::adminuser base functionality
