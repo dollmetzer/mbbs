@@ -18,6 +18,10 @@
         <td><strong><?php $this->lang('table_col_description') ?></strong></td>
         <td><?php echo $content['group']['description'] ?></td>
     </tr>
+        <tr>
+        <td>&nbsp;</td>
+        <td><a href="<?php $this->buildURL('core/admingroup/edit/'.$content['group']['id']); ?>" class="btn btn-default"><?php $this->lang('link_edit'); ?></a></td>
+    </tr>
     </tbody>
 </table>
 

@@ -185,8 +185,8 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'submit':
-                    echo '<button type="submit" class="btn btn-primary">';
-                    echo $this->lang('form_submit_' . $field['value']) . '</button>';
+                    echo '<input type="submit" class="btn btn-primary" name="'.$name;
+                    echo '" value="'.$this->lang('form_submit_' . $field['value'], false).'">';
                     break;
 
                 case 'static':

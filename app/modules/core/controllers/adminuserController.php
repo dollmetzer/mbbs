@@ -95,7 +95,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         }
                 
         $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'loginform';
+        $form->name = 'edituser';
         $form->fields = array(
             'handle' => array(
                 'type' => 'static',
@@ -157,7 +157,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         }
                 
         $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'loginform';
+        $form->name = 'adduser';
         $form->fields = array(
             'handle' => array(
                 'type' => 'text',
@@ -171,13 +171,12 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
             ),
             'active' => array(
                 'type' => 'checkbox',
-                'value' => $user['active']
+                'value' => true
             ),
             'language' => array(
                 'type' => 'select',
                 'required' => true,
-                'options' => $languages,
-                'value' => $user['language']
+                'options' => $languages
             ),
             'add' => array(
                 'type'  => 'submit',

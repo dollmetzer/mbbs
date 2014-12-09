@@ -132,7 +132,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         }
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'loginform';
+        $form->name = 'registerform';
         $form->fields = array(
             'handle' => array(
                 'type' => 'text',
@@ -218,7 +218,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         }
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'loginform';
+        $form->name = 'settingsform';
         $form->fields = array(
             'language' => array(
                 'type' => 'select',
