@@ -28,7 +28,13 @@
     </tr>
     <tr>
         <td><strong><?php $this->lang('table_col_groups') ?></strong></td>
-        <td></td>
+        <td><?php 
+            foreach($content['groups'] as $pos=>$group) {
+                if(!empty($group['active'])) {
+                    echo '<span title="'.$group['description'].'">'.$group['name']."</span><br />\n";
+                }
+            }
+        ?></td>
     </tr>
     <tr>
         <td>&nbsp;</td>

@@ -103,9 +103,9 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
                 'type' => 'checkbox',
                 'value' => $group['active']
             ),
-            'add' => array(
+            'save' => array(
                 'type'  => 'submit',
-                'value' => 'add'
+                'value' => 'save'
             ),
         );
 
@@ -114,8 +114,15 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
             // get user
             $values = $form->getValues();
             
-            print_r($values);
-            die();
+            $newValues = array(
+                'active'   => 0,
+                'name' => $values['name'],
+                'description' => $values['description']
+            );
+            if(!empty($values['active'])) $newValues['active'] = 1;
+            
+            $groupModel->update($id, $newValues);
+            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('msg_group_changed'), 'notice');
             
         }
         

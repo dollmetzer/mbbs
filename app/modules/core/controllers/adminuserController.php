@@ -64,6 +64,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $userModel = new \Application\modules\core\models\userModel($this->app);
         $user = $userModel->read($id);
 
+        $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        $groups = $groupModel->getUserGroups($id);
+        
         if (empty($user)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
         }
@@ -71,6 +74,8 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_user');
         $this->app->view->content['user'] = $user;
+        $this->app->view->content['groups'] = $groups;
+        
     }
     
     /**
@@ -93,6 +98,10 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         foreach ($this->app->config['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
+        
+        $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        $groups = $groupModel->getUserGroups($id);
+        $allGroups = $groupModel->getList();
                 
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'edituser';
@@ -142,8 +151,11 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         }
         
         $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['groups'] = $groups;
+        $this->app->view->content['allgroups'] = $allGroups;
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_user');        
+        $this->app->view->content['title'] = $this->lang('title_admin_user');
+        
     }
 
     /**
