@@ -14,27 +14,30 @@ foreach($content['allgroups'] as $pos=>$group) {
 }
 
 ?>
-</select><br />
+</select>
+<br />
 <?php 
 foreach($content['groups'] as $pos=>$group) {
     if(!empty($group['active'])) {
-        echo $group['name'].'&nbsp;<a href="#" onclick="deletegroup('.$group['id'];
+        echo '<p>&nbsp;<a href="#" onclick="deletegroup('.$group['id'];
         echo ')" title="'.$this->lang('link_delete', false);
-        echo '" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-trash"></i></a><br />';
+        echo '" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;'.$group['name'].'</p>';
     }
 }
 ?>
-
+<br />&nbsp;
 <script>
 function addgroup() {
     var gid = document.getElementById('addgroup').value;
     if(gid) {
-        alert('addgroup ' + gid);    
+        var url = '<?php $this->buildURL('adminuser/addgroup/'.$content['user']['id'].'/') ?>' + gid;
+        window.location.href = url;
     }
 }
 function deletegroup(gid) {
     if(gid) {
-        alert('deletegroup ' + gid);    
+        var url = '<?php $this->buildURL('adminuser/deletegroup/'.$content['user']['id'].'/') ?>' + gid;
+        window.location.href = url;
     }
 }
 </script>

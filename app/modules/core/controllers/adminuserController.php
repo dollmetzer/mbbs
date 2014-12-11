@@ -34,7 +34,9 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         'edit' => array('administrator'),
         'show' => array('administrator'),
         'add' => array('administrator'),
-        'delete' => array('administrator')
+        'delete' => array('administrator'),
+        'addgroup' => array('administrator'),
+        'deletegroup' => array('administrator')
     );
 
     /**
@@ -151,6 +153,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         }
         
         $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['user'] = $user;
         $this->app->view->content['groups'] = $groups;
         $this->app->view->content['allgroups'] = $allGroups;
         $this->app->view->content['nav_main'] = 'admin';
@@ -267,5 +270,35 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_deleted'), 'message');
         
     }
+    
+    public function addgroupAction() {
+        
+        if (sizeof($this->app->params) < 2) {
+            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+        }
+        $gid = (int) $this->app->params[1];
+        $uid = (int) $this->app->params[0];
+        
+        $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        $groupModel->addUserGroup($uid, $gid);
+        
+        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid), $this->lang('msg_user_groupadd'), 'message');
+
+    }
+    
+    public function deletegroupAction() {
+        
+        if (sizeof($this->app->params) < 2) {
+            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+        }
+        $gid = (int) $this->app->params[1];
+        $uid = (int) $this->app->params[0];
+        
+        $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        $groupModel->deleteUserGroup($uid, $gid);
+        
+        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid), $this->lang('msg_user_groupdelete'), 'message');
+
+        }
     
 }

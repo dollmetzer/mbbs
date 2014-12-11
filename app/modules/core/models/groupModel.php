@@ -109,12 +109,39 @@ class groupModel extends \dollmetzer\zzaplib\DBModel
     }
     
     /**
+     * Add a user to a group
+     * 
+     * @param type $_userId
+     * @param type $_groupId
+     */
+    public function addUserGroup($_userId, $_groupId) {
+        
+        $sql = "SELECT * FROM user_group WHERE user_id=? AND group_id=?";
+        $values = array($_userId, $_groupId);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        if(empty($result)) {
+            $sql = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
+            $stmt = $this->app->dbh->prepare($sql);
+            $stmt->execute($values);    
+        }
+        
+    }
+    
+    /**
      * Delete a user from a group
      * 
      * @param type $_userId
      * @param type $_groupId
      */
     public function deleteUserGroup($_userId, $_groupId) {
+        
+        $sql = "DELETE FROM user_group WHERE user_id=? AND group_id=?";
+        $values = array($_userId, $_groupId);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);    
         
     }
     
