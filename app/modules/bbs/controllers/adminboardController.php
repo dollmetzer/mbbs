@@ -98,6 +98,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         }
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'board';
+        $this->app->view->content['title'] = $this->lang('title_board_add');
         $this->app->view->template = 'modules/bbs/views/web/adminboard/edit.php';
     }
 
@@ -117,6 +118,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         if (empty($board)) {
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
         }
+        $boardEntries = $boardModel->countEntries($id);
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'boardform';
@@ -134,11 +136,23 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
                 'maxlength' => 255,
                 'value' => $board['description']
             ),
+            'entries' => array(
+                'type' => 'static',
+                'value' => $boardEntries
+            ),
+            'content' => array(
+                'type' => 'checkbox',
+                'value' => $board['content']
+            ),
             'submit' => array(
                 'type' => 'submit',
                 'value' => 'change'
             )
         );
+        if($boardEntries > 0) {
+            $form->fields['content']['type'] = 'hidden';
+            $form->fields['content']['value'] = true;
+        }
 
         if ($form->process()) {
 
@@ -147,11 +161,22 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
                 'name' => $values['board'],
                 'description' => $values['description']
             );
+            if($values['content']===true) {
+                $data['content'] = 1;
+            } else {
+                // check, if board already contains articles
+                if($boardEntries > 0) {
+                    $data['content'] = 1;
+                } else {
+                    $data['content'] = 0;                    
+                }
+            }
             $boardModel->update($id, $data);
-            $this->app->forward($this->buildURL('/bbs/board/list/' . $board['parent_id']));
+            $this->app->forward($this->buildURL('/bbs/board/list/' . $board['parent_id']), $this->lang('msg_board_saved'), 'message');
         }
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'board';
+        $this->app->view->content['title'] = $this->lang('title_board_edit');
     }
 
     /**
@@ -165,9 +190,19 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         }
         $id = $this->app->params[0];
 
-        die('adminboard:delete:' . $id);
+        $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
+        $board = $boardModel->read($id);
+        if (empty($board)) {
+            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
+        }
 
-        // is board empty?
+        if($boardModel->countEntries($id) > 0) {
+            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_not_empty'), 'error');            
+        }
+        
+        $boardModel->delete($id);
+        $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_deleted'), 'message');            
+        
     }
 
 }

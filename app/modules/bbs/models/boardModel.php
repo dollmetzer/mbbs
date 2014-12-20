@@ -102,6 +102,29 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Count number of entries for board
+     * 
+     * @param type $_boardId
+     * @return type
+     */
+    public function countEntries($_boardId) {
+        
+        $sql = "SELECT name FROM board WHERE id=?";
+        $values = array($_boardId);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $board = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $boardName = '#'.$board['name'];
+        
+        $sql = "SELECT COUNT(*) FROM mail WHERE `to` LIKE ".$this->app->dbh->quote($boardName);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $values = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $values['COUNT(*)'];
+        
+    }
+    
 }
 
 ?>
