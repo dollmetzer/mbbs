@@ -59,7 +59,7 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
 
@@ -77,12 +77,16 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
     public function editAction() {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
         
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $group = $groupModel->read($id);
+        
+        if(!empty($group['protected'])) {
+            $this->app->forward($this->buildURL('core/admingroup/show/'.$id), $this->lang('error_protected_group'), 'error');
+        }
         
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'addgroup';

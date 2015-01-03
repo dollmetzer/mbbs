@@ -1,5 +1,6 @@
 Changes
 =======
+03.01.2015 - introduce protected groups
 20.12.2014 - bbs:adminboard: create, edit and delete board
 07.12.2014 - Form update checkbox, prepare admingroup add and delete
 07.12.2014 - core:adminuser added actions add and delete
