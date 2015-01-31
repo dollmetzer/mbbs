@@ -141,6 +141,11 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         $id = parent::create($_data);
         $mid = $this->app->config['systemname'] . '_' . $id;
         $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
+        if(empty($_data['origin_mid'])) {
+            $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . ", origin_mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;    
+        }
+        error_log(print_r($_data, true));
+        error_log($sql);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $id;

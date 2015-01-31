@@ -1,5 +1,6 @@
 Changes
 =======
+31.01.2015 - mail reply sets id, parent_id and origin_id
 03.01.2015 - introduce protected groups
 20.12.2014 - bbs:adminboard: create, edit and delete board
 07.12.2014 - Form update checkbox, prepare admingroup add and delete

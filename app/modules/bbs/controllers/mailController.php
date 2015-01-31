@@ -190,6 +190,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
         $mail = $mailModel->read($id);
+
         if (empty($mail)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_data_not_found'), 'error');
         }
@@ -201,7 +202,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
-        $form->action = $this->buildURL('bbs/mail/new');
+        $form->action = "";
         $form->fields = array(
             'to' => array(
                 'type' => 'text',
@@ -243,7 +244,9 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'to' => $to,
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
                 'subject' => $values['subject'],
-                'message' => $values['message']
+                'message' => $values['message'],
+                'parent_mid' => $mail['mid'],
+                'origin_mid' => $mail['origin_mid']
             );
 
             $id = $mailModel->create($data);

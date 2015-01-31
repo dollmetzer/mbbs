@@ -2,7 +2,8 @@
 
 <p><a href="<?php echo $this->buildURL('bbs/mail/in'); ?>" class="btn btn-default btn-xs disabled"><span class="glyphicon glyphicon-log-in"></span> <?php $this->lang('link_inbox'); ?></a>&nbsp;
 <a href="<?php echo $this->buildURL('bbs/mail/out'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-out"></span> <?php $this->lang('link_outbox'); ?></a>&nbsp;
-<a href="<?php echo $this->buildURL('bbs/mail/new'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> <?php $this->lang('link_new_mail'); ?></a></p>
+<a href="<?php echo $this->buildURL('bbs/mail/new'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> <?php $this->lang('link_new_mail'); ?></a>
+</p>
 
 <?php if(empty($content['mails'])) { ?>
 <p><strong><?php $this->lang('msg_no_mails'); ?></strong></p>
