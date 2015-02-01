@@ -6,7 +6,7 @@
  * Typical Elements for every Web Application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -19,7 +19,7 @@ namespace Application\modules\core\models;
  * Methods for accessing the user table in the DB
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -30,17 +30,6 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      */
     protected $tablename = 'user';
     
-    
-    public function getNewMailCount($_recipient) {
-        
-        $sql = "SELECT COUNT(*) as newmails FROM mail WHERE to=? AND read LIKE '0000-00-00 00:00:00'";
-        $values = array($_recipient);
-
-        $stmt = $this->app->dbh->prepare($sql);
-        $stmt->execute($values);
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-        
-    }
     
     /**
      * Get a user by his handle

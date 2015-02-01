@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,7 +19,7 @@ namespace Application\modules\bbs\models;
  * Database Methods for Mail handling
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -74,6 +74,25 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         $sql = "UPDATE mail SET `read`='" . strftime('%Y-%m-%d %H:%M:%S', time()) . "' WHERE id=" . $_id;
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
+    }
+
+
+    /**
+     * Get the number of unread mails of a recipient
+     * 
+     * @param string $_recipient
+     * @return integer
+     */
+    public function getNewMailCount($_recipient)
+    {
+
+        $sql = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
+        $values = array($_recipient);
+
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['newmails'];
     }
 
 
@@ -141,8 +160,8 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         $id = parent::create($_data);
         $mid = $this->app->config['systemname'] . '_' . $id;
         $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
-        if(empty($_data['origin_mid'])) {
-            $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . ", origin_mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;    
+        if (empty($_data['origin_mid'])) {
+            $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . ", origin_mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
         }
         error_log(print_r($_data, true));
         error_log($sql);

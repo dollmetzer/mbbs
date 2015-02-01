@@ -6,7 +6,7 @@
  * Typical Elements for every Web Application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -19,11 +19,11 @@ namespace Application\modules\core\controllers;
  * Startpage and some static pages (imprint, legal stuff, ...)
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
-class indexController extends \dollmetzer\zzaplib\Controller
+class indexController extends \Application\modules\core\controllers\Controller
 {
 
     /**

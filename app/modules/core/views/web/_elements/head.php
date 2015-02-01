@@ -53,7 +53,9 @@
                         <?php } else { ?>
                         
                         <li<?php if($content['nav_main'] == 'wall') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/wall'); ?>"><?php $this->lang('nav_wall') ?></a></li>
-                        <li class="dropdown<?php if($content['nav_main'] == 'mail') { echo ' active'; } ?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_mail') ?> <span class="caret"></span></a>
+                        <li class="dropdown<?php if($content['nav_main'] == 'mail') { echo ' active'; } ?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_mail') ?> 
+                                <?php if(!empty($content['newMails'])) { echo ' ('.$content['newMails'].')'; } ?>
+                                <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="<?php $this->buildURL('bbs/mail/in'); ?>"><?php $this->lang('nav_mail_inbox') ?></a></li>
                                 <li><a href="<?php $this->buildURL('bbs/mail/out'); ?>"><?php $this->lang('nav_mail_outbox') ?></a></li>

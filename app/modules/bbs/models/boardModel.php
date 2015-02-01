@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,7 +19,7 @@ namespace Application\modules\bbs\models;
  * Database Methods for Board handling
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -31,7 +31,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
      */
     protected $tablename = 'board';
 
-    
+
     /**
      * Get the path to a certain board
      * 
@@ -53,6 +53,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
         }
         return $path;
     }
+
 
     /**
      * Get list of boards
@@ -86,6 +87,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
         return $list;
     }
 
+
     /**
      * Get Board by name
      * 
@@ -102,29 +104,30 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+
     /**
      * Count number of entries for board
      * 
      * @param type $_boardId
      * @return type
      */
-    public function countEntries($_boardId) {
-        
+    public function countEntries($_boardId)
+    {
+
         $sql = "SELECT name FROM board WHERE id=?";
         $values = array($_boardId);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $board = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $boardName = '#'.$board['name'];
-        
-        $sql = "SELECT COUNT(*) FROM mail WHERE `to` LIKE ".$this->app->dbh->quote($boardName);
+        $boardName = '#' . $board['name'];
+
+        $sql = "SELECT COUNT(*) FROM mail WHERE `to` LIKE " . $this->app->dbh->quote($boardName);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $values = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $values['COUNT(*)'];
-        
     }
-    
+
 }
 
 ?>

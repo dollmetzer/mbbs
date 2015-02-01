@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,11 +19,11 @@ namespace Application\modules\bbs\controllers;
  * Methods for handling the public wall
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
-class wallController extends \dollmetzer\zzaplib\Controller
+class wallController extends \Application\modules\core\controllers\Controller
 {
 
     protected $accessGroups = array(
@@ -47,6 +47,7 @@ class wallController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['mails'] = $mailList;
     }
 
+
     /**
      * Show a single mail
      */
@@ -69,10 +70,11 @@ class wallController extends \dollmetzer\zzaplib\Controller
             $mailModel->markRead($mail['id']);
         }
 
-//        $this->app->view->content['title'] = $this->lang('title_mail_read');
+        $this->app->view->content['title'] = $this->lang('title_mail_read');
         $this->app->view->content['nav_main'] = 'wall';
         $this->app->view->content['mail'] = $mail;
     }
+
 
     /**
      * New entry

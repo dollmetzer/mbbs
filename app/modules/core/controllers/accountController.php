@@ -6,7 +6,7 @@
  * Typical Elements for every Web Application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -19,11 +19,11 @@ namespace Application\modules\core\controllers;
  * Methods for account handling (login, logout, register, ...)
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
-class accountController extends \dollmetzer\zzaplib\Controller
+class accountController extends \Application\modules\core\controllers\Controller
 {
 
     /**
@@ -36,6 +36,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         'resetpassword' => array('user', 'operator', 'administrator', 'moderator'),
         'settings' => array('user', 'operator', 'administrator', 'moderator')
     );
+
 
     /**
      * Login form processing.
@@ -97,6 +98,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['title'] = $this->lang('title_login');
     }
 
+
     /**
      * Destroys the Session and jumps to the startpage
      */
@@ -107,6 +109,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_out'));
     }
 
+
     /**
      * Not yet implemented
      */
@@ -115,8 +118,9 @@ class accountController extends \dollmetzer\zzaplib\Controller
         die('Not yet implemented');
     }
 
+
     /**
-     * Not yet implemented
+     * Register a new user
      */
     public function registerAction()
     {
@@ -205,6 +209,7 @@ class accountController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
     }
+
 
     /**
      * Basic settings

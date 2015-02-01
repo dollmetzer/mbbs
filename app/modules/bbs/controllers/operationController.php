@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,11 +19,11 @@ namespace Application\modules\bbs\controllers;
  * Methods for handling data exchange
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
-class operationController extends \dollmetzer\zzaplib\Controller
+class operationController extends \Application\modules\core\controllers\Controller
 {
 
     /**

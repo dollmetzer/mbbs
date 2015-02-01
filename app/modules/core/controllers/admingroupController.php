@@ -6,7 +6,7 @@
  * Typical Elements for every Web Application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -19,11 +19,11 @@ namespace Application\modules\core\controllers;
  * Methods for handling usergroups
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
-class admingroupController extends \dollmetzer\zzaplib\Controller
+class admingroupController extends \Application\modules\core\controllers\Controller
 {
 
     /**
@@ -71,23 +71,25 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['group'] = $group;
     }
 
+
     /**
      * Edit a group
      */
-    public function editAction() {
+    public function editAction()
+    {
 
         if (sizeof($this->app->params) == 0) {
             $this->app->forward($this->buildURL('core/admingroup'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
-        
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $group = $groupModel->read($id);
-        
-        if(!empty($group['protected'])) {
-            $this->app->forward($this->buildURL('core/admingroup/show/'.$id), $this->lang('error_protected_group'), 'error');
+
+        if (!empty($group['protected'])) {
+            $this->app->forward($this->buildURL('core/admingroup/show/' . $id), $this->lang('error_protected_group'), 'error');
         }
-        
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'addgroup';
         $form->fields = array(
@@ -108,7 +110,7 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
                 'value' => $group['active']
             ),
             'save' => array(
-                'type'  => 'submit',
+                'type' => 'submit',
                 'value' => 'save'
             ),
         );
@@ -117,24 +119,25 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
-            
+
             $newValues = array(
-                'active'   => 0,
+                'active' => 0,
                 'name' => $values['name'],
                 'description' => $values['description']
             );
-            if(!empty($values['active'])) $newValues['active'] = 1;
-            
+            if (!empty($values['active']))
+                $newValues['active'] = 1;
+
             $groupModel->update($id, $newValues);
             $this->app->forward($this->buildURL('core/admingroup'), $this->lang('msg_group_changed'), 'notice');
-            
         }
-        
+
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_groupedit');
         $this->app->view->content['form'] = $form->getViewdata();
     }
-    
+
+
     /**
      * Add a new group
      */
@@ -159,7 +162,7 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
                 'value' => true
             ),
             'add' => array(
-                'type'  => 'submit',
+                'type' => 'submit',
                 'value' => 'add'
             ),
         );
@@ -168,31 +171,30 @@ class admingroupController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
-            
+
             $groupModel = new \Application\modules\core\models\groupModel($this->app);
-            $group =$groupModel->getByName($values['name']);
-            if(empty($group)) {
-                
+            $group = $groupModel->getByName($values['name']);
+            if (empty($group)) {
+
                 $active = 0;
-                if(!empty($values['active'])) $active = 1;
+                if (!empty($values['active']))
+                    $active = 1;
                 $newvalues = array(
-                    'name'        => $values['name'],
+                    'name' => $values['name'],
                     'description' => $values['description'],
-                    'active'      => $active
+                    'active' => $active
                 );
-                
+
                 $id = $groupModel->create($newvalues);
                 $this->app->forward($this->buildURL('core/admingroup'), $this->lang('msg_group_added'), 'notice');
-                
             } else {
                 $form->fields['name']['error'] = $this->lang('form_error_name_exists');
             }
         }
-        
+
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_groupadd');
         $this->app->view->content['form'] = $form->getViewdata();
-        
     }
 
 

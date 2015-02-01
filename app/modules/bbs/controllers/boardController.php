@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,11 +19,11 @@ namespace Application\modules\bbs\controllers;
  * Methods for Bulletion Board handling
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
-class boardController extends \dollmetzer\zzaplib\Controller
+class boardController extends \Application\modules\core\controllers\Controller
 {
 
     /**
@@ -36,6 +36,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
         'new' => array('user', 'operator', 'administrator', 'moderator'),
         'reply' => array('user', 'operator', 'administrator', 'moderator')
     );
+
 
     /**
      * Show a list of boards
@@ -86,6 +87,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->template = 'modules/bbs/views/web/board/index.php';
     }
 
+
     /**
      * Show a list of boards (alias of index)
      * 
@@ -95,6 +97,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
     {
         return $this->indexAction();
     }
+
 
     /**
      * Show a single mail
@@ -120,6 +123,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['mail'] = $mail;
     }
+
 
     /**
      * Create a new mail
@@ -195,6 +199,7 @@ class boardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['form'] = $form->getViewdata();
     }
+
 
     /**
      * reply to a mail

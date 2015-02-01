@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,11 +19,11 @@ namespace Application\modules\bbs\controllers;
  * Methods for Mail handling
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
-class mailController extends \dollmetzer\zzaplib\Controller
+class mailController extends \Application\modules\core\controllers\Controller
 {
 
     protected $accessGroups = array(
@@ -34,6 +34,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
         'reply' => array('user', 'operator', 'administrator', 'moderator'),
         'delete' => array('user', 'operator', 'administrator', 'moderator')
     );
+
 
     /**
      * Show the Mail Inbox
@@ -50,6 +51,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['mails'] = $mailList;
     }
 
+
     /**
      * Show the Mail Outbox
      */
@@ -64,6 +66,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $mailList = $mailModel->getMaillist('from', $username, true);
         $this->app->view->content['mails'] = $mailList;
     }
+
 
     /**
      * Show a single mail
@@ -96,6 +99,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['mail'] = $mail;
     }
 
+
     /**
      * Input form for a new mail
      */
@@ -103,15 +107,15 @@ class mailController extends \dollmetzer\zzaplib\Controller
     {
 
         $receiver = '';
-        if(sizeof($this->app->params) > 0) {
+        if (sizeof($this->app->params) > 0) {
             // try to determine receiver
             $userModel = new \Application\modules\core\models\userModel($this->app);
             $user = $userModel->getByHandle($this->app->params[0]);
-            if(!empty($user)) {
+            if (!empty($user)) {
                 $receiver = $user['handle'];
             }
         }
-        
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
         $form->fields = array(
@@ -136,7 +140,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'value' => 'send'
             ),
         );
-        if(!empty($receiver)) {
+        if (!empty($receiver)) {
             $form->fields['subject']['focus'] = true;
         }
 
@@ -167,6 +171,10 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'mail';
     }
 
+
+    /**
+     * Delete a mail
+     */
     public function deleteAction()
     {
 
@@ -191,6 +199,10 @@ class mailController extends \dollmetzer\zzaplib\Controller
         $this->app->forward($this->buildURL('bbs/mail'), $this->lang('msg_mail_deleted'), 'message');
     }
 
+
+    /**
+     * Write a reply mail
+     */
     public function replyAction()
     {
 

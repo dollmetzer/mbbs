@@ -6,7 +6,7 @@
  * Typical Elements for every Web Application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
@@ -19,11 +19,11 @@ namespace Application\modules\core\controllers;
  * Methods for handling useraccounts
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage core
  */
-class adminuserController extends \dollmetzer\zzaplib\Controller
+class adminuserController extends \Application\modules\core\controllers\Controller
 {
 
     /**
@@ -39,6 +39,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         'deletegroup' => array('administrator')
     );
 
+
     /**
      * Show a listof user
      */
@@ -52,6 +53,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['title'] = $this->lang('title_admin_user');
         $this->app->view->content['list'] = $list;
     }
+
 
     /**
      * Show user details
@@ -68,7 +70,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $groups = $groupModel->getUserGroups($id);
-        
+
         if (empty($user)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
         }
@@ -77,14 +79,15 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['title'] = $this->lang('title_admin_user');
         $this->app->view->content['user'] = $user;
         $this->app->view->content['groups'] = $groups;
-        
     }
-    
+
+
     /**
      * Edit user
      */
-    public function editAction() {
-        
+    public function editAction()
+    {
+
         if (sizeof($this->app->params) == 0) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
         }
@@ -95,16 +98,16 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
         if (empty($user)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
         }
-        
+
         $languages = array();
         foreach ($this->app->config['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
-        
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $groups = $groupModel->getUserGroups($id);
         $allGroups = $groupModel->getList();
-                
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'edituser';
         $form->fields = array(
@@ -140,37 +143,38 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
-                        
+
             $newValues = array(
-                'active'   => 0,
+                'active' => 0,
                 'language' => $values['language']
             );
-            if(!empty($values['active'])) $newValues['active'] = 1;
-            
-            $userModel->update($id,$newValues);
+            if (!empty($values['active']))
+                $newValues['active'] = 1;
+
+            $userModel->update($id, $newValues);
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_changed'), 'notice');
-            
         }
-        
+
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['user'] = $user;
         $this->app->view->content['groups'] = $groups;
         $this->app->view->content['allgroups'] = $allGroups;
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_user');
-        
     }
+
 
     /**
      * Add a new user
      */
-    public function addAction() {
-                
+    public function addAction()
+    {
+
         $languages = array();
         foreach ($this->app->config['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
-                
+
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'adduser';
         $form->fields = array(
@@ -194,7 +198,7 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
                 'options' => $languages
             ),
             'add' => array(
-                'type'  => 'submit',
+                'type' => 'submit',
                 'value' => 'add'
             ),
         );
@@ -203,13 +207,14 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
 
             // get user
             $values = $form->getValues();
-            
+
             $userModel = new \Application\modules\core\models\userModel($this->app);
             $user = $userModel->getByHandle($values['handle']);
-            if(empty($user)) {
-                
+            if (empty($user)) {
+
                 $active = 0;
-                if(!empty($values['active'])) $active = 1;
+                if (!empty($values['active']))
+                    $active = 1;
                 $newValues = array(
                     'active' => $active,
                     'handle' => $values['handle'],
@@ -219,86 +224,91 @@ class adminuserController extends \dollmetzer\zzaplib\Controller
                 );
                 $uid = $userModel->create($newValues);
                 $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_added'), 'notice');
-        
             } else {
                 $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');
             }
-            
-           
         }
-        
+
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_useradd');
-        
     }
-    
+
+
     /**
      * Delete user
      */
-    public function deleteAction() {
+    public function deleteAction()
+    {
 
         if (sizeof($this->app->params) == 0) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
-        if($this->app->session->user_id == $id) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete_yourself'), 'error');            
+        if ($this->app->session->user_id == $id) {
+            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete_yourself'), 'error');
         }
         die('trapped');
-        
+
         $userModel = new \Application\modules\core\models\userModel($this->app);
         $user = $userModel->read($id);
 
         if (empty($user)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
         }
-        
+
         // only delete, if no mails from or to user exists
         $username = $user['handle'] . '@' . $this->app->config['systemname'];
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $mails = $mailModel->getMaillist('from', $username);
-        if(!empty($mails)) {
+        if (!empty($mails)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete'), 'error');
         }
         $mails = $mailModel->getMaillist('to', $username);
-        if(!empty($mails)) {
+        if (!empty($mails)) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete'), 'error');
         }
 
         $userModel->delete($user['id']);
         $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_deleted'), 'message');
-        
     }
-    
-    public function addgroupAction() {
-        
+
+
+    /**
+     * Add a new group
+     */
+    public function addgroupAction()
+    {
+
         if (sizeof($this->app->params) < 2) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
         }
         $gid = (int) $this->app->params[1];
         $uid = (int) $this->app->params[0];
-        
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $groupModel->addUserGroup($uid, $gid);
-        
-        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid), $this->lang('msg_user_groupadd'), 'message');
 
+        $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('msg_user_groupadd'), 'message');
     }
-    
-    public function deletegroupAction() {
-        
+
+
+    /**
+     * Delete a group
+     */
+    public function deletegroupAction()
+    {
+
         if (sizeof($this->app->params) < 2) {
             $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
         }
         $gid = (int) $this->app->params[1];
         $uid = (int) $this->app->params[0];
-        
+
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $groupModel->deleteUserGroup($uid, $gid);
-        
-        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid), $this->lang('msg_user_groupdelete'), 'message');
 
-        }
-    
+        $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('msg_user_groupdelete'), 'message');
+    }
+
 }

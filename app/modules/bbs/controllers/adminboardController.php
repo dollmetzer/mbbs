@@ -6,7 +6,7 @@
  * A small BBS package for mobile use
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
@@ -19,11 +19,11 @@ namespace Application\modules\bbs\controllers;
  * Methods for the administration of Bulletion Boards
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014, Dirk Ollmetzer
+ * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
  * @subpackage bbs
  */
-class adminboardController extends \dollmetzer\zzaplib\Controller
+class adminboardController extends \Application\modules\core\controllers\Controller
 {
 
     /**
@@ -34,6 +34,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         'edit' => array('administrator'),
         'delete' => array('administrator')
     );
+
 
     /**
      * add a new board
@@ -102,6 +103,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->template = 'modules/bbs/views/web/adminboard/edit.php';
     }
 
+
     /**
      * edit a board
      */
@@ -149,7 +151,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
                 'value' => 'change'
             )
         );
-        if($boardEntries > 0) {
+        if ($boardEntries > 0) {
             $form->fields['content']['type'] = 'hidden';
             $form->fields['content']['value'] = true;
         }
@@ -161,14 +163,14 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
                 'name' => $values['board'],
                 'description' => $values['description']
             );
-            if($values['content']===true) {
+            if ($values['content'] === true) {
                 $data['content'] = 1;
             } else {
                 // check, if board already contains articles
-                if($boardEntries > 0) {
+                if ($boardEntries > 0) {
                     $data['content'] = 1;
                 } else {
-                    $data['content'] = 0;                    
+                    $data['content'] = 0;
                 }
             }
             $boardModel->update($id, $data);
@@ -178,6 +180,7 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['title'] = $this->lang('title_board_edit');
     }
+
 
     /**
      * delete an empty board
@@ -196,13 +199,12 @@ class adminboardController extends \dollmetzer\zzaplib\Controller
             $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
         }
 
-        if($boardModel->countEntries($id) > 0) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_not_empty'), 'error');            
+        if ($boardModel->countEntries($id) > 0) {
+            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_not_empty'), 'error');
         }
-        
+
         $boardModel->delete($id);
-        $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_deleted'), 'message');            
-        
+        $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_deleted'), 'message');
     }
 
 }
