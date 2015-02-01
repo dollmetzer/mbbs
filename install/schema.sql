@@ -88,11 +88,12 @@ INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
 -- Table structure for table `mail`
 --
 
+
 CREATE TABLE IF NOT EXISTS `mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `mid` varchar(32) NOT NULL,
-  `parent_mid` varchar(32) NOT NULL,
-  `origin_mid` varchar(32) NOT NULL,
+  `parent_mid` varchar(32) DEFAULT NULL,
+  `origin_mid` varchar(32) DEFAULT NULL,
   `from` varchar(32) NOT NULL,
   `to` varchar(32) NOT NULL,
   `subject` varchar(80) NOT NULL,
@@ -100,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `read` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
