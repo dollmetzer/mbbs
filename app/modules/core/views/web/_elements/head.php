@@ -60,6 +60,7 @@
                             </ul>                            
                         </li>
                         <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/board'); ?>"><?php $this->lang('nav_board') ?></a></li>
+                        <li<?php if($content['nav_main'] == 'users') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/users'); ?>"><?php $this->lang('nav_users') ?></a></li>
                         <?php if(in_array('operator', $this->app->session->groups)) { ?>
                         <li class="dropdown<?php if($content['nav_main'] == 'operation') { echo ' active'; } ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php $this->lang('nav_operation') ?> <span class="caret"></span></a>

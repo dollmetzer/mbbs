@@ -16,6 +16,8 @@ table.maillist {
 table.maillist tr {
     border-top: 1px solid #999999;
     padding:10px 0 10px 0;
+}
+table.maillist tr.entry {
     cursor: pointer;
 }
 table.maillist td {

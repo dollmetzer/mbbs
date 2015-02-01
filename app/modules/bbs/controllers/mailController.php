@@ -102,6 +102,16 @@ class mailController extends \dollmetzer\zzaplib\Controller
     public function newAction()
     {
 
+        $receiver = '';
+        if(sizeof($this->app->params) > 0) {
+            // try to determine receiver
+            $userModel = new \Application\modules\core\models\userModel($this->app);
+            $user = $userModel->getByHandle($this->app->params[0]);
+            if(!empty($user)) {
+                $receiver = $user['handle'];
+            }
+        }
+        
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'mailform';
         $form->fields = array(
@@ -109,6 +119,7 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 32,
+                'value' => $receiver
             ),
             'subject' => array(
                 'type' => 'text',
@@ -125,6 +136,9 @@ class mailController extends \dollmetzer\zzaplib\Controller
                 'value' => 'send'
             ),
         );
+        if(!empty($receiver)) {
+            $form->fields['subject']['focus'] = true;
+        }
 
         if ($form->process()) {
 

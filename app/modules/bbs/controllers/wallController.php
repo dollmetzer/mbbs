@@ -32,6 +32,7 @@ class wallController extends \dollmetzer\zzaplib\Controller
         'read' => array('user', 'operator', 'administrator', 'moderator')
     );
 
+
     /**
      * The Startpage
      */

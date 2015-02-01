@@ -31,6 +31,17 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
     protected $tablename = 'user';
     
     
+    public function getNewMailCount($_recipient) {
+        
+        $sql = "SELECT COUNT(*) as newmails FROM mail WHERE to=? AND read LIKE '0000-00-00 00:00:00'";
+        $values = array($_recipient);
+
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+    }
+    
     /**
      * Get a user by his handle
      * 
@@ -75,6 +86,28 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         return $user;
     }
 
+    /**
+     * Get a list of users for a given group
+     * 
+     * @param integer $_groupId
+     * @return array
+     */
+    public function getListByGroup($_groupId) {
+        
+        $sql = "SELECT u.*
+                FROM user_group AS ug 
+                JOIN user AS u ON u.id=ug.user_id
+                WHERE ug.group_id=?
+                    AND u.active=1";
+        $values = array(
+          $_groupId  
+        );
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+    }
+    
     /**
      * Updates the lastlogin field to NOW
      * 

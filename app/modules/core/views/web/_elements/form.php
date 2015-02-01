@@ -28,13 +28,16 @@ if (!empty($content['form']['name'])) {
             echo '<input type="hidden" name="'.$name.'" value="'.$field['value']."\" />\n";
         }
     }
-    $first = '';
+    $focus = '';
     foreach ($content['form']['fields'] as $name => $field) {
 
         if($field['type'] != 'hidden') {
 
-            if(empty($first)) {
-                $first = $name;
+            if(empty($focus)) {
+                $focus = $name;
+            }
+            if(!empty($field['focus'])) {
+                $focus = $name;
             }
             
             if (!empty($field['error'])) {
@@ -216,7 +219,7 @@ if (!empty($content['form']['name'])) {
 
 <?php if(!empty($content['form']['name'])) { ?>
 <script type="text/javascript">
-    document.forms.<?php echo $content['form']['name'] . '.' . $first ?>.focus();
+    document.forms.<?php echo $content['form']['name'] . '.' . $focus ?>.focus();
 </script>
 <?php } ?>
 
