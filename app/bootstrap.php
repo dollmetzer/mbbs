@@ -13,7 +13,7 @@
 namespace Application;
 
 // load configuration
-include __DIR__ . '/config_' . $_SERVER['SERVER_NAME'] . '.php';
+include __DIR__ . '/config.php';
 
 // include composer packages
 include realpath(__DIR__ . '/../vendor/autoload.php');
