@@ -1,6 +1,7 @@
 <?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
 
-<div class="well">
+    <h1>H1 Überschrift</h1>
+    
     <h2>mBBS</h2>
     <p>mBBS steht für Micro Bulletin Board System.
         Inspiriert wurde das Projekt durch die Mailbox Systeme (englisch
@@ -11,9 +12,7 @@
         der einfachen Technik geschuldet. Heutzutage ist zwar die Technik 
         erheblich Leistungsfähiger geworden, aber durch die Nutzung auf mobilen
         Endgeräten wird eine funktionale Fokussierung sinnvoller den je.</p>
-</div>
 
-<div class="well">
     <h2>zzaplib</h2>
     <p>Die Basis von mBBS ist das zzaplib PHP Microframework für 
         Webapplikationen. Es ist auf geringen Ressourcenverbrauch und hohe 
@@ -22,6 +21,5 @@
         Einsatz von OOP Prinzipien erreicht. Hierin unterscheidet sich zzaplib 
         von den weit verbreiteten "großen" Frameworks, wie Symfony und Zend.</p>
     
-</div>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+    <?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>

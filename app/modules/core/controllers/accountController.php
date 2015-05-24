@@ -208,6 +208,7 @@ class accountController extends \Application\modules\core\controllers\Controller
 
         $this->app->view->content['form'] = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
+        $this->app->view->content['title'] = $this->lang('title_register');
     }
 
 

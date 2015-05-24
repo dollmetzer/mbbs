@@ -1,0 +1,47 @@
+/*
+ * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
+ * @copyright (c) 2006-2015, Dirk Ollmetzer
+ * @package Application
+ */
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: sans-serif;
+    background-color:#bbbbbb;
+    color:#000000;
+}
+
+header {
+    position:relative;
+    margin:0;
+    padding:1em;
+    border:0;
+    background-color:#444444;
+    color:#bbbbbb;
+}
+header h1 {
+    margin:0.1em 0 0 1.2em;
+    color:#ff9933;
+    font-size:1.8em;
+}
+
+    #nav-toggle {
+        position:absolute;
+        top:0.5em;
+        left:0.5em;
+        font-size:2em;
+        display:inline;
+        cursor:pointer;
+    }
+    
+@media screen {
+    #nav-toggle {
+        display:none;
+    }
+}
+
+@media handheld {
+
+}

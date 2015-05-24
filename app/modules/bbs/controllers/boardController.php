@@ -171,6 +171,12 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'rows' => 8,
                 'maxlength' => 4096,
             ),
+            'picture' => array(
+                'type' => 'file',
+                'mimetype' => 'image/jpeg',
+                'maxsize' => ini_get('upload_max_filesize'),
+                'targetdir' => PATH_DATA.'board/'.$id
+            ),
             'submit' => array(
                 'type' => 'submit',
                 'value' => 'send'
@@ -189,6 +195,12 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
+            
+            echo "<pre>";
+            print_r($data);
+            print_r($_FILES);
+            exit;
+            
             $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
             $mailId = $mailModel->create($data);
 

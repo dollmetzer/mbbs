@@ -19,7 +19,7 @@ if(!empty($content['form']['action'])) {
 if (!empty($content['form']['name'])) {
     echo ' name="' . $content['form']['name'] . '" ';
 }
-?> method="post" role="form">
+?> enctype="multipart/form-data" method="post" role="form">
 <?php
     $hasRequired = false;
     // all hidden fields on top
@@ -41,13 +41,12 @@ if (!empty($content['form']['name'])) {
             }
             
             if (!empty($field['error'])) {
-                echo "<div class='form-group has-error'>\n";
+                echo "<p class='error'>\n";
                 echo '<label>&nbsp;</label>';
                 echo '<span class="help-block">' . $field['error'] . "</span>";
-                echo "</div>";
-                echo "<div class='form-group has-error'>\n";
+                echo "<br />";
             } else {
-                echo "<div class='form-group'>\n";
+                echo "<p>\n";
             }
 
             if ($field['type'] != 'divider') {
@@ -203,16 +202,20 @@ if (!empty($content['form']['name'])) {
                 case 'hidden':
                     // skip. We had hidden fields already on the top
                     break;
+                
+                case 'file':
+                    echo '<input type="file" name="'.$name.'" />';
+                    break;
 
                 default:
                     echo '<p class="form-control-static">' . $this->lang('form_error_type', false) . "</p>\n";
             }
-            echo "</div>\n";
+            echo "</p>\n";
         }
     }
     
     if ($hasRequired === true) {
-        echo "<div class='form-group'><p>" . $this->lang('form_has_required', false) . "</p></div>\n";
+        echo "<p>" . $this->lang('form_has_required', false) . "</p>\n";
     }
 ?>
 </form>

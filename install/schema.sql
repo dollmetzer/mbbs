@@ -14,6 +14,8 @@ SET time_zone = "+00:00";
 -- Database: `mbbs`
 --
 
+CREATE DATABASE IF NOT EXISTS mbbs CHARACTER SET UTF8;
+
 -- --------------------------------------------------------
 
 --
