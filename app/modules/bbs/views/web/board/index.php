@@ -25,8 +25,8 @@ if(!empty($content['board']['description'])) {
     <tr onclick="showboard(<?php echo $theme['id']; ?>);">
         <td>
             <?php if(in_array('administrator', $this->app->session->groups)) { ?>
-            <a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a> 
-            <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a> 
+            <a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn"><i class="fa fa-pencil"></i></a> 
+            <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn"><i class="fa fa-trash-o"></i></a> 
             <?php } ?>
             <strong><?php echo $theme['name']; ?></strong><br /><?php echo $theme['description']; ?></a>
         </td>

@@ -73,7 +73,6 @@ class mailController extends \Application\modules\core\controllers\Controller
      */
     public function readAction()
     {
-
         if (empty($this->app->params)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
@@ -86,7 +85,7 @@ class mailController extends \Application\modules\core\controllers\Controller
         if (empty($mail)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_data_not_found'), 'error');
         }
-        if (($mail['to'] != $username) && ($mail['from'] != $username)) {
+        if ((strtolower($mail['to']) != strtolower($username) ) && (strtolower($mail['from']) != strtolower($username))) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
 
@@ -190,7 +189,7 @@ class mailController extends \Application\modules\core\controllers\Controller
         if (empty($mail)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_data_not_found'), 'error');
         }
-        if ($mail['to'] != $username) {
+        if (strtolower($mail['to']) != strtolower($username)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
 
@@ -220,7 +219,7 @@ class mailController extends \Application\modules\core\controllers\Controller
         if (empty($mail)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_data_not_found'), 'error');
         }
-        if ($mail['to'] != $username) {
+        if (strtolower($mail['to']) != strtolower($username)) {
             $this->app->forward($this->buildURL('/bbs/mail'), $this->lang('error_access_denied'), 'error');
         }
 
