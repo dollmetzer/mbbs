@@ -153,6 +153,7 @@ nav li ul {
 }
 nav li li {
     margin-left:1em;
+    font-weight: normal;
 }
 nav a {
     margin:0.6em;
@@ -189,7 +190,15 @@ div.content {
 }
 
 /**   T A B L E   **/
-
+table {
+    margin:0;
+    padding:0;
+    border:0;
+    width:100%;
+}
+td {
+    vertical-align: top;
+}
 td.divider {
     margin:0;
     border:0;
@@ -198,12 +207,6 @@ td.divider {
 }
 
 
-table {
-    margin:0;
-    padding:0;
-    border:0;
-    width:100%;
-}
 
 table.maillist td {
     padding:0.5em 0;
@@ -308,7 +311,6 @@ textarea:focus {
 
                 </li>
                 <li<?php if($content['nav_main'] == 'board') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/board'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_board') ?></a></li>
-                <li<?php if($content['nav_main'] == 'users') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('bbs/users'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_users') ?></a></li>
                 <?php if(in_array('operator', $this->app->session->groups)) { ?>
                 <li class="hasSubnav<?php if($content['nav_main'] == 'operation') { echo ' active'; } ?>">
                     <i class="fa fa-chevron-right"></i> <?php $this->lang('nav_operation') ?>

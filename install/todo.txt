@@ -1,14 +1,17 @@
+Releaseplanning
+===============
+0.1 - Basic System (wall, mail, boards)
+0.2 - Add user by selfregister, invite or admin interface
+0.3 - Contact List (shortlist, block)
+0.4 - Basic statistics
+0.5 - Transfer messages
 
-Feature
-=======
 
-Wall     - jeder kann etwas an die Wand schreiben.
-userlist - Jeder kann alle User sehen.
-contact  - suggest 
-
-install script - wenn noch nicht installiert
-
-admin area - Name des Systemeinstellungen
-admin area - user blocken, admin- und transferrechte geben
-transfer - messages zusammenpacken und exportieren
-transfer - messages importieren
+Uncategorized Features
+======================
+contact suggest 
+install script
+admin area - System settings
+admin area - block user, admin- and transferrights
+transfer - pack and export messages
+transfer - unpack and import messages

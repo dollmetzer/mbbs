@@ -195,14 +195,14 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
-            /**
-            echo "<pre>";
-            print_r($data);
-            print_r($_FILES);
-            exit;
-            **/
             $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
             $mailId = $mailModel->create($data);
+            
+            if(!empty($_FILES['picture']['type'])) {
+                $this->processPicture($_FILES['picture'], $mailId);
+            }
+            
+
 
             $this->app->forward($this->buildURL('bbs/board/list/' . $id), $this->lang('msg_post_sent'), 'message');
         }
@@ -284,6 +284,41 @@ class boardController extends \Application\modules\core\controllers\Controller
         $this->app->view->content['nav_main'] = 'board';
     }
 
+    
+    protected function processPicture($_files, $_id) {
+        
+        // error_log("process picture $_id" . print_r($_files, true));
+        
+        echo "<pre>";
+        print_r($_files);
+        die("Save to ".$targetFile);
+        
+// check type
+        if(!in_array($_files['type'], array('image/jpeg'))) {
+            return 1;
+        }
+        
+        // check size
+        
+        // check error
+        
+        // check ist upload
+        $targetFile = PATH_DATA.'picture/mail/';
+        if(!is_dir($targetFile)) {
+            mkdir($targetFile);
+            chmod($targetFile, 0775);
+        }
+        $temp = explode('.', $_files['name']);
+        $targetFile .= $_id . '.' . array_pop($temp);
+        if(!move_uploaded_file($_files['tmp_name'], $targetFile)) {
+            return 4;
+        }
+        
+        echo "<pre>";
+        print_r($_files);
+        die("Save to ".$targetFile);
+    }
+    
 }
 
 ?>
