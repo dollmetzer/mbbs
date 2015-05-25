@@ -5,9 +5,9 @@
 <a href="<?php $this->buildURL('bbs/mail/in'); ?>" class="btn"><i class="fa fa-chevron-left"></i> <?php $this->lang('link_inbox'); ?></a>
 </p>
 
-<table style="width:100%;">
+<table>
     <tr><td colspan="2"><hr /></td></tr>
-    <tr style="border-top: 1px solid #dddddd;">
+    <tr>
         <td><?php $this->lang('table_col_from'); ?>&nbsp;</td>
         <td>:&nbsp;<?php echo $content['mail']['from']; ?></td>
     </tr>

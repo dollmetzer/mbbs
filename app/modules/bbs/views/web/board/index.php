@@ -16,7 +16,8 @@ if(!empty($content['board']['description'])) {
 </p>
 
 <?php if(!empty($content['board']['content'])) { ?>
-<p><a href="<?php echo $this->buildURL('bbs/board/new/'.$content['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-in"></span> <?php $this->lang('btn_new_article'); ?></a></p>
+<p><a href="<?php echo $this->buildURL('bbs/board/new/'.$content['id']); ?>" class="btn"><i class="fa fa-pencil"></i>
+ <?php $this->lang('btn_new_article'); ?></a></p>
 <?php } ?>
 
 <?php if(!empty($content['themes'])) { ?>

@@ -17,8 +17,16 @@ if(DEBUG_CONTENT) {
 		
         // switch navigation on and off
 	$('#navicon').click(function() {
-            $('#main-nav').toggle('slow');			
+            $('#main-nav').toggle('slow');
+            $('#navicon').fadeOut('slow');
+            $('#navicon-close').fadeIn('slow');
 	});
+        // switch navigation on and off
+	$('#navicon-close').click(function() {
+            $('#main-nav').toggle('slow');			
+            $('#navicon').fadeIn('slow');
+            $('#navicon-close').fadeOut('slow');
+        });
 			
 	// switch subnavigation on and off
 	$('.hasSubnav').click(function() {

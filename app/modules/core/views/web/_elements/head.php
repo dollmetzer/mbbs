@@ -49,15 +49,17 @@ p {
     border:0;
     padding:0;
 }
-a {
+p a {
     color:#cc0000;
     text-decoration: none;
 }
 .btn {
-    margin:0;
+    margin:0 0 0.5em 0;
     border:1px solid #444444;
     border-radius:0.5em;
-    padding:0.2em 1em;
+    padding:0.5em 1em;
+    color: #444444;
+    text-decoration:none;
     text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
     background-image: -webkit-linear-gradient(top, #E6E6E6, #CCCCCC);
     background-image: -moz-linear-gradient(top, #E6E6E6, #CCCCCC);
@@ -65,10 +67,6 @@ a {
     background-image: -o-linear-gradient(top, #E6E6E6, #CCCCCC);
     font-size:1em;
     white-space:nowrap;
-}
-.btn img {
-    height:1em;
-    width:auto;
 }
 .btn-ok {
     color:#00cc00;
@@ -99,6 +97,14 @@ header h1 {
     font-size:2em;
     display:inline;
     cursor:pointer;
+}
+#navicon-close {
+    position:absolute;
+    top:0.5em;
+    left:0.5em;
+    font-size:2em;
+    display:none;
+    cursor:pointer;    
 }
 header a {
     color:#cccccc;
@@ -150,6 +156,8 @@ nav li li {
 }
 nav a {
     margin:0.6em;
+    color:#cc0000;
+    text-decoration: none;
 }
 nav li span {
     margin:0 0 0 0.6em;
@@ -158,19 +166,19 @@ nav li span {
 /**   A L E R T B O X   **/
 
 div.alert {
-    margin:1em;
+    margin:0 0 1em 0;
     padding:1em;
-    border-radius:1em;
+    border-radius:0.5em;
 }
 div.alert-danger {
     border:1px solid #cc0000;
-    background-color: #ffeeee;
+    background-color: #eedddd;
     color:#cc0000;
 }
 div.alert-info {
-    border: 1px solid #0000cc;
-    background-color: #eeeeff;
-    color:#0000cc;
+    border: 1px solid #000099;
+    background-color: #ddddee;
+    color:#000099;
 }
         
         
@@ -237,15 +245,26 @@ label {
     display: block;
     float: left;
 }
-input[type=text],input[type=password],textarea {
+input[type=text],
+input[type=password],
+select,
+textarea {
     margin:0;
-    border:1px solid green;
-    padding:0;
+    border:1px solid #444444;
+    border-radius:0.3em;
+    padding:0.3em;
     width:66%;
     display:block;
     font-size:1em;
+    background:#ffffff;
+    color:#444444;
 }
-
+input:focus,
+select:focus,
+textarea:focus {
+    background:#ffeecc;
+    color:#000000;
+}
         </style>
         
         
@@ -257,7 +276,8 @@ input[type=text],input[type=password],textarea {
     <body>
 
         <header>
-            <a id="navicon">&#9776;</a>
+            <a id="navicon"><i class="fa fa-bars"></i></a>
+            <a id="navicon-close"><i class="fa fa-close"></i></a>
             <h1>mBBS</h1>
 	</header>
  
@@ -268,11 +288,11 @@ input[type=text],input[type=password],textarea {
                 $userId = $this->app->session->user_id; 
                 if(empty($userId)) { ?>
 
-                <li<?php if($content['nav_main'] == 'imprint') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('imprint'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_imprint') ?></a></li>
                 <li<?php if($content['nav_main'] == 'login') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/login') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_login') ?></a></li>
                 <?php if($this->app->config['register']['selfregister'] === true) { ?>
                 <li<?php if($content['nav_main'] == 'register') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/register') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_register') ?></a></li>
                 <?php } ?>
+                <li<?php if($content['nav_main'] == 'imprint') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('imprint'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_imprint') ?></a></li>
                 <li><span>(<?php $this->lang('nav_not_loggedin'); ?>)</span></li>
 
                 <?php } else { ?>

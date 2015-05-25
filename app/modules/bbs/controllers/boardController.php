@@ -195,12 +195,12 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
-            
+            /**
             echo "<pre>";
             print_r($data);
             print_r($_FILES);
             exit;
-            
+            **/
             $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
             $mailId = $mailModel->create($data);
 
