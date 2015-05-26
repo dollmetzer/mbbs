@@ -195,6 +195,11 @@ table {
     padding:0;
     border:0;
     width:100%;
+    border-collapse: collapse;
+}
+th {
+    text-align: left;
+    background:#999999;
 }
 td {
     vertical-align: top;
@@ -206,10 +211,17 @@ td.divider {
     padding:0;
 }
 
-
-
-table.maillist td {
+table.maillist {
+    border-top: 1px solid #444444;
+}
+table.maillist th {
+    border-bottom: 1px solid #444444;
     padding:0.5em 0;
+}
+table.maillist td {
+    border-bottom: 1px solid #444444;
+    padding:0.5em 0;
+    cursor:pointer;
 }
 
 table.striped {
@@ -220,15 +232,11 @@ table.striped {
 }
 table.striped tr:nth-of-type(odd) {
     margin:0;
-    border-bottom: 1px solid #444444;
     background-color:#dddddd;
-    cursor:pointer;
 } 
 table.striped tr:nth-of-type(even) {
     margin:0;
-    border-bottom: 1px solid #444444;
     background-color:#cccccc;
-    cursor:pointer;
 } 
 
 

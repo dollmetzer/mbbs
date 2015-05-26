@@ -1,13 +1,11 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
-<a href="<?php $this->buildURL('core/adminuser/add'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> <?php $this->lang('link_user_add'); ?></a><br />
-<table class="table table-striped">
+<p><a href="<?php $this->buildURL('core/adminuser/add'); ?>" class="btn"><i class="fa fa-user-plus"></i> <?php $this->lang('link_user_add'); ?></a></p>
+
+<table class="maillist striped">
     <thead>
         <tr>
-            <th>&nbsp;</th>
             <th><?php $this->lang('table_col_handle'); ?></th>
-            <th><?php $this->lang('table_col_language'); ?></th>
-            <th><?php $this->lang('table_col_created'); ?></th>
             <th><?php $this->lang('table_col_lastlogin'); ?></th>
         </tr>
     </thead>
@@ -15,15 +13,10 @@
         <?php foreach($content['list'] as $entry) { ?>
         <tr onclick="location.href='<?php $this->buildURL('core/adminuser/show/'.$entry['id']); ?>';" style="cursor: pointer;">
             <td><?php if(empty($entry['active'])) { ?>
-                <span class="glyphicon glyphicon-ban-circle"></span>
+                <i class="fa fa-ban"></i>
             <?php } else { ?>
-                <span class="glyphicon glyphicon-ok-circle"></span>
-            <?php } ?>
-            </td>
-            <td><?php echo $entry['handle'] ?>
-            </td>
-            <td><?php echo $entry['language'] ?></td>
-            <td><?php echo $this->toDate($entry['created']); ?></td>
+                <i class="fa fa-check"></i>
+            <?php }  echo $entry['handle'] ?></td>
             <td><?php echo $this->toDate($entry['lastlogin']); ?></td>
         </tr>
         <?php } ?>
