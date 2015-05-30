@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
+ * @copyright (c) 2006-2015, Dirk Ollmetzer
+ * @package Application
+ */
+
 $timeStart = microtime(true);
 
 include '../app/bootstrap.php';

@@ -11,11 +11,9 @@
         <textarea class="form-control" name="message" rows="8"></textarea>        
     </p>    
     <p>
-        <label for='submit'>&nbsp;</label>
         <a href="#" class="btn btn-ok" onclick="document.mailform.submit();"><i class="fa fa-check"></i> <?php $this->lang('link_send'); ?></a>
     </p>
     <p>
-        <label for='cancel'>&nbsp;</label>
         <a href="#" class="btn btn-cancel" onclick="$('#inputswitch').slideToggle('slow');$('#inputform').slideToggle('slow');"><i class="fa fa-times"></i> <?php $this->lang('link_cancel'); ?></a>
     </p>
 </form>
@@ -29,6 +27,8 @@
 <p><strong><?php $this->lang('msg_no_mails'); ?></strong></p>
 <?php } else { ?>
 
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
@@ -39,6 +39,8 @@
 <?php } ?>
 </table>
 <?php } ?>
+
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
 
 <script type="text/javascript">
     function jumpto(id) {

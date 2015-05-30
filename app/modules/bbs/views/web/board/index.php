@@ -20,6 +20,17 @@ if(!empty($content['board']['description'])) {
  <?php $this->lang('btn_new_article'); ?></a></p>
 <?php } ?>
 
+<?php
+if(in_array('administrator', $this->app->session->groups) && empty($content['board']['content'])) {
+    echo '<p><a href="';
+    echo $this->buildURL('bbs/adminboard/add/'.$content['id']);
+    echo '" class="btn btn-default btn-xs">';
+    echo '<i class="fa fa-plus"></i> ';
+    $this->lang('link_board_add');
+    echo "</a></p>\n";
+}
+?>
+
 <?php if(!empty($content['themes'])) { ?>
 <table class="maillist striped">
 <?php foreach($content['themes'] as $theme) { ?>
@@ -35,18 +46,7 @@ if(!empty($content['board']['description'])) {
     <?php } ?>
 </table>
 <br />
-<?php 
-} 
-
-if(in_array('administrator', $this->app->session->groups) && empty($content['board']['content'])) {
-    echo '<p><a href="';
-    echo $this->buildURL('bbs/adminboard/add/'.$content['id']);
-    echo '" class="btn btn-default btn-xs">';
-    echo '<span class="glyphicon glyphicon-plus"></span> ';
-    $this->lang('link_board_add');
-    echo "</a></p>\n";
-}
-?>
+<?php } ?>
 
 <?php if(!empty($content['mails'])) { ?>
 <table class="maillist striped">

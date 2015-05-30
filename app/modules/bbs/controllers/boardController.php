@@ -171,15 +171,17 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'rows' => 8,
                 'maxlength' => 4096,
             ),
+            /**
             'picture' => array(
                 'type' => 'file',
                 'mimetype' => 'image/jpeg',
                 'maxsize' => ini_get('upload_max_filesize'),
                 'targetdir' => PATH_DATA.'board/'.$id
             ),
+             */
             'submit' => array(
                 'type' => 'submit',
-                'value' => $this->lang('link_send')
+                'value' => 'send'
             ),
         );
 

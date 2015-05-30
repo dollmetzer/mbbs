@@ -119,6 +119,24 @@ CREATE TABLE IF NOT EXISTS `mail_attachment` (
   KEY `id` (`mail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `session`
+--
+
+CREATE TABLE IF NOT EXISTS `session` (
+  `id` varchar(32) NOT NULL,
+  `start` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastquery` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_handle` varchar(32) NOT NULL,
+  `area` varchar(255) NOT NULL,
+  `useragent` varchar(255) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Table structure for table `user`
 --

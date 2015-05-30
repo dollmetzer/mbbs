@@ -66,6 +66,7 @@ p a {
     background-image: -ms-linear-gradient(top, #E6E6E6, #CCCCCC);
     background-image: -o-linear-gradient(top, #E6E6E6, #CCCCCC);
     font-size:1em;
+    line-height:2em;
     white-space:nowrap;
 }
 .btn-small {
@@ -81,6 +82,7 @@ p a {
     background-image: -ms-linear-gradient(top, #E6E6E6, #CCCCCC);
     background-image: -o-linear-gradient(top, #E6E6E6, #CCCCCC);
     font-size:1em;
+    line-height:1.5em;
     white-space:nowrap;
 }
 .btn-ok {
@@ -88,6 +90,9 @@ p a {
 }
 .btn-cancel {
     color:#cc0000;
+}
+.btn-inactive {
+    color:#999999;
 }
 
 /**   H E A D E R   **/
@@ -239,12 +244,6 @@ table.maillist td {
     cursor:pointer;
 }
 
-table.striped {
-    margin:0;
-    border:0;
-    padding:0;
-    width:100%;
-}
 table.striped tr:nth-of-type(odd) {
     margin:0;
     background-color:#dddddd;

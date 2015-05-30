@@ -1,9 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
+ * @copyright (c) 2006-2015, Dirk Ollmetzer
+ * @package Application
  */
-
 
 /** Alert Popups **/
 function closeAlert() {

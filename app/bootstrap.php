@@ -6,7 +6,7 @@
  * Loads and runs the application
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2006-2014, Dirk Ollmetzer
+ * @copyright (c) 2006-2015, Dirk Ollmetzer
  * @package Application
  */
 

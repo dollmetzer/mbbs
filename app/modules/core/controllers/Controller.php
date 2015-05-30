@@ -36,6 +36,10 @@ class Controller extends \dollmetzer\zzaplib\Controller {
         $newMails = $mailModel->getNewMailCount($recipient);
         $this->app->view->content['newMails'] = $mailModel->getNewMailCount($recipient);
         
+        if($this->app->config['tracking']['sessiontracking'] === true) {
+            $this->app->session->track($this->app->moduleName.'/'.$this->app->controllerName.'/'.$this->app->actionName);
+        }
+        
     }
     
 }

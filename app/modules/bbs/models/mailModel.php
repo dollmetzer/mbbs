@@ -37,16 +37,18 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
      * 
      * @param string $_fromto 'to', 'from' or 'all'
      * @param string $_username
-     * @param boolean $outbox (default = false)
+     * @param boolean $_outbox (default = false)
+     * @param integer $_first (default = 0)
+     * @param integer $_length (default = 0) If length = 0, then do no pagination
      * @return array
      */
-    public function getMaillist($_fromto, $_username, $outbox = false)
+    public function getMaillist($_fromto, $_username, $_outbox = false, $_first=0, $_length=0)
     {
         if ($_fromto == 'to') {
             $sql = "SELECT * FROM mail WHERE `to`=?";
         } else if ($_fromto == 'from') {
             $sql = "SELECT * FROM mail WHERE `from`=?";
-            if ($outbox !== false) {
+            if ($_outbox !== false) {
                 $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
             }
         } else {
@@ -55,6 +57,11 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
 
         // Standard sorting hardcoded...
         $sql .= ' ORDER BY written DESC';
+        
+        // Pagination
+        if($_length != 0) {
+            $sql .= ' LIMIT '.(int)$_first.', '.(int)$_length;
+        }
 
         $values = array($_username);
         $stmt = $this->app->dbh->prepare($sql);
@@ -62,7 +69,36 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get a list of mails
+     * 
+     * @param string $_fromto 'to', 'from' or 'all'
+     * @param string $_username
+     * @param boolean $_outbox (default = false)
+     * @return integer
+     */
+    public function getMaillistEntries($_fromto, $_username, $_outbox = false)
+    {
+        if ($_fromto == 'to') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `to`=?";
+        } else if ($_fromto == 'from') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `from`=?";
+            if ($_outbox !== false) {
+                $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
+            }
+        } else {
+            $sql = "SELECT COUNT(*) as entries FROM mail";
+        }
 
+        $values = array($_username);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['entries'];
+    }
+
+    
+    
     /**
      * Mark a mail as read
      * 

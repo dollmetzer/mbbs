@@ -3,7 +3,7 @@
  * Configuration for the dev enviroment
  * 
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2006-2014, Dirk Ollmetzer
+ * @copyright (c) 2006-2015, Dirk Ollmetzer
  * @package Application
  */
 
@@ -26,7 +26,7 @@ define('TIMEZONE', 'Europe/Berlin');
 define('DEBUG_REQUEST', false);
 define('DEBUG_SESSION', false);
 define('DEBUG_CONTENT', false);
-define('DEBUG_PERFORMANCE', false);
+define('DEBUG_PERFORMANCE', true);
 define('DEBUG_DB', false);
 
 $config = array(
@@ -47,6 +47,10 @@ $config = array(
     ),
     'register' => array(
         'selfregister' => true,
-        'mailcheck' => false
+        'mailcheck' => false,
+        'invitation' => false,
+    ),
+    'tracking' => array(
+        'sessiontracking' => true
     )
 );

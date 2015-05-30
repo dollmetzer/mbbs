@@ -43,8 +43,24 @@ class wallController extends \Application\modules\core\controllers\Controller
         $this->app->view->content['nav_main'] = 'wall';
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $mailList = $mailModel->getMaillist('to', '!wall');
+        
+        // pagination
+        $listEntries = $mailModel->getMaillistEntries('to', '!wall');
+        $listLength = 10;
+        $page = 0;
+        if(sizeof($this->app->params)>0) {
+            $page = (int)$this->app->params[0]-1;
+        }
+        $maxPages = ceil($listEntries / $listLength);
+        $firstEntry = $page * $listLength;
+        
+        $mailList = $mailModel->getMaillist('to', '!wall', false, $firstEntry, $listLength);
+        
         $this->app->view->content['mails'] = $mailList;
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('bbs/wall/index/%d');
+
     }
 
 
