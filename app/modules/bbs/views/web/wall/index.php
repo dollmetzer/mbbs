@@ -3,20 +3,20 @@
 <div id="inputform" style="display:none;">
     <form action="<?php $this->buildURL('bbs/wall/new'); ?>" name="mailform" method="post" role="form">
     <p>
-        <label for='subject'>Betreff&nbsp;<sup>*</sup></label>
+        <label for='subject'><?php $this->lang('label_subject'); ?>&nbsp;<sup>*</sup></label>
         <input type="text" class="form-control" name="subject" maxlength="80" value="" />
     </p>
     <p>
-        <label for='message'>Nachricht</label>
+        <label for='message'><?php $this->lang('label_message'); ?></label>
         <textarea class="form-control" name="message" rows="8"></textarea>        
     </p>    
     <p>
         <label for='submit'>&nbsp;</label>
-        <a href="#" class="btn btn-ok" onclick="document.mailform.submit();"><i class="fa fa-check"></i> absenden</a>
+        <a href="#" class="btn btn-ok" onclick="document.mailform.submit();"><i class="fa fa-check"></i> <?php $this->lang('link_send'); ?></a>
     </p>
     <p>
-        <label for='submit'>&nbsp;</label>
-        <a href="#" class="btn btn-cancel" onclick="$('#inputswitch').slideToggle('slow');$('#inputform').slideToggle('slow');"><i class="fa fa-times"></i> abbrechen</a>
+        <label for='cancel'>&nbsp;</label>
+        <a href="#" class="btn btn-cancel" onclick="$('#inputswitch').slideToggle('slow');$('#inputform').slideToggle('slow');"><i class="fa fa-times"></i> <?php $this->lang('link_cancel'); ?></a>
     </p>
 </form>
 </div>

@@ -179,7 +179,7 @@ class boardController extends \Application\modules\core\controllers\Controller
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'send'
+                'value' => $this->lang('link_send')
             ),
         );
 
@@ -256,7 +256,7 @@ class boardController extends \Application\modules\core\controllers\Controller
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'send'
+                'value' => $this->lang('link_send')
             ),
         );
 

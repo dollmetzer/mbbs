@@ -25,11 +25,11 @@ if(!empty($content['board']['description'])) {
 <?php foreach($content['themes'] as $theme) { ?>
     <tr onclick="showboard(<?php echo $theme['id']; ?>);">
         <td>
-            <?php if(in_array('administrator', $this->app->session->groups)) { ?>
-            <a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn"><i class="fa fa-pencil"></i></a> 
-            <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn"><i class="fa fa-trash-o"></i></a> 
-            <?php } ?>
             <strong><?php echo $theme['name']; ?></strong><br /><?php echo $theme['description']; ?></a>
+            <?php if(in_array('administrator', $this->app->session->groups)) { ?>
+            <br /><a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn-small"><i class="fa fa-pencil"></i> <?php $this->lang('link_edit'); ?></a> 
+                <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn-small"><i class="fa fa-trash-o"></i> <?php $this->lang('link_delete'); ?></a>
+            <?php } ?>
         </td>
     </tr>
     <?php } ?>

@@ -68,6 +68,21 @@ p a {
     font-size:1em;
     white-space:nowrap;
 }
+.btn-small {
+    margin:0 0 0.5em 0;
+    border:1px solid #444444;
+    border-radius:0.5em;
+    padding:0 0.5em;
+    color: #444444;
+    text-decoration:none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    background-image: -webkit-linear-gradient(top, #E6E6E6, #CCCCCC);
+    background-image: -moz-linear-gradient(top, #E6E6E6, #CCCCCC);
+    background-image: -ms-linear-gradient(top, #E6E6E6, #CCCCCC);
+    background-image: -o-linear-gradient(top, #E6E6E6, #CCCCCC);
+    font-size:1em;
+    white-space:nowrap;
+}
 .btn-ok {
     color:#00cc00;
 }
@@ -248,28 +263,56 @@ table.striped tr:nth-of-type(even) {
     border-bottom:1px solid #444444;
     padding:0.5em 0 0.5em 0;
 }
-label {
-    margin:0;
-    border:0;
-    padding:0;
-    width:33%;
-    display: block;
-    float: left;
+
+@media only screen and (max-width: 400px) { 
+    label {
+        margin:0;
+        border:0;
+        padding:0;
+        display: block;
+        font-weight:bold;
+    }
+    input[type=text],
+    input[type=password],
+    select,
+    textarea {
+        margin:0;
+        border:1px solid #444444;
+        border-radius:0.3em;
+        padding:0.3em;
+        width:90%;
+        display:block;
+        font-size:1em;
+        background:#ffffff;
+        color:#444444;
+    }
 }
-input[type=text],
-input[type=password],
-select,
-textarea {
-    margin:0;
-    border:1px solid #444444;
-    border-radius:0.3em;
-    padding:0.3em;
-    width:66%;
-    display:block;
-    font-size:1em;
-    background:#ffffff;
-    color:#444444;
+
+@media only screen and (min-width: 401px) { 
+    label {
+        margin:0;
+        border:0;
+        padding:0;
+        width:33%;
+        display: block;
+        float: left;
+    }
+    input[type=text],
+    input[type=password],
+    select,
+    textarea {
+        margin:0;
+        border:1px solid #444444;
+        border-radius:0.3em;
+        padding:0.3em;
+        width:60%;
+        display:block;
+        font-size:1em;
+        background:#ffffff;
+        color:#444444;
+    }
 }
+
 input:focus,
 select:focus,
 textarea:focus {

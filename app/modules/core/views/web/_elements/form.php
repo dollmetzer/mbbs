@@ -134,7 +134,7 @@ if (!empty($content['form']['name'])) {
                     if (!empty($field['readonly'])) {
                         echo '" readonly="readonly" onchange="this.selectedIndex = '.$field['value'].';';
                     }
-                    echo '" style="width:auto;">';
+                    echo '">';
                     echo '<option value="">' . $this->lang('form_option_select', false) . '</option>';
                     foreach ($field['options'] as $oVal => $oName) {
                         echo '<option value="' . $oVal;

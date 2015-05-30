@@ -21,7 +21,7 @@ foreach($content['groups'] as $pos=>$group) {
     if(!empty($group['active'])) {
         echo '<p>&nbsp;<a href="#" onclick="deletegroup('.$group['id'];
         echo ')" title="'.$this->lang('link_delete', false);
-        echo '" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-trash"></i></a>&nbsp;'.$group['name'].'</p>';
+        echo '" class="btn-small"><i class="fa fa-trash"></i></a>&nbsp;'.$group['name'].'</p>';
     }
 }
 ?>

@@ -1,5 +1,6 @@
 Changes
 =======
+30.05.2015 - Stopped Javascript Injection, some CSS Upgrades, language snippet corrections
 25.05.2015 - Replaced Bootstrap by own CSS
 01.02.2015 - List of registered users. Click for new mail to recipient from the list
 31.01.2015 - mail reply sets id, parent_id and origin_id
