@@ -2,12 +2,12 @@
 if ($content['pagination_maxpages'] > 1) {
     
     if($content['pagination_page'] > 0) {
-        echo '<p><a href="'.sprintf($content['pagination_link'], 0);
+        echo '<p class="pagination"><a href="'.sprintf($content['pagination_link'], 1);
         echo '" class="btn-small"><i class="fa fa-fast-backward"></i></a>&nbsp;';
         echo '<a href="'.sprintf($content['pagination_link'], $content['pagination_page']);
         echo'" class="btn-small"><i class="fa fa-backward"></i></a>&nbsp;';
     } else {
-        echo '<p><a href="#" class="btn-small btn-inactive"><i class="fa fa-fast-backward"></i></a>&nbsp;';
+        echo '<p class="pagination"><a href="#" class="btn-small btn-inactive"><i class="fa fa-fast-backward"></i></a>&nbsp;';
         echo '<a href="#" class="btn-small btn-inactive"><i class="fa fa-backward"></i></a>&nbsp;';
     }
     

@@ -127,6 +127,17 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         
     }
     
+    
+    public function getListEntries() {
+        
+        $sql = "SELECT COUNT(*) as entries FROM user";
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['entries'];
+        
+    }
+    
 }
 
 ?>

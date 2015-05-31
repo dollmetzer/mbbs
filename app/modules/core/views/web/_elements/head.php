@@ -53,6 +53,11 @@ p a {
     color:#cc0000;
     text-decoration: none;
 }
+p.pagination {
+    margin:0.5em 0;
+    text-align: center;
+    width:100%;
+}
 .btn {
     margin:0 0 0.5em 0;
     border:1px solid #444444;
