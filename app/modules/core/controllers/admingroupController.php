@@ -44,11 +44,26 @@ class admingroupController extends \Application\modules\core\controllers\Control
     {
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        $list = $groupModel->getList();
+        
+        // pagination
+        $listEntries = $groupModel->getListEntries();
+        $listLength = 10;
+        $page = 0;
+        if(sizeof($this->app->params)>0) {
+            $page = (int)$this->app->params[0]-1;
+        }
+        $maxPages = ceil($listEntries / $listLength);
+        $firstEntry = $page * $listLength;
+
+        $list = $groupModel->getList($firstEntry, $listLength);
 
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_group');
         $this->app->view->content['list'] = $list;
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('core/admingroup/index/%d');
+
     }
 
 

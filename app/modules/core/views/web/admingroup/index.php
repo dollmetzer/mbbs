@@ -2,6 +2,8 @@
 
 <p><a href="<?php $this->buildURL('core/admingroup/add'); ?>" class="btn"><i class="fa fa-plus"></i> <?php $this->lang('link_group_add'); ?></a></p>
 
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+
 <table class="maillist striped">
     <thead>
         <tr>
@@ -25,5 +27,7 @@
         <?php } ?>
     </tbody>
 </table>
+
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
 
 <?php include PATH_APP.'/modules/core/views/web/_elements/foot.php'; ?>

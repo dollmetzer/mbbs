@@ -24,13 +24,12 @@ namespace Application\modules\core\models;
  * @subpackage core
  */
 class userModel extends \dollmetzer\zzaplib\DBModel {
-    
+
     /**
      * @var string $tablename Name for standard CRUD
      */
     protected $tablename = 'user';
-    
-    
+
     /**
      * Get a user by his handle
      * 
@@ -82,21 +81,20 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * @return array
      */
     public function getListByGroup($_groupId) {
-        
+
         $sql = "SELECT u.*
                 FROM user_group AS ug 
                 JOIN user AS u ON u.id=ug.user_id
                 WHERE ug.group_id=?
                     AND u.active=1";
         $values = array(
-          $_groupId  
+            $_groupId
         );
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
     }
-    
+
     /**
      * Updates the lastlogin field to NOW
      * 
@@ -113,31 +111,39 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         $stmt->execute($values);
     }
 
-    
-    public function getList($_first=null, $_length=null) {
-                
+    /**
+     * Get a list of users
+     * 
+     * @param integer $_first
+     * @param integer $_length
+     * @return array
+     */
+    public function getList($_first = null, $_length = null) {
+
         $sql = "SELECT * FROM user";
-        if(isset($_first) && isset($_length)) {
-            $sql .= ' LIMIT '.(int)$_first.','.(int)$_length;            
+        if (isset($_first) && isset($_length)) {
+            $sql .= ' LIMIT ' . (int) $_first . ',' . (int) $_length;
         }
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $list = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $list;
-        
     }
-    
-    
+
+    /**
+     * Get the number of entries in a user list
+     * 
+     * @return integer
+     */
     public function getListEntries() {
-        
+
         $sql = "SELECT COUNT(*) as entries FROM user";
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['entries'];
-        
     }
-    
+
 }
 
 ?>
