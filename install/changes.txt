@@ -1,5 +1,6 @@
 Changes
 =======
+02.05.2015 - Added pagination in Board, Mail In and Mail Out
 01.05.2015 - Added pagination in admingroup
 31.05.2015 - Added pagination in adminuser
 30.05.2015 - Added Session Tracking and pagination in the wall

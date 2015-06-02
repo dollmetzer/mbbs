@@ -47,10 +47,25 @@ class mailController extends \Application\modules\core\controllers\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
-        $mailList = $mailModel->getMaillist('to', $username);
-        $this->app->view->content['mails'] = $mailList;
-    }
+        
+        // pagination
+        $listEntries = $mailModel->getMaillistEntries('to', $username);
+        $listLength = 10;
+        $page = 0;
+        if(sizeof($this->app->params)>0) {
+            $page = (int)$this->app->params[0]-1;
+        }
+        $maxPages = ceil($listEntries / $listLength);
+        $firstEntry = $page * $listLength;
 
+        $mailList = $mailModel->getMaillist('to', $username, false, $firstEntry, $listLength);
+        
+        $this->app->view->content['mails'] = $mailList;
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('bbs/mail/in/%d');
+
+    }
 
     /**
      * Show the Mail Outbox
@@ -63,8 +78,24 @@ class mailController extends \Application\modules\core\controllers\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $username = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
-        $mailList = $mailModel->getMaillist('from', $username, true);
+
+        // pagination
+        $listEntries = $mailModel->getMaillistEntries('from', $username, true);
+        $listLength = 10;
+        $page = 0;
+        if(sizeof($this->app->params)>0) {
+            $page = (int)$this->app->params[0]-1;
+        }
+        $maxPages = ceil($listEntries / $listLength);
+        $firstEntry = $page * $listLength;
+
+        $mailList = $mailModel->getMaillist('from', $username, true, $firstEntry, $listLength);
+        
         $this->app->view->content['mails'] = $mailList;
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('bbs/mail/out/%d');
+
     }
 
 

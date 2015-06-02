@@ -10,6 +10,8 @@
 <p><strong><?php $this->lang('msg_no_mails'); ?></strong></p>
 <?php } else { ?>
 
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
@@ -20,6 +22,9 @@
     </tr>
 <?php } ?>
 </table>
+
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+
 <?php } ?>
 
 <script type="text/javascript">

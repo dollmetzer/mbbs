@@ -63,11 +63,24 @@ class boardController extends \Application\modules\core\controllers\Controller
         $themes = $boardModel->getList($id, true);
 
         if ($id != 0) {
-            $theme = $boardModel->read($id);
+            
             // Get Messages for the current Theme
-            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            $theme = $boardModel->read($id);
             $username = '#' . $theme['name'];
-            $mailList = $mailModel->getMaillist('to', $username);
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            
+            // pagination
+            $listEntries = $mailModel->getMaillistEntries('to', $username);
+            $listLength = 10;
+            $page = 0;
+            if(sizeof($this->app->params)>1) {
+                $page = (int)$this->app->params[1]-1;
+            }
+            $maxPages = ceil($listEntries / $listLength);
+            $firstEntry = $page * $listLength;
+
+            $mailList = $mailModel->getMaillist('to', $username, false, $firstEntry, $listLength);
+            
         } else {
             $theme = array();
             $mailList = array();
@@ -78,13 +91,17 @@ class boardController extends \Application\modules\core\controllers\Controller
         } else {
             $this->app->view->content['title'] = sprintf($this->lang('title_board'), $board['name']);
         }
+        $this->app->view->template = 'modules/bbs/views/web/board/index.php';
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['board'] = $board;
         $this->app->view->content['id'] = $id;
         $this->app->view->content['path'] = $path;
         $this->app->view->content['themes'] = $themes;
         $this->app->view->content['mails'] = $mailList;
-        $this->app->view->template = 'modules/bbs/views/web/board/index.php';
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('bbs/board/list/'.$id.'/%d');
+
     }
 
 

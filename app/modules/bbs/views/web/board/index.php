@@ -48,7 +48,9 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
 <br />
 <?php } ?>
 
-<?php if(!empty($content['mails'])) { ?>
+<?php if(!empty($content['mails'])) { 
+    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
+?>
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
@@ -61,7 +63,9 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
     </tr>
 <?php } ?>
 </table>
-<?php } ?>
+<?php 
+    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
+} ?>
 <br />
 
 <script>
