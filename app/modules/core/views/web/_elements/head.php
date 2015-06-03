@@ -384,8 +384,8 @@ textarea:focus {
                         <li><a href="<?php $this->buildURL('core/adminuser'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_admin_user') ?></a></li>
                         <li><a href="<?php $this->buildURL('core/admingroup'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_admin_group') ?></a></li>
                     </ul>
-
                 </li>
+                <li><a href="<?php $this->buildURL('core/adminstats'); ?>"><?php $this->lang('nav_admin_stats'); ?></a></li>
                 <?php } ?>
                 <li<?php if($content['nav_main'] == 'settings') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/settings') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_settings') ?></a></li>
                 <li><a href="<?php $this->buildURL('account/logout') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_logout') ?></a></li>

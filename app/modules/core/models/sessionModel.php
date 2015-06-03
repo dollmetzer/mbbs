@@ -47,5 +47,40 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
     }
+    
+    
+    public function getInfo($_start, $_end='') {
+        
+        if(empty($_end)) {
+            $_end = strftime('%Y-%m-%d 23:59:59', time());
+        }
+        
+        $sql = "SELECT hits, COUNT( * ) 
+                FROM `session` 
+                WHERE START >= ".$this->app->dbh->quote($_start)."
+                AND START <= ".$this->app->dbh->quote($_end)."
+                    GROUP BY hits";
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+    }
+    
+    public function getUseragents($_start, $_end='') {
+
+        if(empty($_end)) {
+            $_end = strftime('%Y-%m-%d 23:59:59', time());
+        }
+        
+        $sql = "SELECT useragent, COUNT( * ) 
+                FROM `session` 
+                WHERE START >= ".$this->app->dbh->quote($_start)."
+                AND START <= ".$this->app->dbh->quote($_end)."
+                    GROUP BY useragent";
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+    }
 
 }
