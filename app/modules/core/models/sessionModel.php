@@ -48,7 +48,13 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
         $stmt->execute();
     }
     
-    
+    /**
+     * Get basic info about sessions
+     * 
+     * @param string $_start (fomat: DB Datetime)
+     * @param string $_end
+     * @return array
+     */
     public function getInfo($_start, $_end='') {
         
         if(empty($_end)) {
@@ -67,6 +73,13 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
         
     }
     
+    /**
+     * Get info about used useragents
+     * 
+     * @param string $_start (fomat: DB Datetime)
+     * @param string $_end
+     * @return array
+     */
     public function getUseragents($_start, $_end='') {
 
         if(empty($_end)) {

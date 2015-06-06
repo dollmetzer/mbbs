@@ -33,7 +33,7 @@ class adminstatsController extends \Application\modules\core\controllers\Control
     );
     
     /**
-     * Display some basic statistics
+     * Display some basic statistics of the last 7 days
      */
     public function indexAction() {
         
@@ -42,8 +42,8 @@ class adminstatsController extends \Application\modules\core\controllers\Control
         $until = strftime('%Y-%m-%d 23:59:59', time());
         
         $sessionModel = new \Application\modules\core\models\sessionModel($this->app);
-        $sessionInfo = $sessionModel->getInfo($from);
-        $userAgents = $sessionModel->getUseragents($from);
+        $sessionInfo = $sessionModel->getInfo($from, $until);
+        $userAgents = $sessionModel->getUseragents($from, $until);
 
         $this->app->view->content['nav_main'] = 'statistics';
         $this->app->view->content['title'] = $this->lang('title_admin_stats');
