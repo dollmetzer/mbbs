@@ -38,17 +38,19 @@ class adminstatsController extends \Application\modules\core\controllers\Control
     public function indexAction() {
         
         $days = 7;
-        $then = strftime('%Y-%m-%d 00:00:00', time()-86400*$days);
+        $from = strftime('%Y-%m-%d 00:00:00', time()-86400*$days);
+        $until = strftime('%Y-%m-%d 23:59:59', time());
         
         $sessionModel = new \Application\modules\core\models\sessionModel($this->app);
-        $sessionInfo = $sessionModel->getInfo($then);
-        echo "Session Info<pre>\n";
-        print_r($sessionInfo);
-        echo "\nUser Agents:\n";
-        $userAgents = $sessionModel->getUseragents($then);
-        print_r($userAgents);
-        die();
-        
+        $sessionInfo = $sessionModel->getInfo($from);
+        $userAgents = $sessionModel->getUseragents($from);
+
+        $this->app->view->content['nav_main'] = 'statistics';
+        $this->app->view->content['title'] = $this->lang('title_admin_stats');
+        $this->app->view->content['from']= $from;
+        $this->app->view->content['until']= $until;
+        $this->app->view->content['session_info'] = $sessionInfo;
+        $this->app->view->content['user_agents'] = $userAgents;
         
     }
     

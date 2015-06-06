@@ -1,5 +1,6 @@
 Changes
 =======
+06.05.2015 - Finished small statistics for admin
 03.05.2015 - Started small statistics for admin
 02.05.2015 - Added pagination in Board, Mail In and Mail Out
 01.05.2015 - Added pagination in admingroup

@@ -55,11 +55,12 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
             $_end = strftime('%Y-%m-%d 23:59:59', time());
         }
         
-        $sql = "SELECT hits, COUNT( * ) 
+        $sql = "SELECT hits, COUNT( * ) AS number
                 FROM `session` 
                 WHERE START >= ".$this->app->dbh->quote($_start)."
                 AND START <= ".$this->app->dbh->quote($_end)."
-                    GROUP BY hits";
+                    GROUP BY hits 
+                    ORDER BY number desc";
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -72,11 +73,12 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
             $_end = strftime('%Y-%m-%d 23:59:59', time());
         }
         
-        $sql = "SELECT useragent, COUNT( * ) 
+        $sql = "SELECT useragent, COUNT( * ) AS sessions
                 FROM `session` 
                 WHERE START >= ".$this->app->dbh->quote($_start)."
                 AND START <= ".$this->app->dbh->quote($_end)."
-                    GROUP BY useragent";
+                    GROUP BY useragent
+                    ORDER BY sessions desc";
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
