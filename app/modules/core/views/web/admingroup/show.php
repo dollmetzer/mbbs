@@ -1,6 +1,6 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
-<table class="table table-striped">
+<table class="maillist striped">
     <tbody>
     <tr>
         <td><strong><?php $this->lang('table_col_name') ?></strong></td>

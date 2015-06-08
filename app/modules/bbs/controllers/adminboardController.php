@@ -76,7 +76,7 @@ class adminboardController extends \Application\modules\core\controllers\Control
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'change'
+                'value' => $this->lang('link_save')
             )
         );
 
@@ -148,7 +148,7 @@ class adminboardController extends \Application\modules\core\controllers\Control
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'change'
+                'value' => $this->lang('link_save')
             )
         );
         if ($boardEntries > 0) {

@@ -63,11 +63,24 @@ class boardController extends \Application\modules\core\controllers\Controller
         $themes = $boardModel->getList($id, true);
 
         if ($id != 0) {
-            $theme = $boardModel->read($id);
+            
             // Get Messages for the current Theme
-            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            $theme = $boardModel->read($id);
             $username = '#' . $theme['name'];
-            $mailList = $mailModel->getMaillist('to', $username);
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            
+            // pagination
+            $listEntries = $mailModel->getMaillistEntries('to', $username);
+            $listLength = 10;
+            $page = 0;
+            if(sizeof($this->app->params)>1) {
+                $page = (int)$this->app->params[1]-1;
+            }
+            $maxPages = ceil($listEntries / $listLength);
+            $firstEntry = $page * $listLength;
+
+            $mailList = $mailModel->getMaillist('to', $username, false, $firstEntry, $listLength);
+            
         } else {
             $theme = array();
             $mailList = array();
@@ -78,13 +91,17 @@ class boardController extends \Application\modules\core\controllers\Controller
         } else {
             $this->app->view->content['title'] = sprintf($this->lang('title_board'), $board['name']);
         }
+        $this->app->view->template = 'modules/bbs/views/web/board/index.php';
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['board'] = $board;
         $this->app->view->content['id'] = $id;
         $this->app->view->content['path'] = $path;
         $this->app->view->content['themes'] = $themes;
         $this->app->view->content['mails'] = $mailList;
-        $this->app->view->template = 'modules/bbs/views/web/board/index.php';
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('bbs/board/list/'.$id.'/%d');
+
     }
 
 
@@ -171,6 +188,14 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'rows' => 8,
                 'maxlength' => 4096,
             ),
+            /**
+            'picture' => array(
+                'type' => 'file',
+                'mimetype' => 'image/jpeg',
+                'maxsize' => ini_get('upload_max_filesize'),
+                'targetdir' => PATH_DATA.'board/'.$id
+            ),
+             */
             'submit' => array(
                 'type' => 'submit',
                 'value' => 'send'
@@ -191,6 +216,12 @@ class boardController extends \Application\modules\core\controllers\Controller
             );
             $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
             $mailId = $mailModel->create($data);
+            
+            if(!empty($_FILES['picture']['type'])) {
+                $this->processPicture($_FILES['picture'], $mailId);
+            }
+            
+
 
             $this->app->forward($this->buildURL('bbs/board/list/' . $id), $this->lang('msg_post_sent'), 'message');
         }
@@ -244,7 +275,7 @@ class boardController extends \Application\modules\core\controllers\Controller
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'send'
+                'value' => $this->lang('link_send')
             ),
         );
 
@@ -272,6 +303,41 @@ class boardController extends \Application\modules\core\controllers\Controller
         $this->app->view->content['nav_main'] = 'board';
     }
 
+    
+    protected function processPicture($_files, $_id) {
+        
+        // error_log("process picture $_id" . print_r($_files, true));
+        
+        echo "<pre>";
+        print_r($_files);
+        die("Save to ".$targetFile);
+        
+// check type
+        if(!in_array($_files['type'], array('image/jpeg'))) {
+            return 1;
+        }
+        
+        // check size
+        
+        // check error
+        
+        // check ist upload
+        $targetFile = PATH_DATA.'picture/mail/';
+        if(!is_dir($targetFile)) {
+            mkdir($targetFile);
+            chmod($targetFile, 0775);
+        }
+        $temp = explode('.', $_files['name']);
+        $targetFile .= $_id . '.' . array_pop($temp);
+        if(!move_uploaded_file($_files['tmp_name'], $targetFile)) {
+            return 4;
+        }
+        
+        echo "<pre>";
+        print_r($_files);
+        die("Save to ".$targetFile);
+    }
+    
 }
 
 ?>

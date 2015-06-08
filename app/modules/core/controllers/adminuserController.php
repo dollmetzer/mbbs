@@ -47,11 +47,26 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         $userModel = new \Application\modules\core\models\userModel($this->app);
-        $list = $userModel->getList();
+        
+        // pagination
+        $listEntries = $userModel->getListEntries();
+        $listLength = 10;
+        $page = 0;
+        if(sizeof($this->app->params)>0) {
+            $page = (int)$this->app->params[0]-1;
+        }
+        $maxPages = ceil($listEntries / $listLength);
+        $firstEntry = $page * $listLength;
+        
+        $list = $userModel->getList($firstEntry, $listLength);
 
         $this->app->view->content['nav_main'] = 'admin';
         $this->app->view->content['title'] = $this->lang('title_admin_user');
         $this->app->view->content['list'] = $list;
+        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['pagination_maxpages'] = $maxPages;
+        $this->app->view->content['pagination_link'] = $this->buildURL('core/adminuser/index/%d');
+        
     }
 
 
@@ -223,6 +238,12 @@ class adminuserController extends \Application\modules\core\controllers\Controll
                     'created' => strftime('%Y-%m-%d %H:%M:%S', time())
                 );
                 $uid = $userModel->create($newValues);
+                
+                // add user to standard user group
+                $groupModel = new \Application\modules\core\models\groupModel($this->app);
+                $group = $groupModel->getByName('user');
+                $groupModel->setUserGroup($uid, $group['id']);
+                
                 $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_added'), 'notice');
             } else {
                 $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');

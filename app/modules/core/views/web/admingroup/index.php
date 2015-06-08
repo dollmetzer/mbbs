@@ -1,7 +1,10 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
-<a href="<?php $this->buildURL('core/admingroup/add'); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> <?php $this->lang('link_group_add'); ?></a><br />
-<table class="table table-striped">
+<p><a href="<?php $this->buildURL('core/admingroup/add'); ?>" class="btn"><i class="fa fa-plus"></i> <?php $this->lang('link_group_add'); ?></a></p>
+
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+
+<table class="maillist striped">
     <thead>
         <tr>
             <th><?php $this->lang('table_col_name'); ?></th>
@@ -12,9 +15,9 @@
         <?php foreach($content['list'] as $entry) { ?>
         <tr onclick="location.href='<?php $this->buildURL('core/admingroup/show/'.$entry['id']); ?>';" style="cursor: pointer;">
             <td><?php if(empty($entry['active'])) { ?>
-                <span class="glyphicon glyphicon-ban-circle"></span>
+                <i class="fa fa-ban"></i>
             <?php } else { ?>
-                <span class="glyphicon glyphicon-ok-circle"></span>
+                <i class="fa fa-check"></i>
             <?php }
                 echo $entry['name'] 
             ?>
@@ -24,5 +27,7 @@
         <?php } ?>
     </tbody>
 </table>
+
+<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
 
 <?php include PATH_APP.'/modules/core/views/web/_elements/foot.php'; ?>

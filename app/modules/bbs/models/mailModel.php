@@ -23,30 +23,29 @@ namespace Application\modules\bbs\models;
  * @package Application
  * @subpackage bbs
  */
-class mailModel extends \dollmetzer\zzaplib\DBModel
-{
+class mailModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * @var string $tablename Name for standard CRUD
      */
     protected $tablename = 'mail';
 
-
     /**
      * Get a list of mails
      * 
      * @param string $_fromto 'to', 'from' or 'all'
      * @param string $_username
-     * @param boolean $outbox (default = false)
+     * @param boolean $_outbox (default = false)
+     * @param integer $_first (default = 0)
+     * @param integer $_length (default = 0) If length = 0, then do no pagination
      * @return array
      */
-    public function getMaillist($_fromto, $_username, $outbox = false)
-    {
+    public function getMaillist($_fromto, $_username, $_outbox = false, $_first = 0, $_length = 0) {
         if ($_fromto == 'to') {
             $sql = "SELECT * FROM mail WHERE `to`=?";
         } else if ($_fromto == 'from') {
             $sql = "SELECT * FROM mail WHERE `from`=?";
-            if ($outbox !== false) {
+            if ($_outbox !== false) {
                 $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
             }
         } else {
@@ -56,26 +55,55 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         // Standard sorting hardcoded...
         $sql .= ' ORDER BY written DESC';
 
+        // Pagination
+        if ($_length != 0) {
+            $sql .= ' LIMIT ' . (int) $_first . ', ' . (int) $_length;
+        }
+
         $values = array($_username);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Get a number of entries of a list of mails
+     * 
+     * @param string $_fromto 'to', 'from' or 'all'
+     * @param string $_username
+     * @param boolean $_outbox (default = false)
+     * @return integer
+     */
+    public function getMaillistEntries($_fromto, $_username, $_outbox = false) {
+        if ($_fromto == 'to') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `to`=?";
+        } else if ($_fromto == 'from') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `from`=?";
+            if ($_outbox !== false) {
+                $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
+            }
+        } else {
+            $sql = "SELECT COUNT(*) as entries FROM mail";
+        }
+
+        $values = array($_username);
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute($values);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['entries'];
+    }
 
     /**
      * Mark a mail as read
      * 
      * @param integer $_id
      */
-    public function markRead($_id)
-    {
+    public function markRead($_id) {
 
         $sql = "UPDATE mail SET `read`='" . strftime('%Y-%m-%d %H:%M:%S', time()) . "' WHERE id=" . $_id;
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
     }
-
 
     /**
      * Get the number of unread mails of a recipient
@@ -83,8 +111,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
      * @param string $_recipient
      * @return integer
      */
-    public function getNewMailCount($_recipient)
-    {
+    public function getNewMailCount($_recipient) {
 
         $sql = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
         $values = array($_recipient);
@@ -95,7 +122,6 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         return $result['newmails'];
     }
 
-
     /**
      * Fetch a list of mails for export to a certain host
      * 
@@ -103,8 +129,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
      * @param string $_datetime
      * @return array
      */
-    public function collectExport($_host, $_datetime)
-    {
+    public function collectExport($_host, $_datetime) {
 
         // first get all board entries since datetime
         $sql = "SELECT mid, `from`, `to`, written, subject, message 
@@ -131,15 +156,13 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         return array_merge($boardMails, $privateMails);
     }
 
-
     /**
      * Find a mail by its mid (Mail ID)
      * 
      * @param integer $_mid
      * @return array
      */
-    public function findByMid($_mid)
-    {
+    public function findByMid($_mid) {
 
         $sql = "SELECT * FROM mail WHERE mid LIKE " . $this->app->dbh->quote($_mid);
         $stmt = $this->app->dbh->prepare($sql);
@@ -147,15 +170,13 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-
     /**
      * Enhanced create also fills the mid (Mail ID) automatically
      * 
      * @param array $_data Array of key=>value pairs.
      * @return integer Internal ID of the mail
      */
-    public function create($_data)
-    {
+    public function create($_data) {
 
         $id = parent::create($_data);
         $mid = $this->app->config['systemname'] . '_' . $id;

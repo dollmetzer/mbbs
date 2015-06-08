@@ -16,38 +16,41 @@ if(!empty($content['board']['description'])) {
 </p>
 
 <?php if(!empty($content['board']['content'])) { ?>
-<p><a href="<?php echo $this->buildURL('bbs/board/new/'.$content['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-in"></span> <?php $this->lang('btn_new_article'); ?></a></p>
+<p><a href="<?php echo $this->buildURL('bbs/board/new/'.$content['id']); ?>" class="btn"><i class="fa fa-pencil"></i>
+ <?php $this->lang('btn_new_article'); ?></a></p>
 <?php } ?>
+
+<?php
+if(in_array('administrator', $this->app->session->groups) && empty($content['board']['content'])) {
+    echo '<p><a href="';
+    echo $this->buildURL('bbs/adminboard/add/'.$content['id']);
+    echo '" class="btn btn-default btn-xs">';
+    echo '<i class="fa fa-plus"></i> ';
+    $this->lang('link_board_add');
+    echo "</a></p>\n";
+}
+?>
 
 <?php if(!empty($content['themes'])) { ?>
 <table class="maillist striped">
 <?php foreach($content['themes'] as $theme) { ?>
     <tr onclick="showboard(<?php echo $theme['id']; ?>);">
         <td>
-            <?php if(in_array('administrator', $this->app->session->groups)) { ?>
-            <a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a> 
-            <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a> 
-            <?php } ?>
             <strong><?php echo $theme['name']; ?></strong><br /><?php echo $theme['description']; ?></a>
+            <?php if(in_array('administrator', $this->app->session->groups)) { ?>
+            <br /><a href="<?php $this->buildURL('bbs/adminboard/edit/'.$theme['id']); ?>" class="btn-small"><i class="fa fa-pencil"></i> <?php $this->lang('link_edit'); ?></a> 
+                <a href="<?php $this->buildURL('bbs/adminboard/delete/'.$theme['id']); ?>" class="btn-small"><i class="fa fa-trash-o"></i> <?php $this->lang('link_delete'); ?></a>
+            <?php } ?>
         </td>
     </tr>
     <?php } ?>
 </table>
 <br />
-<?php 
-} 
+<?php } ?>
 
-if(in_array('administrator', $this->app->session->groups) && empty($content['board']['content'])) {
-    echo '<p><a href="';
-    echo $this->buildURL('bbs/adminboard/add/'.$content['id']);
-    echo '" class="btn btn-default btn-xs">';
-    echo '<span class="glyphicon glyphicon-plus"></span> ';
-    $this->lang('link_board_add');
-    echo "</a></p>\n";
-}
+<?php if(!empty($content['mails'])) { 
+    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
 ?>
-
-<?php if(!empty($content['mails'])) { ?>
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
@@ -60,7 +63,9 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
     </tr>
 <?php } ?>
 </table>
-<?php } ?>
+<?php 
+    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
+} ?>
 <br />
 
 <script>

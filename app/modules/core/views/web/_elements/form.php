@@ -19,7 +19,7 @@ if(!empty($content['form']['action'])) {
 if (!empty($content['form']['name'])) {
     echo ' name="' . $content['form']['name'] . '" ';
 }
-?> method="post" role="form">
+?> enctype="multipart/form-data" method="post" role="form">
 <?php
     $hasRequired = false;
     // all hidden fields on top
@@ -41,13 +41,12 @@ if (!empty($content['form']['name'])) {
             }
             
             if (!empty($field['error'])) {
-                echo "<div class='form-group has-error'>\n";
+                echo "<p class='error'>\n";
                 echo '<label>&nbsp;</label>';
                 echo '<span class="help-block">' . $field['error'] . "</span>";
-                echo "</div>";
-                echo "<div class='form-group has-error'>\n";
+                echo "<br />";
             } else {
-                echo "<div class='form-group'>\n";
+                echo "<p>\n";
             }
 
             if ($field['type'] != 'divider') {
@@ -62,7 +61,7 @@ if (!empty($content['form']['name'])) {
             switch ($field['type']) {
                 case 'text':
                 case 'integer':
-                    echo '<input type="text" class="form-control" name="';
+                    echo '<input type="text" name="';
                     echo $name . '" ';
                     if (!empty($field['readonly'])) {
                         echo 'readonly="readonly" ';
@@ -77,7 +76,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'password':
-                    echo '<input type="password" class="form-control"  name="';
+                    echo '<input type="password" name="';
                     echo $name . '" ';
                     if (!empty($field['maxlength'])) {
                         echo 'maxlength="' . $field['maxlength'] . '" ';
@@ -86,31 +85,31 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'range':
-                    echo '<input type="range" class="form-control"  name="';
+                    echo '<input type="range" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" style="width:auto;" />';
                     break;
 
                 case 'date':
-                    echo '<input type="date" class="form-control"  name="';
+                    echo '<input type="date" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'email':
-                    echo '<input type="email" class="form-control"  name="';
+                    echo '<input type="email" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'url':
-                    echo '<input type="url" class="form-control"  name="';
+                    echo '<input type="url" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'number':
-                    echo '<input type="number" class="form-control"  name="';
+                    echo '<input type="number" name="';
                     echo $name . '" ';
                     if (!empty($field['min'])) {
                         echo 'min="' . $field['min'] . '" ';
@@ -125,17 +124,17 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'color':
-                    echo '<input type="color" class="form-control"  name="';
+                    echo '<input type="color" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'select':
-                    echo '<select class="form-control" name="' . $name;
+                    echo '<select name="' . $name;
                     if (!empty($field['readonly'])) {
                         echo '" readonly="readonly" onchange="this.selectedIndex = '.$field['value'].';';
                     }
-                    echo '" style="width:auto;">';
+                    echo '">';
                     echo '<option value="">' . $this->lang('form_option_select', false) . '</option>';
                     foreach ($field['options'] as $oVal => $oName) {
                         echo '<option value="' . $oVal;
@@ -167,7 +166,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'textarea':
-                    echo '<textarea class="form-control" name="' . $name;
+                    echo '<textarea name="' . $name;
                     if (!empty($field['rows'])) {
                         echo '" rows="' . $field['rows'];
                     }
@@ -179,7 +178,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'datetime-local':
-                    echo '<input type="datetime" class="form-control" name="';
+                    echo '<input type="datetime" name="';
                     echo $name . '" ';
                     if (!empty($field['readonly'])) {
                         echo 'readonly="readonly" ';
@@ -188,12 +187,12 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'submit':
-                    echo '<input type="submit" class="btn btn-primary" name="'.$name;
+                    echo '<input type="submit" class="btn" name="'.$name;
                     echo '" value="'.$this->lang('form_submit_' . $field['value'], false).'">';
                     break;
 
                 case 'static':
-                    echo '<p class="form-control-static">' . $field['value'] . "</p>\n";
+                    echo '<p>' . $field['value'] . "</p>\n";
                     break;
 
                 case 'divider':
@@ -203,16 +202,20 @@ if (!empty($content['form']['name'])) {
                 case 'hidden':
                     // skip. We had hidden fields already on the top
                     break;
+                
+                case 'file':
+                    echo '<input type="file" name="'.$name.'" />';
+                    break;
 
                 default:
-                    echo '<p class="form-control-static">' . $this->lang('form_error_type', false) . "</p>\n";
+                    echo '<p>' . $this->lang('form_error_type', false) . "</p>\n";
             }
-            echo "</div>\n";
+            echo "</p>\n";
         }
     }
     
     if ($hasRequired === true) {
-        echo "<div class='form-group'><p>" . $this->lang('form_has_required', false) . "</p></div>\n";
+        echo "<p>" . $this->lang('form_has_required', false) . "</p>\n";
     }
 ?>
 </form>

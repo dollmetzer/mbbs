@@ -28,6 +28,8 @@ class indexController extends \Application\modules\core\controllers\Controller
 
     /**
      * The Startpage
+     * 
+     * Forwards to login screen or - if user is already logged in - to the wall
      */
     public function indexAction()
     {
@@ -35,7 +37,10 @@ class indexController extends \Application\modules\core\controllers\Controller
         $this->app->view->content['nav_main'] = 'home';
         if ($this->app->session->user_id != 0) {
             $this->forward($this->buildURL('bbs/wall'));
+        } else {
+            $this->forward($this->buildURL('account/login'));
         }
+        
     }
 
     /**
@@ -46,6 +51,7 @@ class indexController extends \Application\modules\core\controllers\Controller
 
         $this->app->view->content['title'] = $this->lang('title_imprint');
         $this->app->view->content['nav_main'] = 'imprint';
+        
     }
 
 }

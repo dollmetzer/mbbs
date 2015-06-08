@@ -1,5 +1,13 @@
 Changes
 =======
+06.05.2015 - Finished small statistics for admin
+03.05.2015 - Started small statistics for admin
+02.05.2015 - Added pagination in Board, Mail In and Mail Out
+01.05.2015 - Added pagination in admingroup
+31.05.2015 - Added pagination in adminuser
+30.05.2015 - Added Session Tracking and pagination in the wall
+30.05.2015 - Stopped Javascript Injection, some CSS Upgrades, language snippet corrections
+25.05.2015 - Replaced Bootstrap by own CSS
 01.02.2015 - List of registered users. Click for new mail to recipient from the list
 31.01.2015 - mail reply sets id, parent_id and origin_id
 03.01.2015 - introduce protected groups

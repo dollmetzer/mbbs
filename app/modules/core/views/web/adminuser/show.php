@@ -1,6 +1,6 @@
 <?php include PATH_APP.'/modules/core/views/web/_elements/head.php'; ?>
 
-<table class="table table-striped">
+<table class="maillist striped">
     <tbody>
     <tr>
         <td><strong><?php $this->lang('table_col_handle') ?></strong></td>
@@ -36,17 +36,12 @@
             }
         ?></td>
     </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td><a href="<?php $this->buildURL('core/adminuser/edit/'.$content['user']['id']); ?>" class="btn btn-default"><?php $this->lang('link_edit'); ?></a></td>
-    </tr>
-    <?php if($content['user']['lastlogin'] == '0000-00-00 00:00:00') { ?>
-    <tr>
-        <td>&nbsp;</td>
-        <td><a href="<?php $this->buildURL('core/adminuser/delete/'.$content['user']['id']); ?>" class="btn btn-default"><?php $this->lang('link_delete'); ?></a></td>
-    </tr>
-    <?php } ?>
     </tbody>
 </table>
-
+<p>&nbsp;</p>
+<p><a href="<?php $this->buildURL('core/adminuser/edit/'.$content['user']['id']); ?>" class="btn"><i class="fa fa-pencil"></i> <?php $this->lang('link_edit'); ?></a>
+<?php if($content['user']['lastlogin'] == '0000-00-00 00:00:00') { ?>
+<a href="<?php $this->buildURL('core/adminuser/delete/'.$content['user']['id']); ?>" class="btn"><?php $this->lang('link_delete'); ?></a></td>
+<?php } ?></p>
+    
 <?php include PATH_APP.'/modules/core/views/web/_elements/foot.php'; ?>

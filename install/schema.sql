@@ -14,6 +14,8 @@ SET time_zone = "+00:00";
 -- Database: `mbbs`
 --
 
+CREATE DATABASE IF NOT EXISTS mbbs CHARACTER SET UTF8;
+
 -- --------------------------------------------------------
 
 --
@@ -106,6 +108,36 @@ CREATE TABLE IF NOT EXISTS `mail` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `mail_attachment`
+--
+
+CREATE TABLE IF NOT EXISTS `mail_attachment` (
+  `mail_id` int(10) unsigned NOT NULL,
+  `sort` int(10) unsigned NOT NULL,
+  `type` enum('image','audio','video') NOT NULL DEFAULT 'image',
+  `path` varchar(32) NOT NULL,
+  KEY `id` (`mail_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `session`
+--
+
+CREATE TABLE IF NOT EXISTS `session` (
+  `id` varchar(32) NOT NULL,
+  `start` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastquery` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_handle` varchar(32) NOT NULL,
+  `area` varchar(255) NOT NULL,
+  `useragent` varchar(255) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `user`
 --
 
@@ -154,6 +186,12 @@ INSERT INTO `user_group` (`user_id`, `group_id`) VALUES
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints der Tabelle `mail_attachment`
+--
+ALTER TABLE `mail_attachment`
+  ADD CONSTRAINT `fk_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_group`
