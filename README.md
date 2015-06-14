@@ -27,10 +27,10 @@ To install mbbs, type in the following commands:
 
 To setup your configuration, go to app/ and type
 
-  mv config_mbbs.php config_yourdomain.php
+  mv config_mbbs.php config.php
 
-where 'yourdomain' ist the domain name of your webserver.
-Now, edit the config.php file and change the Database settings in $config->db->slave.
+Now, edit the config.php file and change the Database settings in $config->db->slave
+and $config->systemname.
 
 To install the database go into install/ and type
 
@@ -41,4 +41,10 @@ To install the database go into install/ and type
   
   mysql -uusername -ppassword mbbs < schema.sql
 
+Now you should have a working ebvireoment. Enter the application, and login with
+the following credentials:
 
+  name : admin
+  password : admin
+
+The first thing you should do ist change your password under "settings".
