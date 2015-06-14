@@ -1,5 +1,7 @@
 Changes
 =======
+14.06.2015 - Adminuser: Usability and security improvements
+14.06.2015 - Mail Read: Show different buttons for incoming and outgoing mails
 06.05.2015 - Finished small statistics for admin
 03.05.2015 - Started small statistics for admin
 02.05.2015 - Added pagination in Board, Mail In and Mail Out

@@ -124,8 +124,15 @@ class mailController extends \Application\modules\core\controllers\Controller
             $mailModel->markRead($mail['id']);
         }
 
-        $this->app->view->content['title'] = $this->lang('title_mail_read');
+        if(strtolower($mail['from']) == strtolower($username)) {
+            $this->app->view->content['title'] = $this->lang('title_mail_read_outgoing');    
+        } else {
+            $this->app->view->content['title'] = $this->lang('title_mail_read_incoming');    
+        }
+        
+        
         $this->app->view->content['nav_main'] = 'mail';
+        $this->app->view->content['username'] = $username;
         $this->app->view->content['mail'] = $mail;
     }
 

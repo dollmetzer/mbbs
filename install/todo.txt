@@ -20,10 +20,8 @@ transfer - unpack and import messages
 Immediate
 =========
 
-Post lesen: Erkennen, ob Post im Ein- oder Ausgang. 
-Entsprechend die Buttons ändern, und reply deaktivieren - auch im Controller
-
-Paginierung in allen Listenansichten
+Outbox des Senders von Inbox des Empfängers trennen, damit die Outbox geleert
+werden kann.
 
 Forum schreiben: Formular zum Aufklappen in die Übersicht integrieren, genau
 wie in der Wall. Am besten Template sharen.
@@ -32,6 +30,3 @@ Navigation 3. Ebene überlegen. Die Buttons sind suboptimal.
 Die Navigation sollte ohnehin aus Array aufgebaut werden
 
 Administration: Backlink von Detailview auf Übersicht bei User und Group
-
-
-

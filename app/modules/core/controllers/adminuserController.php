@@ -327,6 +327,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         $uid = (int) $this->app->params[0];
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
+        // check, if there is at least one group left after deleting.
+        if(sizeof($groupModel->getUserGroups($uid)) < 2) {
+            $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('error_group_delete'), 'error');
+        }
+        
         $groupModel->deleteUserGroup($uid, $gid);
 
         $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('msg_user_groupdelete'), 'message');
