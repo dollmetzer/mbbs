@@ -30,7 +30,7 @@ To setup your configuration, go to app/ and type
   mv config_mbbs.php config.php
 
 Now, edit the config.php file and change the Database settings in $config->db->slave
-and $config->systemname.
+and $config->core->name.
 
 To install the database go into install/ and type
 

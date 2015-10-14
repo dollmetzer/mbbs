@@ -39,4 +39,8 @@
     <tr><td colspan="2"><hr /></td></tr>
 </table>
 
+<?php if($content['picture'] === true) { ?>
+<p><img src="<?php $this->buildURL('bbs/mail/img/'.$content['mail']['id']); ?>" style="width:100%;" /></p>
+<?php } ?>
+
 <?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>

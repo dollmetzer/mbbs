@@ -2,9 +2,9 @@
 
 /**
  * CORE - Web Application Core Elements
- * 
+ *
  * Typical Elements for every Web Application
- * 
+ *
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
  * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
@@ -17,7 +17,7 @@ namespace Application\modules\core\models;
  * Group Model
  *
  * Methods for accessing the group table in the DB
- * 
+ *
  * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
  * @copyright (c) 2014-2015, Dirk Ollmetzer
  * @package Application
@@ -32,7 +32,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Get a list of all groups for a certain user
-     *  
+     *
      * @param integer $_userId
      * @return array
      */
@@ -51,7 +51,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Get a group by its name
-     * 
+     *
      * @param string $_name
      * @return array
      */
@@ -66,7 +66,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Get a list of groups
-     * 
+     *
      * @param integer $_first
      * @param integer $_length
      * @return array
@@ -85,7 +85,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Get the number of entries in a group list
-     * 
+     *
      * @return integer
      */
     public function getListEntries() {
@@ -99,14 +99,14 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Attach a user to a group
-     * 
+     *
      * @param integer $_userId
      * @param integer $_groupId
      */
     public function setUserGroup($_userId, $_groupId) {
 
         $sql = "INSERT INTO `user_group` (
-                    user_id, 
+                    user_id,
                     group_id
                 ) VALUES (
                     ?,
@@ -119,7 +119,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Add a user to a group
-     * 
+     *
      * @param type $_userId
      * @param type $_groupId
      */
@@ -140,7 +140,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
 
     /**
      * Delete a user from a group
-     * 
+     *
      * @param type $_userId
      * @param type $_groupId
      */

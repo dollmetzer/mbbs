@@ -136,7 +136,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
                 FROM mail 
                 WHERE `to` LIKE '#%' 
                     AND written > '" . $_datetime . "'
-                    AND mid LIKE '" . $this->app->config['systemname'] . "_%'";
+                    AND mid LIKE '" . $this->app->config['core']['name'] . "_%'";
 
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
@@ -147,7 +147,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
                 FROM mail 
                 WHERE `to` LIKE '%@$_host' 
                     AND written > '" . $_datetime . "'
-                    AND mid LIKE '" . $this->app->config['systemname'] . "_%'";
+                    AND mid LIKE '" . $this->app->config['core']['name'] . "_%'";
 
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
@@ -179,7 +179,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
     public function create($_data) {
 
         $id = parent::create($_data);
-        $mid = $this->app->config['systemname'] . '_' . $id;
+        $mid = $this->app->config['core']['name'] . '_' . $id;
         $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
         if (empty($_data['origin_mid'])) {
             $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . ", origin_mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;

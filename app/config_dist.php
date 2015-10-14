@@ -30,7 +30,7 @@ define('DEBUG_PERFORMANCE', false);
 define('DEBUG_DB', false);
 
 $config = array(
-    'systemname' => 'mbbs',
+
     'languages' => array(
         'de',
         'en'

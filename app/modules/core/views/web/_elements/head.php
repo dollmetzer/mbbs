@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>mBBS<?php if(!empty($content['title'])) echo ' - '.$content['title']; ?></title>
+        <title><?php 
+            echo $this->app->config['core']['title'] ;
+            if(!empty($content['title'])) echo ' - '.$content['title']; 
+        ?></title>
         
         <link rel="icon" href="<?php $this->buildMediaURL('/img/favicon.ico'); ?>">
         <link rel="stylesheet" href="<?php $this->buildMediaURL('/css/font-awesome.css'); ?>">
@@ -267,7 +270,12 @@ table.striped tr:nth-of-type(even) {
     border-bottom:1px solid #444444;
     padding:0.5em 0 0.5em 0;
 }
-
+p.error {
+    color: #cc0000;
+}
+p.error label {
+    color: #cc0000;
+}
 @media only screen and (max-width: 400px) { 
     label {
         margin:0;
@@ -336,7 +344,7 @@ textarea:focus {
         <header>
             <a id="navicon"><i class="fa fa-bars"></i></a>
             <a id="navicon-close"><i class="fa fa-close"></i></a>
-            <h1>mBBS</h1>
+            <h1><?php echo $this->app->config['core']['title']; ?></h1>
 	</header>
  
         
@@ -347,7 +355,7 @@ textarea:focus {
                 if(empty($userId)) { ?>
 
                 <li<?php if($content['nav_main'] == 'login') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/login') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_login') ?></a></li>
-                <?php if($this->app->config['register']['selfregister'] === true) { ?>
+                <?php if($this->app->config['core']['register']['selfregister'] === true) { ?>
                 <li<?php if($content['nav_main'] == 'register') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('account/register') ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_register') ?></a></li>
                 <?php } ?>
                 <li<?php if($content['nav_main'] == 'imprint') { echo ' class="active"'; } ?>><a href="<?php $this->buildURL('imprint'); ?>"><i class="fa fa-chevron-right"></i> <?php $this->lang('nav_imprint') ?></a></li>

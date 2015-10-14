@@ -1,5 +1,10 @@
 Changes
 =======
+
+14.10.2015 - added photo upload to wall and mail
+14.10.2015 - split format of config array in modules
+15.06.2015 - added file upload in wall form
+14.06.2015 - added contact suggest ajax call
 14.06.2015 - Adminuser: Usability and security improvements
 14.06.2015 - Mail Read: Show different buttons for incoming and outgoing mails
 06.05.2015 - Finished small statistics for admin

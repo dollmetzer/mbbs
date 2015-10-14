@@ -25,7 +25,7 @@ if (!empty($content['form']['name'])) {
     // all hidden fields on top
     foreach ($content['form']['fields'] as $name => $field) {
         if($field['type'] == 'hidden') {
-            echo '<input type="hidden" name="'.$name.'" value="'.$field['value']."\" />\n";
+            echo '<input id="formfield_'.$name.'" type="hidden" name="'.$name.'" value="'.$field['value']."\" />\n";
         }
     }
     $focus = '';
@@ -41,12 +41,12 @@ if (!empty($content['form']['name'])) {
             }
             
             if (!empty($field['error'])) {
-                echo "<p class='error'>\n";
+                echo "<p class='error' id='formblock_".$name."'>\n";
                 echo '<label>&nbsp;</label>';
                 echo '<span class="help-block">' . $field['error'] . "</span>";
                 echo "<br />";
             } else {
-                echo "<p>\n";
+                echo "<p id='formblock_".$name."'>\n";
             }
 
             if ($field['type'] != 'divider') {
@@ -61,7 +61,7 @@ if (!empty($content['form']['name'])) {
             switch ($field['type']) {
                 case 'text':
                 case 'integer':
-                    echo '<input type="text" name="';
+                    echo '<input id="formfield_'.$name.'" type="text" name="';
                     echo $name . '" ';
                     if (!empty($field['readonly'])) {
                         echo 'readonly="readonly" ';
@@ -76,7 +76,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'password':
-                    echo '<input type="password" name="';
+                    echo '<input id="formfield_'.$name.'" type="password" name="';
                     echo $name . '" ';
                     if (!empty($field['maxlength'])) {
                         echo 'maxlength="' . $field['maxlength'] . '" ';
@@ -85,31 +85,40 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'range':
-                    echo '<input type="range" name="';
+                    echo '<input id="formfield_'.$name.'" type="range" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" style="width:auto;" />';
                     break;
 
                 case 'date':
-                    echo '<input type="date" name="';
+                    echo '<input id="formfield_'.$name.'" type="date" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'email':
-                    echo '<input type="email" name="';
+                    echo '<input id="formfield_'.$name.'" type="email" name="';
                     echo $name . '" ';
+                    if (!empty($field['readonly'])) {
+                        echo 'readonly="readonly" ';
+                    }
+                    if(!empty($field['placeholder'])) {
+                        echo 'placeholder="'.$field['placeholder'].'" ';
+                    }
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'url':
-                    echo '<input type="url" name="';
+                    echo '<input id="formfield_'.$name.'" type="url" name="';
                     echo $name . '" ';
+                    if(!empty($field['placeholder'])) {
+                        echo 'placeholder="'.$field['placeholder'].'" ';
+                    }
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'number':
-                    echo '<input type="number" name="';
+                    echo '<input id="formfield_'.$name.'" type="number" name="';
                     echo $name . '" ';
                     if (!empty($field['min'])) {
                         echo 'min="' . $field['min'] . '" ';
@@ -124,13 +133,13 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'color':
-                    echo '<input type="color" name="';
+                    echo '<input id="formfield_'.$name.'" type="color" name="';
                     echo $name . '" ';
                     echo 'value="' . $field['value'] . '" />';
                     break;
 
                 case 'select':
-                    echo '<select name="' . $name;
+                    echo '<select id="formfield_'.$name.'" name="' . $name;
                     if (!empty($field['readonly'])) {
                         echo '" readonly="readonly" onchange="this.selectedIndex = '.$field['value'].';';
                     }
@@ -148,7 +157,7 @@ if (!empty($content['form']['name'])) {
 
                 case 'radio':
                     foreach ($field['options'] as $oVal => $oName) {
-                        echo '<input type="radio" name="' . $name . '" value="' . $oVal;
+                        echo '<input id="formfield_'.$name.'" type="radio" name="' . $name . '" value="' . $oVal;
                         if ($oVal == $field['value']) {
                             echo '" checked="checked';
                         }
@@ -158,7 +167,7 @@ if (!empty($content['form']['name'])) {
                     break;
                     
                 case 'checkbox':
-                    echo '<input type="checkbox" name="' . $name;
+                    echo '<input id="formfield_'.$name.'" type="checkbox" name="' . $name;
                     if(!empty($field['value'])) {
                         echo '" checked="checked';
                     }
@@ -166,7 +175,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'textarea':
-                    echo '<textarea name="' . $name;
+                    echo '<textarea id="formfield_'.$name.'" name="' . $name;
                     if (!empty($field['rows'])) {
                         echo '" rows="' . $field['rows'];
                     }
@@ -178,7 +187,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'datetime-local':
-                    echo '<input type="datetime" name="';
+                    echo '<input id="formfield_'.$name.'" type="datetime" name="';
                     echo $name . '" ';
                     if (!empty($field['readonly'])) {
                         echo 'readonly="readonly" ';
@@ -187,8 +196,19 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'submit':
-                    echo '<input type="submit" class="btn" name="'.$name;
-                    echo '" value="'.$this->lang('form_submit_' . $field['value'], false).'">';
+                    echo '<input id="formfield_'.$name.'" type="submit" name="'.$name;
+                    echo '" value="'.$this->lang('form_submit_' . $field['value'], false).'" />';
+                    break;
+                
+                case 'button':
+                    echo '<button id="formfield_'.$name.'" name="'.$name;
+                    if(!empty($field['class'])) {
+                        echo '" class="'.$field['class'];
+                    }
+                    echo '" value="'.$field['value'];
+                    echo '" >';
+                    echo $field['text'];
+                    echo '</button>';
                     break;
 
                 case 'static':
@@ -204,7 +224,11 @@ if (!empty($content['form']['name'])) {
                     break;
                 
                 case 'file':
-                    echo '<input type="file" name="'.$name.'" />';
+                    echo '<input id="formfield_'.$name.'" type="file" name="'.$name;
+                    if(!empty($field['accept'])) {
+                        echo '" accept="'.$field['accept'];
+                    }
+                    echo '" />';
                     break;
 
                 default:

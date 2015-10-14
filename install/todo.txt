@@ -20,6 +20,14 @@ transfer - unpack and import messages
 Immediate
 =========
 
+- Foto upload in model auslagern
+- Mail Reply mit Foto zurückschicken / neues Foto anhängen
+- Foto upload für Board Nachrichten
+
+- Hinweisbubble auf neue Nachrichten
+
+Cronjob, der erinnerungen und zusammenfassungen verschickt
+
 Outbox des Senders von Inbox des Empfängers trennen, damit die Outbox geleert
 werden kann.
 

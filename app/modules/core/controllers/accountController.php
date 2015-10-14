@@ -126,43 +126,54 @@ class accountController extends \Application\modules\core\controllers\Controller
     {
 
         // exit, if self register is not allowed
-        if ($this->app->config['register']['selfregister'] !== true) {
+        if ( ($this->app->config['core']['register']['selfregister'] !== true) && ($this->app->config['core']['register']['invitation'] !== true) ) {
             $this->app->forward($this->buildURL('/'));
         }
 
         $languages = array();
-        foreach ($this->app->config['languages'] as $lang) {
+        foreach ($this->app->config['core']['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
 
         $form = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'registerform';
-        $form->fields = array(
-            'handle' => array(
+        
+        // Invitation code needed?
+        if($this->app->config['core']['register']['invitation'] === true) {
+            $form->fields['invitationcode'] = array(
                 'type' => 'text',
                 'required' => true,
-                'maxlength' => 32,
-            ),
-            'language' => array(
-                'type' => 'select',
-                'options' => $languages,
-                'required' => true,
-                'value' => $this->app->session->user_language
-            ),
-            'password' => array(
-                'type' => 'password',
-                'required' => true,
-                'maxlength' => 32,
-            ),
-            'password2' => array(
-                'type' => 'password',
-                'required' => true,
-                'maxlength' => 32,
-            ),
-            'submit' => array(
-                'type' => 'submit',
-                'value' => 'register'
-            ),
+                'minlength' => 6,
+                'maxlength' => 6,
+            );    
+        }
+
+        // common form fields
+        $form->fields['handle'] = array(
+            'type' => 'submit',
+            'type' => 'text',
+            'required' => true,
+            'maxlength' => 32,
+        );
+        $form->fields['language'] = array(
+            'type' => 'select',
+            'options' => $languages,
+            'required' => true,
+            'value' => $this->app->session->user_language
+        );
+        $form->fields['password'] = array(
+            'type' => 'password',
+            'required' => true,
+            'maxlength' => 32,
+        );
+        $form->fields['password2'] = array(
+            'type' => 'password',
+            'required' => true,
+            'maxlength' => 32,
+        );
+        $form->fields['submit'] = array(
+            'type' => 'submit',
+            'value' => 'register',
         );
 
         if ($form->process()) {
@@ -219,7 +230,7 @@ class accountController extends \Application\modules\core\controllers\Controller
     {
 
         $languages = array();
-        foreach ($this->app->config['languages'] as $lang) {
+        foreach ($this->app->config['core']['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
 

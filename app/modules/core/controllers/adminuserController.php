@@ -115,7 +115,7 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         }
 
         $languages = array();
-        foreach ($this->app->config['languages'] as $lang) {
+        foreach ($this->app->config['core']['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
 
@@ -186,7 +186,7 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         $languages = array();
-        foreach ($this->app->config['languages'] as $lang) {
+        foreach ($this->app->config['core']['languages'] as $lang) {
             $languages[$lang] = $this->lang('txt_lang_' . $lang);
         }
 
@@ -279,7 +279,7 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         }
 
         // only delete, if no mails from or to user exists
-        $username = $user['handle'] . '@' . $this->app->config['systemname'];
+        $username = $user['handle'] . '@' . $this->app->config['core']['name'];
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $mails = $mailModel->getMaillist('from', $username);
         if (!empty($mails)) {

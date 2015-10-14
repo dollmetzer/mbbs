@@ -1,7 +1,9 @@
 <?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
 
 <div id="inputform" style="display:none;">
-    <form action="<?php $this->buildURL('bbs/wall/new'); ?>" name="mailform" method="post" role="form">
+        
+    <form action="<?php $this->buildURL('bbs/wall/new'); ?>" name="mailform" method="post" enctype="multipart/form-data">
+    <input id="formfield_image" type="hidden" name="image" value="" />
     <p>
         <label for='subject'><?php $this->lang('label_subject'); ?>&nbsp;<sup>*</sup></label>
         <input type="text" class="form-control" name="subject" maxlength="80" value="" />
@@ -9,7 +11,16 @@
     <p>
         <label for='message'><?php $this->lang('label_message'); ?></label>
         <textarea class="form-control" name="message" rows="8"></textarea>        
-    </p>    
+    </p>
+    <p id="formblock_picture">
+        <label for="pic"><?php $this->lang('label_picture'); ?></label>
+        <input type="file" id="formfield_picture" name="pic" />
+    </p>
+    <p class="photo" id="itemphoto" style="display:none;">
+        <label for="pic"><?php $this->lang('label_picture'); ?></label>
+        <img src="about:blank" alt="" id="show-picture" style="width:60%">
+    </p>
+
     <p>
         <a href="#" class="btn btn-ok" onclick="document.mailform.submit();"><i class="fa fa-check"></i> <?php $this->lang('link_send'); ?></a>
     </p>
@@ -33,7 +44,10 @@
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
         <td><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
-            <?php echo $this->toDatetimeShort($mail['written'], false); ?><br />
+            <?php echo $this->toDatetimeShort($mail['written'], false); ?>
+            <?php if(!empty($mail['picture'])) { echo '&nbsp;<i class="fa fa-photo"></i>'; } ?>
+            <?php if(!empty($mail['attachments'])) { echo '<i class="fa fa-paperclip"></i>'; } ?>
+            <br />
             <strong><?php echo $mail['subject']; ?></strong></td>
     </tr>
 <?php } ?>
@@ -47,6 +61,7 @@
         url = '<?php $this->buildURL('bbs/wall/read/') ?>' + id;        
         location.href = url;
     }
+    <?php include PATH_APP . 'modules/bbs/views/web/_elements/resizeupload.js' ?>
 </script>
 
 <?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>

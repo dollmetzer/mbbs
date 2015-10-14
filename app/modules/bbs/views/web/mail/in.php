@@ -17,7 +17,9 @@
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
         <td><?php if($mail['read'] == '0000-00-00 00:00:00') {
             echo '<i class="fa fa-asterisk"></i>&nbsp;'; } ?><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
-            <?php echo $this->toDatetimeShort($mail['written'], false); ?><br />
+            <?php echo $this->toDatetimeShort($mail['written'], false); ?>
+            <?php if(!empty($mail['picture'])) { echo '&nbsp;<i class="fa fa-photo"></i>'; } ?>
+            <br />
             <strong><?php echo $mail['subject']; ?></strong></td>
     </tr>
 <?php } ?>

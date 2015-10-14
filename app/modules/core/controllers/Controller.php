@@ -31,12 +31,12 @@ class Controller extends \dollmetzer\zzaplib\Controller {
      */
     public function preAction() {
         
-        $recipient = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+        $recipient = $this->app->session->user_handle . '@' . $this->app->config['core']['name'];
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
         $newMails = $mailModel->getNewMailCount($recipient);
         $this->app->view->content['newMails'] = $mailModel->getNewMailCount($recipient);
         
-        if($this->app->config['tracking']['sessiontracking'] === true) {
+        if($this->app->config['core']['tracking']['session'] === true) {
             $this->app->session->track($this->app->moduleName.'/'.$this->app->controllerName.'/'.$this->app->actionName);
         }
         

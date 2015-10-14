@@ -144,6 +144,30 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         return $result['entries'];
     }
 
+    
+    public function getSuggestList($_part) {
+        
+        $sql = "SELECT id, handle
+                FROM user 
+                WHERE active=1 
+                    AND handle LIKE ".$this->app->dbh->quote($_part.'%').'
+                ORDER BY handle asc';
+
+        $stmt = $this->app->dbh->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $return = array();
+        foreach($result as $entry) {
+            $return[$entry['id']] = $entry['handle'];
+        }
+
+        return $return;
+
+    }
+    
+    
+    
 }
 
 ?>

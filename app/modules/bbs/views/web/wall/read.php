@@ -20,6 +20,11 @@
     </tr>
     <tr><td colspan="2"><hr /></td></tr>
 </table>
+
+<?php if($content['picture'] === true) { ?>
+<p><img src="<?php $this->buildURL('bbs/wall/img/'.$content['mail']['id']); ?>" style="width:100%;" /></p>
+<?php } ?>
+
 <br />
 <p><a href="<?php $this->buildURL('bbs/wall'); ?>" class="btn"><i class="fa fa-chevron-left"></i> <?php $this->lang('link_wall'); ?></a></p>
 

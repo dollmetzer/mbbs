@@ -205,7 +205,7 @@ class boardController extends \Application\modules\core\controllers\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            $from = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+            $from = $this->app->session->user_handle . '@' . $this->app->config['core']['name'];
 
             $data = array(
                 'from' => $from,
@@ -283,7 +283,7 @@ class boardController extends \Application\modules\core\controllers\Controller
 
             // get user
             $values = $form->getValues();
-            $from = $this->app->session->user_handle . '@' . $this->app->config['systemname'];
+            $from = $this->app->session->user_handle . '@' . $this->app->config['core']['name'];
 
             $data = array(
                 'from' => $from,

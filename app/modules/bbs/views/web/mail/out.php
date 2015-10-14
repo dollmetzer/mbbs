@@ -17,7 +17,9 @@
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
         <td><?php $this->lang('table_col_to'); ?> <?php echo $mail['to']; ?>
-            <?php echo $this->toDatetimeShort($mail['written'], false); ?><br />
+            <?php echo $this->toDatetimeShort($mail['written'], false); ?>
+            <?php if(!empty($mail['picture'])) { echo '&nbsp;<i class="fa fa-photo"></i>'; } ?>
+            <br />
             <strong><?php echo $mail['subject']; ?></strong></td>
     </tr>
 <?php } ?>    
