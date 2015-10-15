@@ -298,6 +298,16 @@ p.error label {
         background:#ffffff;
         color:#444444;
     }
+    p.static {
+        margin:0;
+        border:0;
+        padding:0;
+        width:90%;
+        float:left;
+    }
+    img#show-picture {
+        width:90%;
+    }
 }
 
 @media only screen and (min-width: 401px) { 
@@ -322,6 +332,16 @@ p.error label {
         font-size:1em;
         background:#ffffff;
         color:#444444;
+    }
+    p.static {
+        margin:0;
+        border:0;
+        padding:0;
+        width:60%;
+        float:left;
+    }
+    img#show-picture {
+        width:60%;
     }
 }
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -40,7 +39,6 @@ class indexController extends \Application\modules\core\controllers\Controller
         } else {
             $this->forward($this->buildURL('account/login'));
         }
-        
     }
 
     /**
@@ -49,11 +47,8 @@ class indexController extends \Application\modules\core\controllers\Controller
     public function imprintAction()
     {
 
-        $this->app->view->content['title'] = $this->lang('title_imprint');
+        $this->app->view->content['title']    = $this->lang('title_imprint');
         $this->app->view->content['nav_main'] = 'imprint';
-        
     }
-
 }
-
 ?>

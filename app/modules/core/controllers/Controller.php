@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -24,22 +23,22 @@ namespace Application\modules\core\controllers;
  * @package Application
  * @subpackage core
  */
-class Controller extends \dollmetzer\zzaplib\Controller {
-    
+class Controller extends \dollmetzer\zzaplib\Controller
+{
+
     /**
      * Search for number of new mails to show in the navigation.
      */
-    public function preAction() {
-        
-        $recipient = $this->app->session->user_handle . '@' . $this->app->config['core']['name'];
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $newMails = $mailModel->getNewMailCount($recipient);
+    public function preAction()
+    {
+
+        $recipient                            = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel                            = new \Application\modules\bbs\models\mailModel($this->app);
+        $newMails                             = $mailModel->getNewMailCount($recipient);
         $this->app->view->content['newMails'] = $mailModel->getNewMailCount($recipient);
-        
-        if($this->app->config['core']['tracking']['session'] === true) {
+
+        if ($this->app->config['core']['tracking']['session'] === true) {
             $this->app->session->track($this->app->moduleName.'/'.$this->app->controllerName.'/'.$this->app->actionName);
         }
-        
     }
-    
 }

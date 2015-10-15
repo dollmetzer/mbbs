@@ -2,7 +2,7 @@
 
 <table>
     <tr><td colspan="2"><hr /></td></tr>
-    <tr style="border-top: 1px solid #dddddd;">
+    <tr>
         <td><strong><?php $this->lang('table_col_from'); ?>&nbsp;</strong></td>
         <td><?php echo $content['mail']['from']; ?></td>
     </tr>
@@ -20,6 +20,10 @@
     </tr>
     <tr><td colspan="2"><hr /></td></tr>
 </table>
+
+<?php if($content['picture'] === true) { ?>
+<p><img src="<?php $this->buildURL('bbs/board/img/'.$content['mail']['id']); ?>" style="width:100%;" /></p>
+<?php } ?>
 
 <p><a href="<?php $this->buildURL('bbs/board/reply/'.$content['mail']['id']); ?>" class="btn"><i class="fa fa-reply"></i> <?php $this->lang('link_reply_mail'); ?></a>
 

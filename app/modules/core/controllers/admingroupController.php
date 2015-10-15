@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -25,7 +24,6 @@ namespace Application\modules\core\controllers;
  */
 class admingroupController extends \Application\modules\core\controllers\Controller
 {
-
     /**
      * @var type array neccessary access rights
      */
@@ -36,7 +34,6 @@ class admingroupController extends \Application\modules\core\controllers\Control
         'add' => array('administrator')
     );
 
-
     /**
      * List Groups
      */
@@ -44,28 +41,26 @@ class admingroupController extends \Application\modules\core\controllers\Control
     {
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        
+
         // pagination
         $listEntries = $groupModel->getListEntries();
-        $listLength = 10;
-        $page = 0;
-        if(sizeof($this->app->params)>0) {
-            $page = (int)$this->app->params[0]-1;
+        $listLength  = 10;
+        $page        = 0;
+        if (sizeof($this->app->params) > 0) {
+            $page = (int) $this->app->params[0] - 1;
         }
-        $maxPages = ceil($listEntries / $listLength);
+        $maxPages   = ceil($listEntries / $listLength);
         $firstEntry = $page * $listLength;
 
         $list = $groupModel->getList($firstEntry, $listLength);
 
-        $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_group');
-        $this->app->view->content['list'] = $list;
-        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['nav_main']            = 'admin';
+        $this->app->view->content['title']               = $this->lang('title_admin_group');
+        $this->app->view->content['list']                = $list;
+        $this->app->view->content['pagination_page']     = $page;
         $this->app->view->content['pagination_maxpages'] = $maxPages;
-        $this->app->view->content['pagination_link'] = $this->buildURL('core/admingroup/index/%d');
-
+        $this->app->view->content['pagination_link']     = $this->buildURL('core/admingroup/index/%d');
     }
-
 
     /**
      * Show Group Details
@@ -74,18 +69,18 @@ class admingroupController extends \Application\modules\core\controllers\Control
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/admingroup'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        $group = $groupModel->read($id);
+        $group      = $groupModel->read($id);
 
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_group');
-        $this->app->view->content['group'] = $group;
+        $this->app->view->content['title']    = $this->lang('title_admin_group');
+        $this->app->view->content['group']    = $group;
     }
-
 
     /**
      * Edit a group
@@ -94,19 +89,21 @@ class admingroupController extends \Application\modules\core\controllers\Control
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/admingroup'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        $group = $groupModel->read($id);
+        $group      = $groupModel->read($id);
 
         if (!empty($group['protected'])) {
-            $this->app->forward($this->buildURL('core/admingroup/show/' . $id), $this->lang('error_protected_group'), 'error');
+            $this->app->forward($this->buildURL('core/admingroup/show/'.$id),
+                $this->lang('error_protected_group'), 'error');
         }
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'addgroup';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'addgroup';
         $form->fields = array(
             'name' => array(
                 'type' => 'text',
@@ -135,23 +132,22 @@ class admingroupController extends \Application\modules\core\controllers\Control
             // get user
             $values = $form->getValues();
 
-            $newValues = array(
+            $newValues           = array(
                 'active' => 0,
                 'name' => $values['name'],
                 'description' => $values['description']
             );
-            if (!empty($values['active']))
-                $newValues['active'] = 1;
+            if (!empty($values['active'])) $newValues['active'] = 1;
 
             $groupModel->update($id, $newValues);
-            $this->app->forward($this->buildURL('core/admingroup'), $this->lang('msg_group_changed'), 'notice');
+            $this->app->forward($this->buildURL('core/admingroup'),
+                $this->lang('msg_group_changed'), 'notice');
         }
 
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_groupedit');
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['title']    = $this->lang('title_admin_groupedit');
+        $this->app->view->content['form']     = $form->getViewdata();
     }
-
 
     /**
      * Add a new group
@@ -159,8 +155,8 @@ class admingroupController extends \Application\modules\core\controllers\Control
     public function addAction()
     {
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'addgroup';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'addgroup';
         $form->fields = array(
             'name' => array(
                 'type' => 'text',
@@ -188,12 +184,11 @@ class admingroupController extends \Application\modules\core\controllers\Control
             $values = $form->getValues();
 
             $groupModel = new \Application\modules\core\models\groupModel($this->app);
-            $group = $groupModel->getByName($values['name']);
+            $group      = $groupModel->getByName($values['name']);
             if (empty($group)) {
 
-                $active = 0;
-                if (!empty($values['active']))
-                    $active = 1;
+                $active    = 0;
+                if (!empty($values['active'])) $active    = 1;
                 $newvalues = array(
                     'name' => $values['name'],
                     'description' => $values['description'],
@@ -201,17 +196,17 @@ class admingroupController extends \Application\modules\core\controllers\Control
                 );
 
                 $id = $groupModel->create($newvalues);
-                $this->app->forward($this->buildURL('core/admingroup'), $this->lang('msg_group_added'), 'notice');
+                $this->app->forward($this->buildURL('core/admingroup'),
+                    $this->lang('msg_group_added'), 'notice');
             } else {
                 $form->fields['name']['error'] = $this->lang('form_error_name_exists');
             }
         }
 
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_groupadd');
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['title']    = $this->lang('title_admin_groupadd');
+        $this->app->view->content['form']     = $form->getViewdata();
     }
-
 
     /**
      * Delete a group
@@ -221,5 +216,4 @@ class admingroupController extends \Application\modules\core\controllers\Control
 
         die('delete action');
     }
-
 }

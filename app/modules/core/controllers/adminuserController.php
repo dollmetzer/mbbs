@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -25,7 +24,6 @@ namespace Application\modules\core\controllers;
  */
 class adminuserController extends \Application\modules\core\controllers\Controller
 {
-
     /**
      * @var type array neccessary access rights
      */
@@ -39,7 +37,6 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         'deletegroup' => array('administrator')
     );
 
-
     /**
      * Show a listof user
      */
@@ -47,28 +44,26 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         $userModel = new \Application\modules\core\models\userModel($this->app);
-        
+
         // pagination
         $listEntries = $userModel->getListEntries();
-        $listLength = 10;
-        $page = 0;
-        if(sizeof($this->app->params)>0) {
-            $page = (int)$this->app->params[0]-1;
+        $listLength  = 10;
+        $page        = 0;
+        if (sizeof($this->app->params) > 0) {
+            $page = (int) $this->app->params[0] - 1;
         }
-        $maxPages = ceil($listEntries / $listLength);
+        $maxPages   = ceil($listEntries / $listLength);
         $firstEntry = $page * $listLength;
-        
+
         $list = $userModel->getList($firstEntry, $listLength);
 
-        $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_user');
-        $this->app->view->content['list'] = $list;
-        $this->app->view->content['pagination_page'] = $page;
+        $this->app->view->content['nav_main']            = 'admin';
+        $this->app->view->content['title']               = $this->lang('title_admin_user');
+        $this->app->view->content['list']                = $list;
+        $this->app->view->content['pagination_page']     = $page;
         $this->app->view->content['pagination_maxpages'] = $maxPages;
-        $this->app->view->content['pagination_link'] = $this->buildURL('core/adminuser/index/%d');
-        
+        $this->app->view->content['pagination_link']     = $this->buildURL('core/adminuser/index/%d');
     }
-
 
     /**
      * Show user details
@@ -77,25 +72,26 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_missing_parameter'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id        = (int) $this->app->params[0];
         $userModel = new \Application\modules\core\models\userModel($this->app);
-        $user = $userModel->read($id);
+        $user      = $userModel->read($id);
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        $groups = $groupModel->getUserGroups($id);
+        $groups     = $groupModel->getUserGroups($id);
 
         if (empty($user)) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_illegal_parameter'), 'error');
         }
 
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_user');
-        $this->app->view->content['user'] = $user;
-        $this->app->view->content['groups'] = $groups;
+        $this->app->view->content['title']    = $this->lang('title_admin_user');
+        $this->app->view->content['user']     = $user;
+        $this->app->view->content['groups']   = $groups;
     }
-
 
     /**
      * Edit user
@@ -104,27 +100,29 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_missing_parameter'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id        = (int) $this->app->params[0];
         $userModel = new \Application\modules\core\models\userModel($this->app);
-        $user = $userModel->read($id);
+        $user      = $userModel->read($id);
 
         if (empty($user)) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_illegal_parameter'), 'error');
         }
 
         $languages = array();
         foreach ($this->app->config['core']['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_' . $lang);
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
         }
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
-        $groups = $groupModel->getUserGroups($id);
-        $allGroups = $groupModel->getList();
+        $groups     = $groupModel->getUserGroups($id);
+        $allGroups  = $groupModel->getList();
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'edituser';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'edituser';
         $form->fields = array(
             'handle' => array(
                 'type' => 'static',
@@ -146,7 +144,8 @@ class adminuserController extends \Application\modules\core\controllers\Controll
             ),
             'lastlogin' => array(
                 'type' => 'static',
-                'value' => $this->app->view->toDatetime($user['lastlogin'], false)
+                'value' => $this->app->view->toDatetime($user['lastlogin'],
+                    false)
             ),
             'change' => array(
                 'type' => 'submit',
@@ -159,25 +158,24 @@ class adminuserController extends \Application\modules\core\controllers\Controll
             // get user
             $values = $form->getValues();
 
-            $newValues = array(
+            $newValues           = array(
                 'active' => 0,
                 'language' => $values['language']
             );
-            if (!empty($values['active']))
-                $newValues['active'] = 1;
+            if (!empty($values['active'])) $newValues['active'] = 1;
 
             $userModel->update($id, $newValues);
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_changed'), 'notice');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('msg_user_changed'), 'notice');
         }
 
-        $this->app->view->content['form'] = $form->getViewdata();
-        $this->app->view->content['user'] = $user;
-        $this->app->view->content['groups'] = $groups;
+        $this->app->view->content['form']      = $form->getViewdata();
+        $this->app->view->content['user']      = $user;
+        $this->app->view->content['groups']    = $groups;
         $this->app->view->content['allgroups'] = $allGroups;
-        $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_user');
+        $this->app->view->content['nav_main']  = 'admin';
+        $this->app->view->content['title']     = $this->lang('title_admin_user');
     }
-
 
     /**
      * Add a new user
@@ -187,11 +185,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
         $languages = array();
         foreach ($this->app->config['core']['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_' . $lang);
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
         }
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'adduser';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'adduser';
         $form->fields = array(
             'handle' => array(
                 'type' => 'text',
@@ -224,12 +222,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
             $values = $form->getValues();
 
             $userModel = new \Application\modules\core\models\userModel($this->app);
-            $user = $userModel->getByHandle($values['handle']);
+            $user      = $userModel->getByHandle($values['handle']);
             if (empty($user)) {
 
-                $active = 0;
-                if (!empty($values['active']))
-                    $active = 1;
+                $active    = 0;
+                if (!empty($values['active'])) $active    = 1;
                 $newValues = array(
                     'active' => $active,
                     'handle' => $values['handle'],
@@ -237,24 +234,24 @@ class adminuserController extends \Application\modules\core\controllers\Controll
                     'language' => $values['language'],
                     'created' => strftime('%Y-%m-%d %H:%M:%S', time())
                 );
-                $uid = $userModel->create($newValues);
-                
+                $uid       = $userModel->create($newValues);
+
                 // add user to standard user group
                 $groupModel = new \Application\modules\core\models\groupModel($this->app);
-                $group = $groupModel->getByName('user');
+                $group      = $groupModel->getByName('user');
                 $groupModel->setUserGroup($uid, $group['id']);
-                
-                $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_added'), 'notice');
+
+                $this->app->forward($this->buildURL('core/adminuser'),
+                    $this->lang('msg_user_added'), 'notice');
             } else {
                 $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');
             }
         }
 
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'admin';
-        $this->app->view->content['title'] = $this->lang('title_admin_useradd');
+        $this->app->view->content['title']    = $this->lang('title_admin_useradd');
     }
-
 
     /**
      * Delete user
@@ -263,37 +260,42 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         if (sizeof($this->app->params) == 0) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = (int) $this->app->params[0];
         if ($this->app->session->user_id == $id) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete_yourself'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_user_delete_yourself'), 'error');
         }
         die('trapped');
 
         $userModel = new \Application\modules\core\models\userModel($this->app);
-        $user = $userModel->read($id);
+        $user      = $userModel->read($id);
 
         if (empty($user)) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_illegal_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_illegal_parameter'), 'error');
         }
 
         // only delete, if no mails from or to user exists
-        $username = $user['handle'] . '@' . $this->app->config['core']['name'];
+        $username  = $user['handle'].'@'.$this->app->config['core']['name'];
         $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $mails = $mailModel->getMaillist('from', $username);
+        $mails     = $mailModel->getMaillist('from', $username);
         if (!empty($mails)) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_user_delete'), 'error');
         }
         $mails = $mailModel->getMaillist('to', $username);
         if (!empty($mails)) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_user_delete'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_user_delete'), 'error');
         }
 
         $userModel->delete($user['id']);
-        $this->app->forward($this->buildURL('core/adminuser'), $this->lang('msg_user_deleted'), 'message');
+        $this->app->forward($this->buildURL('core/adminuser'),
+            $this->lang('msg_user_deleted'), 'message');
     }
-
 
     /**
      * Add a new group
@@ -302,7 +304,8 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         if (sizeof($this->app->params) < 2) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $gid = (int) $this->app->params[1];
         $uid = (int) $this->app->params[0];
@@ -310,9 +313,9 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         $groupModel->addUserGroup($uid, $gid);
 
-        $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('msg_user_groupadd'), 'message');
+        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid),
+            $this->lang('msg_user_groupadd'), 'message');
     }
-
 
     /**
      * Delete a group
@@ -321,20 +324,22 @@ class adminuserController extends \Application\modules\core\controllers\Controll
     {
 
         if (sizeof($this->app->params) < 2) {
-            $this->app->forward($this->buildURL('core/adminuser'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('core/adminuser'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $gid = (int) $this->app->params[1];
         $uid = (int) $this->app->params[0];
 
         $groupModel = new \Application\modules\core\models\groupModel($this->app);
         // check, if there is at least one group left after deleting.
-        if(sizeof($groupModel->getUserGroups($uid)) < 2) {
-            $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('error_group_delete'), 'error');
+        if (sizeof($groupModel->getUserGroups($uid)) < 2) {
+            $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid),
+                $this->lang('error_group_delete'), 'error');
         }
-        
+
         $groupModel->deleteUserGroup($uid, $gid);
 
-        $this->app->forward($this->buildURL('core/adminuser/edit/' . $uid), $this->lang('msg_user_groupdelete'), 'message');
+        $this->app->forward($this->buildURL('core/adminuser/edit/'.$uid),
+            $this->lang('msg_user_groupdelete'), 'message');
     }
-
 }

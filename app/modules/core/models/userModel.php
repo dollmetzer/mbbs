@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -23,8 +22,8 @@ namespace Application\modules\core\models;
  * @package Application
  * @subpackage core
  */
-class userModel extends \dollmetzer\zzaplib\DBModel {
-
+class userModel extends \dollmetzer\zzaplib\DBModel
+{
     /**
      * @var string $tablename Name for standard CRUD
      */
@@ -36,9 +35,10 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_handle
      * @return array
      */
-    public function getByHandle($_handle) {
+    public function getByHandle($_handle)
+    {
 
-        $sql = "SELECT * FROM user WHERE handle = ?";
+        $sql    = "SELECT * FROM user WHERE handle = ?";
         $values = array(
             $_handle
         );
@@ -55,9 +55,10 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_password
      * @return array
      */
-    public function getByLogin($_handle, $_password) {
+    public function getByLogin($_handle, $_password)
+    {
 
-        $sql = "SELECT * 
+        $sql    = "SELECT *
                 FROM user 
                 WHERE handle = ? 
                     AND password=? 
@@ -80,9 +81,10 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_groupId
      * @return array
      */
-    public function getListByGroup($_groupId) {
+    public function getListByGroup($_groupId)
+    {
 
-        $sql = "SELECT u.*
+        $sql    = "SELECT u.*
                 FROM user_group AS ug 
                 JOIN user AS u ON u.id=ug.user_id
                 WHERE ug.group_id=?
@@ -90,7 +92,7 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
         $values = array(
             $_groupId
         );
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -100,14 +102,15 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * 
      * @param integer $_uid
      */
-    public function setLastlogin($_uid) {
+    public function setLastlogin($_uid)
+    {
 
-        $sql = "UPDATE user SET lastlogin=? WHERE id=?";
+        $sql    = "UPDATE user SET lastlogin=? WHERE id=?";
         $values = array(
             strftime('%Y-%m-%d %H:%M:%S', time()),
             (int) $_uid
         );
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
     }
 
@@ -118,11 +121,12 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_length
      * @return array
      */
-    public function getList($_first = null, $_length = null) {
+    public function getList($_first = null, $_length = null)
+    {
 
         $sql = "SELECT * FROM user";
         if (isset($_first) && isset($_length)) {
-            $sql .= ' LIMIT ' . (int) $_first . ',' . (int) $_length;
+            $sql .= ' LIMIT '.(int) $_first.','.(int) $_length;
         }
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
@@ -135,39 +139,35 @@ class userModel extends \dollmetzer\zzaplib\DBModel {
      * 
      * @return integer
      */
-    public function getListEntries() {
+    public function getListEntries()
+    {
 
-        $sql = "SELECT COUNT(*) as entries FROM user";
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql    = "SELECT COUNT(*) as entries FROM user";
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['entries'];
     }
 
-    
-    public function getSuggestList($_part) {
-        
+    public function getSuggestList($_part)
+    {
+
         $sql = "SELECT id, handle
                 FROM user 
                 WHERE active=1 
                     AND handle LIKE ".$this->app->dbh->quote($_part.'%').'
                 ORDER BY handle asc';
 
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
+
         $return = array();
-        foreach($result as $entry) {
+        foreach ($result as $entry) {
             $return[$entry['id']] = $entry['handle'];
         }
 
         return $return;
-
     }
-    
-    
-    
 }
-
 ?>

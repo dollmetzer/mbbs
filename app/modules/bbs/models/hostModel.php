@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BBS - Bulletin Board System
  * 
@@ -25,12 +24,10 @@ namespace Application\modules\bbs\models;
  */
 class hostModel extends \dollmetzer\zzaplib\DBModel
 {
-
     /**
      * @var string $tablename Name for standard CRUD
      */
     protected $tablename = 'host';
-
 
     /**
      * Get a host list
@@ -40,12 +37,11 @@ class hostModel extends \dollmetzer\zzaplib\DBModel
     public function getList()
     {
 
-        $sql = "SELECT * FROM host";
+        $sql  = "SELECT * FROM host";
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
 
     /**
      * Get a host by name
@@ -56,12 +52,10 @@ class hostModel extends \dollmetzer\zzaplib\DBModel
     public function getByName($_name)
     {
 
-        $sql = "SELECT * FROM host WHERE name LIKE " . $this->app->dbh->quote($_name);
+        $sql  = "SELECT * FROM host WHERE name LIKE ".$this->app->dbh->quote($_name);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-
 }
-
 ?>

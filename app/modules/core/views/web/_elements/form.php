@@ -212,7 +212,7 @@ if (!empty($content['form']['name'])) {
                     break;
 
                 case 'static':
-                    echo '<p>' . $field['value'] . "</p>\n";
+                    echo '<p class="static">' . $field['value'] . "</p><div style='clear:both;'><!-- clear --></div>\n";
                     break;
 
                 case 'divider':

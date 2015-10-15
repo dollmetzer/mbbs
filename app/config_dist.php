@@ -30,23 +30,36 @@ define('DEBUG_PERFORMANCE', false);
 define('DEBUG_DB', false);
 
 $config = array(
-
-    'languages' => array(
-        'de',
-        'en'
-    ),
-    'themes' => array(
-        'web'
-    ),
-    'db' => array(
-        'slave' => array(
-            'dsn' => 'mysql:host=localhost;dbname=mbbs',
-            'user' => 'root',
-            'pass' => 'root'
-        )
-    ),
-    'register' => array(
-        'selfregister' => true,
-        'mailcheck' => false
+    'core' => array(
+        'title' => 'myMBBS',
+        'name' => 'mbbs',
+        'standalone' => true,
+        'themes' => array(
+            'web'
+        ),
+        'languages' => array(
+            'de',
+            'en'
+        ),
+        'db' => array(
+            'slave' => array(
+                'dsn' => 'mysql:host=localhost;dbname=mbbs',
+                'user' => 'root',
+                'pass' => 'root'
+            )
+        ),
+        'quicklogin' => true,
+        'register' => array(
+            'selfregister' => false,
+            'mailcheck' => false,
+            'invitation' => true,
+        ),
+        'tracking' => array(
+            'session' => true
+        ),
+        'mail' => array(
+            'admin' => 'dirk.ollmetzer@ollmetzer.com',
+            'from' => 'handover@ollmetzer.com',
+        ),
     )
 );

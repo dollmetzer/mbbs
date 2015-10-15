@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  *
@@ -23,8 +22,8 @@ namespace Application\modules\core\models;
  * @package Application
  * @subpackage core
  */
-class groupModel extends \dollmetzer\zzaplib\DBModel {
-
+class groupModel extends \dollmetzer\zzaplib\DBModel
+{
     /**
      * @var string $tablename Name for standard CRUD
      */
@@ -36,15 +35,16 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_userId
      * @return array
      */
-    public function getUserGroups($_userId) {
+    public function getUserGroups($_userId)
+    {
 
-        $sql = "SELECT g.*
+        $sql    = "SELECT g.*
                 FROM `user_group` AS ug
                 JOIN `group` AS g ON g.id=ug.group_id
                 WHERE `user_id`=?
                     AND g.active=1";
         $values = array($_userId);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -55,11 +55,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_name
      * @return array
      */
-    public function getByName($_name) {
+    public function getByName($_name)
+    {
 
-        $sql = "SELECT * FROM `group` WHERE name=?";
+        $sql    = "SELECT * FROM `group` WHERE name=?";
         $values = array($_name);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
@@ -71,11 +72,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_length
      * @return array
      */
-    public function getList($_first = null, $_length = null) {
+    public function getList($_first = null, $_length = null)
+    {
 
         $sql = "SELECT * FROM `group`";
         if (isset($_first) && isset($_length)) {
-            $sql .= ' LIMIT ' . (int) $_first . ',' . (int) $_length;
+            $sql .= ' LIMIT '.(int) $_first.','.(int) $_length;
         }
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
@@ -88,10 +90,11 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      *
      * @return integer
      */
-    public function getListEntries() {
+    public function getListEntries()
+    {
 
-        $sql = "SELECT count(*) AS entries FROM `group`";
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql    = "SELECT count(*) AS entries FROM `group`";
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['entries'];
@@ -103,9 +106,10 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_userId
      * @param integer $_groupId
      */
-    public function setUserGroup($_userId, $_groupId) {
+    public function setUserGroup($_userId, $_groupId)
+    {
 
-        $sql = "INSERT INTO `user_group` (
+        $sql    = "INSERT INTO `user_group` (
                     user_id,
                     group_id
                 ) VALUES (
@@ -113,7 +117,7 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
                     ?
                 )";
         $values = array($_userId, $_groupId);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
     }
 
@@ -123,16 +127,17 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param type $_userId
      * @param type $_groupId
      */
-    public function addUserGroup($_userId, $_groupId) {
+    public function addUserGroup($_userId, $_groupId)
+    {
 
-        $sql = "SELECT * FROM user_group WHERE user_id=? AND group_id=?";
+        $sql    = "SELECT * FROM user_group WHERE user_id=? AND group_id=?";
         $values = array($_userId, $_groupId);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (empty($result)) {
-            $sql = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
+            $sql  = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
             $stmt = $this->app->dbh->prepare($sql);
             $stmt->execute($values);
         }
@@ -144,12 +149,12 @@ class groupModel extends \dollmetzer\zzaplib\DBModel {
      * @param type $_userId
      * @param type $_groupId
      */
-    public function deleteUserGroup($_userId, $_groupId) {
+    public function deleteUserGroup($_userId, $_groupId)
+    {
 
-        $sql = "DELETE FROM user_group WHERE user_id=? AND group_id=?";
+        $sql    = "DELETE FROM user_group WHERE user_id=? AND group_id=?";
         $values = array($_userId, $_groupId);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
     }
-
 }

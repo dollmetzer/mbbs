@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Bootstrap File
  * 
@@ -13,10 +12,10 @@
 namespace Application;
 
 // load configuration
-include __DIR__ . '/config.php';
+include __DIR__.'/config.php';
 
 // include composer packages
-include realpath(__DIR__ . '/../vendor/autoload.php');
+include realpath(__DIR__.'/../vendor/autoload.php');
 
 // set timezone
 date_default_timezone_set(TIMEZONE);

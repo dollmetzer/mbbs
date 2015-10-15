@@ -2,7 +2,7 @@
 
 <p class="photo" id="itemphoto" style="display:none;">
     <label for="pic"><?php $this->lang('form_label_picture'); ?></label>
-    <img src="about:blank" alt="" id="show-picture" style="width:60%">
+    <img src="about:blank" alt="" id="show-picture">
 </p>
     
 <?php include PATH_APP . '/modules/core/views/web/_elements/form.php'; ?>

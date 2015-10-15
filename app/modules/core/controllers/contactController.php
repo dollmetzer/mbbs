@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -23,8 +22,8 @@ namespace Application\modules\core\controllers;
  * @package Application
  * @subpackage core
  */
-class contactController extends \Application\modules\core\controllers\Controller {
-
+class contactController extends \Application\modules\core\controllers\Controller
+{
     /**
      * @var type array neccessary access rights
      */
@@ -36,7 +35,8 @@ class contactController extends \Application\modules\core\controllers\Controller
      * Returns a JSON array off contact suggestions, based on the system users 
      * and the contact list of the requester
      */
-    public function suggestAction() {
+    public function suggestAction()
+    {
 
         $result = array();
 
@@ -46,7 +46,7 @@ class contactController extends \Application\modules\core\controllers\Controller
         }
         if (strlen($part) > 1) {
             $userModel = new \Application\modules\core\models\userModel($this->app);
-            $result = $userModel->getSuggestList($part);
+            $result    = $userModel->getSuggestList($part);
         }
 
         header('Cache-Control: no-cache, must-revalidate');
@@ -54,5 +54,4 @@ class contactController extends \Application\modules\core\controllers\Controller
         echo json_encode($result);
         exit;
     }
-
 }

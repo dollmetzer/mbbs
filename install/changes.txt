@@ -1,6 +1,8 @@
 Changes
 =======
-
+15.10.2015 - added photo upload to board
+15.10.2015 - Code is PSR-2 formatted
+15.10.2015 - introduced bbs::pictureModel for handling up- and downloads of pictures
 14.10.2015 - added photo upload to wall and mail
 14.10.2015 - split format of config array in modules
 15.06.2015 - added file upload in wall form

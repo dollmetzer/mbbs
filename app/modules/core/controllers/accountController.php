@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -25,7 +24,6 @@ namespace Application\modules\core\controllers;
  */
 class accountController extends \Application\modules\core\controllers\Controller
 {
-
     /**
      * @var type array neccessary access rights
      */
@@ -37,7 +35,6 @@ class accountController extends \Application\modules\core\controllers\Controller
         'settings' => array('user', 'operator', 'administrator', 'moderator')
     );
 
-
     /**
      * Login form processing.
      * 
@@ -46,8 +43,8 @@ class accountController extends \Application\modules\core\controllers\Controller
     public function loginAction()
     {
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'loginform';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'loginform';
         $form->fields = array(
             'handle' => array(
                 'type' => 'text',
@@ -68,36 +65,38 @@ class accountController extends \Application\modules\core\controllers\Controller
         if ($form->process()) {
 
             // get user
-            $values = $form->getValues();
+            $values    = $form->getValues();
             $userModel = new \Application\modules\core\models\userModel($this->app);
-            $user = $userModel->getByLogin($values['handle'], $values['password']);
+            $user      = $userModel->getByLogin($values['handle'],
+                $values['password']);
             if (!$user) {
-                $this->app->forward($this->buildURL('account/login'), $this->lang('error_login_failed'), 'error');
+                $this->app->forward($this->buildURL('account/login'),
+                    $this->lang('error_login_failed'), 'error');
             }
 
             // process user
             $userModel->setLastlogin($user['id']);
-            $this->app->session->user_id = $user['id'];
-            $this->app->session->user_handle = $user['handle'];
+            $this->app->session->user_id        = $user['id'];
+            $this->app->session->user_handle    = $user['handle'];
             $this->app->session->user_lastlogin = $user['lastlogin'];
-            $this->app->session->user_language = $user['language'];
+            $this->app->session->user_language  = $user['language'];
 
             // process user groups
-            $groupModel = new \Application\modules\core\models\groupModel($this->app);
-            $groups = $groupModel->getUserGroups($user['id']);
+            $groupModel    = new \Application\modules\core\models\groupModel($this->app);
+            $groups        = $groupModel->getUserGroups($user['id']);
             $sessionGroups = array();
             for ($i = 0; $i < sizeof($groups); $i++) {
                 $sessionGroups[$groups[$i]['id']] = $groups[$i]['name'];
             }
             $this->app->session->groups = $sessionGroups;
 
-            $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_in'));
+            $this->app->forward($this->buildURL('/'),
+                $this->lang('msg_logged_in'));
         }
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'login';
-        $this->app->view->content['title'] = $this->lang('title_login');
+        $this->app->view->content['title']    = $this->lang('title_login');
     }
-
 
     /**
      * Destroys the Session and jumps to the startpage
@@ -109,7 +108,6 @@ class accountController extends \Application\modules\core\controllers\Controller
         $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_out'));
     }
 
-
     /**
      * Not yet implemented
      */
@@ -118,7 +116,6 @@ class accountController extends \Application\modules\core\controllers\Controller
         die('Not yet implemented');
     }
 
-
     /**
      * Register a new user
      */
@@ -126,42 +123,43 @@ class accountController extends \Application\modules\core\controllers\Controller
     {
 
         // exit, if self register is not allowed
-        if ( ($this->app->config['core']['register']['selfregister'] !== true) && ($this->app->config['core']['register']['invitation'] !== true) ) {
+        if (($this->app->config['core']['register']['selfregister'] !== true) && ($this->app->config['core']['register']['invitation']
+            !== true)) {
             $this->app->forward($this->buildURL('/'));
         }
 
         $languages = array();
         foreach ($this->app->config['core']['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_' . $lang);
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
         }
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
+        $form       = new \dollmetzer\zzaplib\Form($this->app);
         $form->name = 'registerform';
-        
+
         // Invitation code needed?
-        if($this->app->config['core']['register']['invitation'] === true) {
+        if ($this->app->config['core']['register']['invitation'] === true) {
             $form->fields['invitationcode'] = array(
                 'type' => 'text',
                 'required' => true,
                 'minlength' => 6,
                 'maxlength' => 6,
-            );    
+            );
         }
 
         // common form fields
-        $form->fields['handle'] = array(
+        $form->fields['handle']    = array(
             'type' => 'submit',
             'type' => 'text',
             'required' => true,
             'maxlength' => 32,
         );
-        $form->fields['language'] = array(
+        $form->fields['language']  = array(
             'type' => 'select',
             'options' => $languages,
             'required' => true,
             'value' => $this->app->session->user_language
         );
-        $form->fields['password'] = array(
+        $form->fields['password']  = array(
             'type' => 'password',
             'required' => true,
             'maxlength' => 32,
@@ -171,7 +169,7 @@ class accountController extends \Application\modules\core\controllers\Controller
             'required' => true,
             'maxlength' => 32,
         );
-        $form->fields['submit'] = array(
+        $form->fields['submit']    = array(
             'type' => 'submit',
             'value' => 'register',
         );
@@ -185,7 +183,7 @@ class accountController extends \Application\modules\core\controllers\Controller
             } else {
 
                 $userModel = new \Application\modules\core\models\userModel($this->app);
-                $user = $userModel->getByHandle($values['handle']);
+                $user      = $userModel->getByHandle($values['handle']);
                 if (!empty($user)) {
                     $form->fields['handle']['error'] = $this->lang('form_error_handle_exists');
                 } else {
@@ -196,32 +194,33 @@ class accountController extends \Application\modules\core\controllers\Controller
                         'language' => $values['language'],
                         'created' => strftime('%Y-%m-%d %H:%M:%S', time())
                     );
-                    $id = $userModel->create($data);
+                    $id   = $userModel->create($data);
 
                     // ...and now login
                     $userModel->setLastlogin($id);
-                    $this->app->session->user_id = $id;
-                    $this->app->session->user_handle = $values['handle'];
-                    $this->app->session->user_lastlogin = strftime('%Y-%m-%d %H:%M:%S', time());
-                    $this->app->session->user_language = $values['language'];
+                    $this->app->session->user_id        = $id;
+                    $this->app->session->user_handle    = $values['handle'];
+                    $this->app->session->user_lastlogin = strftime('%Y-%m-%d %H:%M:%S',
+                        time());
+                    $this->app->session->user_language  = $values['language'];
 
                     // add user to standard user group (5)
-                    $groupModel = new \Application\modules\core\models\groupModel($this->app);
-                    $group = $groupModel->getByName('user');
+                    $groupModel                  = new \Application\modules\core\models\groupModel($this->app);
+                    $group                       = $groupModel->getByName('user');
                     $groupModel->setUserGroup($id, $group['id']);
                     $sessionGroups[$group['id']] = $group['name'];
-                    $this->app->session->groups = $sessionGroups;
+                    $this->app->session->groups  = $sessionGroups;
 
-                    $this->app->forward($this->buildURL('/'), $this->lang('msg_logged_in'));
+                    $this->app->forward($this->buildURL('/'),
+                        $this->lang('msg_logged_in'));
                 }
             }
         }
 
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
-        $this->app->view->content['title'] = $this->lang('title_register');
+        $this->app->view->content['title']    = $this->lang('title_register');
     }
-
 
     /**
      * Basic settings
@@ -231,11 +230,11 @@ class accountController extends \Application\modules\core\controllers\Controller
 
         $languages = array();
         foreach ($this->app->config['core']['languages'] as $lang) {
-            $languages[$lang] = $this->lang('txt_lang_' . $lang);
+            $languages[$lang] = $this->lang('txt_lang_'.$lang);
         }
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'settingsform';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'settingsform';
         $form->fields = array(
             'language' => array(
                 'type' => 'select',
@@ -263,7 +262,7 @@ class accountController extends \Application\modules\core\controllers\Controller
             $values = $form->getValues();
 
             if ($values['password'] != $values['password2']) {
-                $form->fields['password']['error'] = $this->lang('form_error_not_identical');
+                $form->fields['password']['error']  = $this->lang('form_error_not_identical');
                 $form->fields['password2']['error'] = $this->lang('form_error_not_identical');
             } else {
 
@@ -274,15 +273,14 @@ class accountController extends \Application\modules\core\controllers\Controller
                 $userModel = new \Application\modules\core\models\userModel($this->app);
                 $userModel->update($this->app->session->user_id, $dbVal);
 
-                $this->app->forward($this->buildURL('/'), $this->lang('msg_settings_saved'));
+                $this->app->forward($this->buildURL('/'),
+                    $this->lang('msg_settings_saved'));
             }
         }
 
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'settings';
-        $this->app->view->content['title'] = $this->lang('title_settings');
+        $this->app->view->content['title']    = $this->lang('title_settings');
     }
-
 }
-
 ?>

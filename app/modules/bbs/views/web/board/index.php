@@ -58,6 +58,9 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
             $this->lang('table_col_from');
             echo ' '.$mail['from'].' '; 
             $this->toDatetimeShort($mail['written']);
+            if(!empty($mail['picture'])) { 
+                echo '&nbsp;<i class="fa fa-photo"></i>'; 
+            }
             echo '<br /><strong>';
             echo $mail['subject']; ?></strong></td>
     </tr>

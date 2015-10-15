@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -23,35 +22,34 @@ namespace Application\modules\core\controllers;
  * @package Application
  * @subpackage core
  */
-class adminstatsController extends \Application\modules\core\controllers\Controller {
-
+class adminstatsController extends \Application\modules\core\controllers\Controller
+{
     /**
      * @var type array neccessary access rights
      */
     protected $accessGroups = array(
         'index' => array('administrator'),
     );
-    
+
     /**
      * Display some basic statistics of the last 7 days
      */
-    public function indexAction() {
-        
-        $days = 7;
-        $from = strftime('%Y-%m-%d 00:00:00', time()-86400*$days);
-        $until = strftime('%Y-%m-%d 23:59:59', time());
-        
-        $sessionModel = new \Application\modules\core\models\sessionModel($this->app);
-        $sessionInfo = $sessionModel->getInfo($from, $until);
-        $userAgents = $sessionModel->getUseragents($from, $until);
+    public function indexAction()
+    {
 
-        $this->app->view->content['nav_main'] = 'statistics';
-        $this->app->view->content['title'] = $this->lang('title_admin_stats');
-        $this->app->view->content['from']= $from;
-        $this->app->view->content['until']= $until;
+        $days  = 7;
+        $from  = strftime('%Y-%m-%d 00:00:00', time() - 86400 * $days);
+        $until = strftime('%Y-%m-%d 23:59:59', time());
+
+        $sessionModel = new \Application\modules\core\models\sessionModel($this->app);
+        $sessionInfo  = $sessionModel->getInfo($from, $until);
+        $userAgents   = $sessionModel->getUseragents($from, $until);
+
+        $this->app->view->content['nav_main']     = 'statistics';
+        $this->app->view->content['title']        = $this->lang('title_admin_stats');
+        $this->app->view->content['from']         = $from;
+        $this->app->view->content['until']        = $until;
         $this->app->view->content['session_info'] = $sessionInfo;
-        $this->app->view->content['user_agents'] = $userAgents;
-        
+        $this->app->view->content['user_agents']  = $userAgents;
     }
-    
 }

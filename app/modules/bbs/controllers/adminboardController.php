@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BBS - Bulletin Board System
  * 
@@ -25,7 +24,6 @@ namespace Application\modules\bbs\controllers;
  */
 class adminboardController extends \Application\modules\core\controllers\Controller
 {
-
     /**
      * @var array $accessGroups
      */
@@ -35,7 +33,6 @@ class adminboardController extends \Application\modules\core\controllers\Control
         'delete' => array('administrator')
     );
 
-
     /**
      * add a new board
      */
@@ -43,7 +40,8 @@ class adminboardController extends \Application\modules\core\controllers\Control
     {
 
         if (sizeof($this->app->params) < 1) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = $this->app->params[0];
 
@@ -52,12 +50,13 @@ class adminboardController extends \Application\modules\core\controllers\Control
         if ($id != 0) {
             $board = $boardModel->read($id);
             if (empty($board)) {
-                $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
+                $this->app->forward($this->buildURL('/bbs/board'),
+                    $this->lang('error_illegal_parameter'), 'error');
             }
         }
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'mailform';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'mailform';
         $form->fields = array(
             'board' => array(
                 'type' => 'text',
@@ -85,8 +84,7 @@ class adminboardController extends \Application\modules\core\controllers\Control
             $values = $form->getValues();
 
             $content = 0;
-            if (!empty($values['content']))
-                $content = 1;
+            if (!empty($values['content'])) $content = 1;
 
             $data = array(
                 'parent_id' => $id,
@@ -95,14 +93,13 @@ class adminboardController extends \Application\modules\core\controllers\Control
                 'description' => $values['description']
             );
             $boardModel->create($data);
-            $this->app->forward($this->buildURL('/bbs/board/list/' . $id));
+            $this->app->forward($this->buildURL('/bbs/board/list/'.$id));
         }
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'board';
-        $this->app->view->content['title'] = $this->lang('title_board_add');
-        $this->app->view->template = 'modules/bbs/views/web/adminboard/edit.php';
+        $this->app->view->content['title']    = $this->lang('title_board_add');
+        $this->app->view->template            = 'modules/bbs/views/web/adminboard/edit.php';
     }
-
 
     /**
      * edit a board
@@ -111,19 +108,21 @@ class adminboardController extends \Application\modules\core\controllers\Control
     {
 
         if (sizeof($this->app->params) < 1) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = $this->app->params[0];
 
         $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
-        $board = $boardModel->read($id);
+        $board      = $boardModel->read($id);
         if (empty($board)) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_illegal_parameter'), 'error');
         }
         $boardEntries = $boardModel->countEntries($id);
 
-        $form = new \dollmetzer\zzaplib\Form($this->app);
-        $form->name = 'boardform';
+        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form->name   = 'boardform';
         $form->fields = array(
             'board' => array(
                 'type' => 'text',
@@ -152,14 +151,14 @@ class adminboardController extends \Application\modules\core\controllers\Control
             )
         );
         if ($boardEntries > 0) {
-            $form->fields['content']['type'] = 'hidden';
+            $form->fields['content']['type']  = 'hidden';
             $form->fields['content']['value'] = true;
         }
 
         if ($form->process()) {
 
             $values = $form->getValues();
-            $data = array(
+            $data   = array(
                 'name' => $values['board'],
                 'description' => $values['description']
             );
@@ -174,13 +173,13 @@ class adminboardController extends \Application\modules\core\controllers\Control
                 }
             }
             $boardModel->update($id, $data);
-            $this->app->forward($this->buildURL('/bbs/board/list/' . $board['parent_id']), $this->lang('msg_board_saved'), 'message');
+            $this->app->forward($this->buildURL('/bbs/board/list/'.$board['parent_id']),
+                $this->lang('msg_board_saved'), 'message');
         }
-        $this->app->view->content['form'] = $form->getViewdata();
+        $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'board';
-        $this->app->view->content['title'] = $this->lang('title_board_edit');
+        $this->app->view->content['title']    = $this->lang('title_board_edit');
     }
-
 
     /**
      * delete an empty board
@@ -189,22 +188,25 @@ class adminboardController extends \Application\modules\core\controllers\Control
     {
 
         if (sizeof($this->app->params) < 1) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_missing_parameter'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_missing_parameter'), 'error');
         }
         $id = $this->app->params[0];
 
         $boardModel = new \Application\modules\bbs\models\boardModel($this->app);
-        $board = $boardModel->read($id);
+        $board      = $boardModel->read($id);
         if (empty($board)) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_illegal_parameter'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_illegal_parameter'), 'error');
         }
 
         if ($boardModel->countEntries($id) > 0) {
-            $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_not_empty'), 'error');
+            $this->app->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_board_not_empty'), 'error');
         }
 
         $boardModel->delete($id);
-        $this->app->forward($this->buildURL('/bbs/board'), $this->lang('error_board_deleted'), 'message');
+        $this->app->forward($this->buildURL('/bbs/board'),
+            $this->lang('error_board_deleted'), 'message');
     }
-
 }

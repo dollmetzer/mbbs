@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BBS - Bulletin Board System
  * 
@@ -25,12 +24,10 @@ namespace Application\modules\bbs\models;
  */
 class boardModel extends \dollmetzer\zzaplib\DBModel
 {
-
     /**
      * @var string $tablename Name for standard CRUD
      */
     protected $tablename = 'board';
-
 
     /**
      * Get the path to a certain board
@@ -42,18 +39,17 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
     {
         $path = array();
         while ($_parentid != 0) {
-            $sql = "SELECT * 
+            $sql       = "SELECT *
                 FROM board 
-                WHERE id=" . (int) $_parentid . "";
-            $stmt = $this->app->dbh->prepare($sql);
+                WHERE id=".(int) $_parentid."";
+            $stmt      = $this->app->dbh->prepare($sql);
             $stmt->execute();
-            $step = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $step      = $stmt->fetch(\PDO::FETCH_ASSOC);
             array_unshift($path, $step);
             $_parentid = $step['parent_id'];
         }
         return $path;
     }
-
 
     /**
      * Get list of boards
@@ -65,9 +61,9 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
     public function getList($_parentid = 0, $_msgcount = false)
     {
 
-        $sql = "SELECT * 
+        $sql  = "SELECT *
             FROM board 
-            WHERE parent_id=" . (int) $_parentid . " 
+            WHERE parent_id=".(int) $_parentid." 
                 ORDER BY name ASC";
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
@@ -76,17 +72,16 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
             foreach ($list as $pos => $element) {
 
                 // TODO: count Mails recursive
-                $sql = "SELECT COUNT(id) as mails FROM mail WHERE `to` LIKE '#" . $element['name'] . "'";
-                $stmt = $this->app->dbh->prepare($sql);
+                $sql                 = "SELECT COUNT(id) as mails FROM mail WHERE `to` LIKE '#".$element['name']."'";
+                $stmt                = $this->app->dbh->prepare($sql);
                 $stmt->execute();
-                $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+                $result              = $stmt->fetch(\PDO::FETCH_ASSOC);
                 $list[$pos]['mails'] = $result['mails'];
             }
         }
 
         return $list;
     }
-
 
     /**
      * Get Board by name
@@ -97,13 +92,12 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
     public function getByName($_boardName)
     {
 
-        $sql = "SELECT * FROM board WHERE name=?";
+        $sql    = "SELECT * FROM board WHERE name=?";
         $values = array($_boardName);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-
 
     /**
      * Count number of entries for board
@@ -114,20 +108,18 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
     public function countEntries($_boardId)
     {
 
-        $sql = "SELECT name FROM board WHERE id=?";
-        $values = array($_boardId);
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql       = "SELECT name FROM board WHERE id=?";
+        $values    = array($_boardId);
+        $stmt      = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
-        $board = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $boardName = '#' . $board['name'];
+        $board     = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $boardName = '#'.$board['name'];
 
-        $sql = "SELECT COUNT(*) FROM mail WHERE `to` LIKE " . $this->app->dbh->quote($boardName);
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql    = "SELECT COUNT(*) FROM mail WHERE `to` LIKE ".$this->app->dbh->quote($boardName);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $values = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $values['COUNT(*)'];
     }
-
 }
-
 ?>

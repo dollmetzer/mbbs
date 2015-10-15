@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BBS - Bulletin Board System
  * 
@@ -23,8 +22,8 @@ namespace Application\modules\bbs\models;
  * @package Application
  * @subpackage bbs
  */
-class mailModel extends \dollmetzer\zzaplib\DBModel {
-
+class mailModel extends \dollmetzer\zzaplib\DBModel
+{
     /**
      * @var string $tablename Name for standard CRUD
      */
@@ -40,7 +39,9 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_length (default = 0) If length = 0, then do no pagination
      * @return array
      */
-    public function getMaillist($_fromto, $_username, $_outbox = false, $_first = 0, $_length = 0) {
+    public function getMaillist($_fromto, $_username, $_outbox = false,
+                                $_first = 0, $_length = 0)
+    {
         if ($_fromto == 'to') {
             $sql = "SELECT * FROM mail WHERE `to`=?";
         } else if ($_fromto == 'from') {
@@ -57,11 +58,11 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
 
         // Pagination
         if ($_length != 0) {
-            $sql .= ' LIMIT ' . (int) $_first . ', ' . (int) $_length;
+            $sql .= ' LIMIT '.(int) $_first.', '.(int) $_length;
         }
 
         $values = array($_username);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -74,7 +75,8 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param boolean $_outbox (default = false)
      * @return integer
      */
-    public function getMaillistEntries($_fromto, $_username, $_outbox = false) {
+    public function getMaillistEntries($_fromto, $_username, $_outbox = false)
+    {
         if ($_fromto == 'to') {
             $sql = "SELECT COUNT(*) as entries FROM mail WHERE `to`=?";
         } else if ($_fromto == 'from') {
@@ -87,7 +89,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
         }
 
         $values = array($_username);
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['entries'];
@@ -98,9 +100,10 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * 
      * @param integer $_id
      */
-    public function markRead($_id) {
+    public function markRead($_id)
+    {
 
-        $sql = "UPDATE mail SET `read`='" . strftime('%Y-%m-%d %H:%M:%S', time()) . "' WHERE id=" . $_id;
+        $sql  = "UPDATE mail SET `read`='".strftime('%Y-%m-%d %H:%M:%S', time())."' WHERE id=".$_id;
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
     }
@@ -111,12 +114,13 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_recipient
      * @return integer
      */
-    public function getNewMailCount($_recipient) {
+    public function getNewMailCount($_recipient)
+    {
 
-        $sql = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
+        $sql    = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
         $values = array($_recipient);
 
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt   = $this->app->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['newmails'];
@@ -129,16 +133,17 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_datetime
      * @return array
      */
-    public function collectExport($_host, $_datetime) {
+    public function collectExport($_host, $_datetime)
+    {
 
         // first get all board entries since datetime
         $sql = "SELECT mid, `from`, `to`, written, subject, message 
                 FROM mail 
                 WHERE `to` LIKE '#%' 
-                    AND written > '" . $_datetime . "'
-                    AND mid LIKE '" . $this->app->config['core']['name'] . "_%'";
+                    AND written > '".$_datetime."'
+                    AND mid LIKE '".$this->app->config['core']['name']."_%'";
 
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt       = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $boardMails = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -146,10 +151,10 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
         $sql = "SELECT mid, `from`, `to`, written, subject, message 
                 FROM mail 
                 WHERE `to` LIKE '%@$_host' 
-                    AND written > '" . $_datetime . "'
-                    AND mid LIKE '" . $this->app->config['core']['name'] . "_%'";
+                    AND written > '".$_datetime."'
+                    AND mid LIKE '".$this->app->config['core']['name']."_%'";
 
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt         = $this->app->dbh->prepare($sql);
         $stmt->execute();
         $privateMails = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -162,9 +167,10 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param integer $_mid
      * @return array
      */
-    public function findByMid($_mid) {
+    public function findByMid($_mid)
+    {
 
-        $sql = "SELECT * FROM mail WHERE mid LIKE " . $this->app->dbh->quote($_mid);
+        $sql  = "SELECT * FROM mail WHERE mid LIKE ".$this->app->dbh->quote($_mid);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -176,21 +182,18 @@ class mailModel extends \dollmetzer\zzaplib\DBModel {
      * @param array $_data Array of key=>value pairs.
      * @return integer Internal ID of the mail
      */
-    public function create($_data) {
+    public function create($_data)
+    {
 
-        $id = parent::create($_data);
-        $mid = $this->app->config['core']['name'] . '_' . $id;
-        $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
+        $id  = parent::create($_data);
+        $mid = $this->app->config['core']['name'].'_'.$id;
+        $sql = "UPDATE mail SET mid = ".$this->app->dbh->quote($mid)." WHERE id=".$id;
         if (empty($_data['origin_mid'])) {
-            $sql = "UPDATE mail SET mid = " . $this->app->dbh->quote($mid) . ", origin_mid = " . $this->app->dbh->quote($mid) . " WHERE id=" . $id;
+            $sql = "UPDATE mail SET mid = ".$this->app->dbh->quote($mid).", origin_mid = ".$this->app->dbh->quote($mid)." WHERE id=".$id;
         }
-        error_log(print_r($_data, true));
-        error_log($sql);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $id;
     }
-
 }
-
 ?>

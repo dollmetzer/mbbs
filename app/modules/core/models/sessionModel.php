@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CORE - Web Application Core Elements
  * 
@@ -23,8 +22,8 @@ namespace Application\modules\core\models;
  * @package Application
  * @subpackage core
  */
-class sessionModel extends \dollmetzer\zzaplib\DBModel {
-
+class sessionModel extends \dollmetzer\zzaplib\DBModel
+{
     /**
      * @var string $tablename Name for standard CRUD
      */
@@ -35,19 +34,20 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
      * 
      * @param string $_area Area string
      */
-    public function update($_area) {
+    public function update($_area)
+    {
 
-        $sql = "REPLACE INTO session SET id=" . $this->app->dbh->quote(session_id()) . ",
-                start='" . strftime('%Y-%m-%d %H:%M:%S', $_SESSION['start']) . "',
-                hits=" . (int) $_SESSION['hits'] . ",
-                user_id=" . (int) $_SESSION['user_id'] . ",
-                user_handle=" . $this->app->dbh->quote($_SESSION['user_handle']) . ",
-                area=" . $this->app->dbh->quote($_area) . ",
-                useragent=" . $this->app->dbh->quote($_SERVER['HTTP_USER_AGENT']);
+        $sql  = "REPLACE INTO session SET id=".$this->app->dbh->quote(session_id()).",
+                start='".strftime('%Y-%m-%d %H:%M:%S', $_SESSION['start'])."',
+                hits=".(int) $_SESSION['hits'].",
+                user_id=".(int) $_SESSION['user_id'].",
+                user_handle=".$this->app->dbh->quote($_SESSION['user_handle']).",
+                area=".$this->app->dbh->quote($_area).",
+                useragent=".$this->app->dbh->quote($_SERVER['HTTP_USER_AGENT']);
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
     }
-    
+
     /**
      * Get basic info about sessions
      * 
@@ -55,13 +55,14 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_end
      * @return array
      */
-    public function getInfo($_start, $_end='') {
-        
-        if(empty($_end)) {
+    public function getInfo($_start, $_end = '')
+    {
+
+        if (empty($_end)) {
             $_end = strftime('%Y-%m-%d 23:59:59', time());
         }
-        
-        $sql = "SELECT hits, COUNT( * ) AS number
+
+        $sql  = "SELECT hits, COUNT( * ) AS number
                 FROM `session` 
                 WHERE START >= ".$this->app->dbh->quote($_start)."
                 AND START <= ".$this->app->dbh->quote($_end)."
@@ -70,9 +71,8 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
     }
-    
+
     /**
      * Get info about used useragents
      * 
@@ -80,13 +80,14 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
      * @param string $_end
      * @return array
      */
-    public function getUseragents($_start, $_end='') {
+    public function getUseragents($_start, $_end = '')
+    {
 
-        if(empty($_end)) {
+        if (empty($_end)) {
             $_end = strftime('%Y-%m-%d 23:59:59', time());
         }
-        
-        $sql = "SELECT useragent, COUNT( * ) AS sessions
+
+        $sql  = "SELECT useragent, COUNT( * ) AS sessions
                 FROM `session` 
                 WHERE START >= ".$this->app->dbh->quote($_start)."
                 AND START <= ".$this->app->dbh->quote($_end)."
@@ -95,7 +96,5 @@ class sessionModel extends \dollmetzer\zzaplib\DBModel {
         $stmt = $this->app->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
     }
-
 }
