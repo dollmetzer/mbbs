@@ -21,27 +21,36 @@
 namespace Application\modules\core\controllers;
 
 /**
- * Class Controller
+ * The language controller switches the frontend between available languages
  *
  * @author Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
- * @copyright 2016-2017 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @copyright 2016 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @package zzap_app
  * @subpackage core
  */
-class Controller extends \dollmetzer\zzaplib\Controller
+class languageController extends \dollmetzer\zzaplib\Controller
 {
 
     /**
-     * @var array $accessGroups If not empty, hold information of groups with accessright for every action
+     * Switch the users current language, if the new language is installed.
+     * Afterwards forward to the startpage
      */
-    protected $accessGroups;
-
-    /**
-     *
-     */
-    public function quicklogin()
+    public function switchtoAction()
     {
+
+        if (sizeof($this->request->params) < 1) {
+            $this->forward($this->buildUrl(''), $this->lang('error_core_parameter_missing'), 'error');
+        }
+        $language = $this->request->params[0];
+
+        if (!in_array($language, $this->config['languages'])) {
+            $this->forward($this->buildUrl(''), $this->lang('error_core_illegal_parameter'), 'error');
+        }
+
+        $this->session->user_language = $language;
+
+        $this->forward($this->buildUrl(''));
 
     }
 

@@ -1,8 +1,9 @@
-/nbproject/
-/composer.phar
-/composer.lock
-/data/mail/
-/data/user/
-/vendor/
-/logs/
-/app/config.php
+nbproject/
+.idea/
+composer.phar
+composer.lock
+data/mail/
+data/user/
+vendor/
+logs/
+app/config.php

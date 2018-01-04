@@ -1,0 +1,1 @@
+<p class="form-control-static"><?php echo $field['value']; ?></p>

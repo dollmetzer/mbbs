@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+RewriteRule api/v1/(.*) api.php?q=$1 [NC,L]
+
+RewriteCond %{REQUEST_URI} !\.(js|ico|gif|jpg|png|css|swf|flv|php|eot|svg|ttf|woff|woff2)$
+RewriteRule (.+) index.php?q=$1
+
+</IfModule>

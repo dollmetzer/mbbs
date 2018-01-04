@@ -20,31 +20,39 @@ points to /var/www/mbbs/htdocs.
 
 To install mbbs, type in the following commands:
 
-  cd /var/www/mbbs
-  git clone https://github.com/dollmetzer/mbbs.git ./
-  curl -sS https://getcomposer.org/installer | php
-  php composer.phar install
+    cd /var/www/mbbs
+    git clone https://github.com/dollmetzer/mbbs.git ./
+    curl -sS https://getcomposer.org/installer | php
+    php composer.phar install
 
 To setup your configuration, go to app/ and type
 
-  mv config_mbbs.php config.php
+  mv config_dist.php config.php
 
 Now, edit the config.php file and change the Database settings in $config->db->slave
 and $config->core->name.
 
+Make the following  directories writeable for the web server:
+* ~/data/
+* ~/logs/
+* ~/tmp/
+
+
+**Database**
+
 To install the database go into install/ and type
 
-  mysql -uusername -ppassword
+    mysql -uusername -ppassword
   
-  create database mbbs;
-  exit;
-  
-  mysql -uusername -ppassword mbbs < schema.sql
+    create database mbbs;
+    exit;
 
-Now you should have a working ebvireoment. Enter the application, and login with
+    mysql -uusername -ppassword mbbs < schema.sql
+
+Now you should have a working enviroment. Enter the application, and login with
 the following credentials:
 
-  name : admin
-  password : admin
+    name : admin
+    password : admin
 
 The first thing you should do ist change your password under "settings".
