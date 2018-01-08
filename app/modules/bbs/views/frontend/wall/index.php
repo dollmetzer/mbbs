@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
 <div id="inputform" style="display:none;">
         
@@ -38,7 +38,7 @@
 <p><strong><?php $this->lang('msg_no_mails'); ?></strong></p>
 <?php } else { ?>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php'; ?>
 
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
@@ -54,14 +54,14 @@
 </table>
 <?php } ?>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php'; ?>
 
 <script type="text/javascript">
     function jumpto(id) {
         url = '<?php $this->buildURL('bbs/wall/read/') ?>' + id;        
         location.href = url;
     }
-    <?php include PATH_APP . 'modules/bbs/views/web/_elements/resizeupload.js' ?>
+    <?php include PATH_APP . 'modules/bbs/views/frontend/_elements/resizeupload.js' ?>
 </script>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

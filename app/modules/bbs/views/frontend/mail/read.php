@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 <p>
     <a href="<?php echo $this->buildURL('bbs/mail/in'); ?>" class="btn-small"><i class="fa fa-sign-in"></i> <?php $this->lang('link_inbox'); ?></a>
     <a href="<?php echo $this->buildURL('bbs/mail/out'); ?>" class="btn-small"><i class="fa fa-sign-out"></i> <?php $this->lang('link_outbox'); ?></a>
@@ -43,4 +43,4 @@
 <p><img src="<?php $this->buildURL('bbs/mail/img/'.$content['mail']['id']); ?>" style="width:100%;" /></p>
 <?php } ?>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

@@ -42,7 +42,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
             $sql       = "SELECT *
                 FROM board 
                 WHERE id=".(int) $_parentid."";
-            $stmt      = $this->app->dbh->prepare($sql);
+            $stmt      = $this->dbh->prepare($sql);
             $stmt->execute();
             $step      = $stmt->fetch(\PDO::FETCH_ASSOC);
             array_unshift($path, $step);
@@ -65,7 +65,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
             FROM board 
             WHERE parent_id=".(int) $_parentid." 
                 ORDER BY name ASC";
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         $list = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         if ($_msgcount === true) {
@@ -73,7 +73,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
 
                 // TODO: count Mails recursive
                 $sql                 = "SELECT COUNT(id) as mails FROM mail WHERE `to` LIKE '#".$element['name']."'";
-                $stmt                = $this->app->dbh->prepare($sql);
+                $stmt                = $this->dbh->prepare($sql);
                 $stmt->execute();
                 $result              = $stmt->fetch(\PDO::FETCH_ASSOC);
                 $list[$pos]['mails'] = $result['mails'];
@@ -94,7 +94,7 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
 
         $sql    = "SELECT * FROM board WHERE name=?";
         $values = array($_boardName);
-        $stmt   = $this->app->dbh->prepare($sql);
+        $stmt   = $this->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
@@ -110,13 +110,13 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
 
         $sql       = "SELECT name FROM board WHERE id=?";
         $values    = array($_boardId);
-        $stmt      = $this->app->dbh->prepare($sql);
+        $stmt      = $this->dbh->prepare($sql);
         $stmt->execute($values);
         $board     = $stmt->fetch(\PDO::FETCH_ASSOC);
         $boardName = '#'.$board['name'];
 
-        $sql    = "SELECT COUNT(*) FROM mail WHERE `to` LIKE ".$this->app->dbh->quote($boardName);
-        $stmt   = $this->app->dbh->prepare($sql);
+        $sql    = "SELECT COUNT(*) FROM mail WHERE `to` LIKE ".$this->dbh->quote($boardName);
+        $stmt   = $this->dbh->prepare($sql);
         $stmt->execute($values);
         $values = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $values['COUNT(*)'];

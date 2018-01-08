@@ -62,7 +62,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         }
 
         $values = array($_username);
-        $stmt   = $this->app->dbh->prepare($sql);
+        $stmt   = $this->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -89,7 +89,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         }
 
         $values = array($_username);
-        $stmt   = $this->app->dbh->prepare($sql);
+        $stmt   = $this->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['entries'];
@@ -104,7 +104,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     {
 
         $sql  = "UPDATE mail SET `read`='".strftime('%Y-%m-%d %H:%M:%S', time())."' WHERE id=".$_id;
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
     }
 
@@ -120,7 +120,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
         $sql    = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
         $values = array($_recipient);
 
-        $stmt   = $this->app->dbh->prepare($sql);
+        $stmt   = $this->dbh->prepare($sql);
         $stmt->execute($values);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['newmails'];
@@ -143,7 +143,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
                     AND written > '".$_datetime."'
                     AND mid LIKE '".$this->app->config['core']['name']."_%'";
 
-        $stmt       = $this->app->dbh->prepare($sql);
+        $stmt       = $this->dbh->prepare($sql);
         $stmt->execute();
         $boardMails = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -154,7 +154,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
                     AND written > '".$_datetime."'
                     AND mid LIKE '".$this->app->config['core']['name']."_%'";
 
-        $stmt         = $this->app->dbh->prepare($sql);
+        $stmt         = $this->dbh->prepare($sql);
         $stmt->execute();
         $privateMails = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -170,8 +170,8 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     public function findByMid($_mid)
     {
 
-        $sql  = "SELECT * FROM mail WHERE mid LIKE ".$this->app->dbh->quote($_mid);
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql  = "SELECT * FROM mail WHERE mid LIKE ".$this->dbh->quote($_mid);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
@@ -187,11 +187,11 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
 
         $id  = parent::create($_data);
         $mid = $this->app->config['core']['name'].'_'.$id;
-        $sql = "UPDATE mail SET mid = ".$this->app->dbh->quote($mid)." WHERE id=".$id;
+        $sql = "UPDATE mail SET mid = ".$this->dbh->quote($mid)." WHERE id=".$id;
         if (empty($_data['origin_mid'])) {
-            $sql = "UPDATE mail SET mid = ".$this->app->dbh->quote($mid).", origin_mid = ".$this->app->dbh->quote($mid)." WHERE id=".$id;
+            $sql = "UPDATE mail SET mid = ".$this->dbh->quote($mid).", origin_mid = ".$this->dbh->quote($mid)." WHERE id=".$id;
         }
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         return $id;
     }

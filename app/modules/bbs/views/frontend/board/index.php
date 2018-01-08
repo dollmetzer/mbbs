@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; 
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php';
 
 if(!empty($content['board']['description'])) {
     echo '  <p>'.$content['board']['description']."</p>";
@@ -49,7 +49,7 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
 <?php } ?>
 
 <?php if(!empty($content['mails'])) { 
-    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
+    include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php';
 ?>
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
@@ -67,7 +67,7 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
 <?php } ?>
 </table>
 <?php 
-    include PATH_APP . '/modules/core/views/web/_elements/pagination.php';
+    include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php';
 } ?>
 <br />
 
@@ -82,4 +82,4 @@ if(in_array('administrator', $this->app->session->groups) && empty($content['boa
     }
 </script>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

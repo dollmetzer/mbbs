@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
 <p>
     <a href="<?php echo $this->buildURL('bbs/mail/in'); ?>" class="btn-small"><i class="fa fa-sign-in"></i> <?php $this->lang('link_inbox'); ?></a>
@@ -10,7 +10,7 @@
 <p><strong><?php $this->lang('msg_no_mails'); ?></strong></p>
 <?php } else { ?>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php'; ?>
 
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
@@ -25,7 +25,7 @@
 <?php } ?>
 </table>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/pagination.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/pagination.php'; ?>
 
 <?php } ?>
 
@@ -36,4 +36,4 @@
     }
 </script>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

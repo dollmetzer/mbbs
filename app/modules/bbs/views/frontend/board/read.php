@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
 <table>
     <tr><td colspan="2"><hr /></td></tr>
@@ -27,4 +27,4 @@
 
 <p><a href="<?php $this->buildURL('bbs/board/reply/'.$content['mail']['id']); ?>" class="btn"><i class="fa fa-reply"></i> <?php $this->lang('link_reply_mail'); ?></a>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

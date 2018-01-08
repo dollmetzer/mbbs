@@ -1,4 +1,4 @@
-<?php include PATH_APP . '/modules/core/views/web/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
 <table>
     <tr><td colspan="2"><hr /></td></tr>
@@ -28,4 +28,4 @@
 <br />
 <p><a href="<?php $this->buildURL('bbs/wall'); ?>" class="btn"><i class="fa fa-chevron-left"></i> <?php $this->lang('link_wall'); ?></a></p>
 
-<?php include PATH_APP . '/modules/core/views/web/_elements/foot.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/foot.php'; ?>

@@ -3,7 +3,7 @@
  * z z a p l i b   a p p l i c a t i o n   s c a f f o l d
  * =======================================================
  *
- * This is a base application using the zzaplib web applications mini framework
+ * This is a base application using the zzaplib frontend applications mini framework
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

@@ -350,7 +350,7 @@ class mailController extends \Application\modules\core\controllers\Controller
             $this->app->forward($this->buildURL('bbs/mail/out'),
                 $this->lang('msg_mail_sent'), 'message');
         }
-        $this->app->view->template            = 'modules/bbs/views/web/mail/new.php';
+        $this->app->view->template            = 'modules/bbs/views/frontend/mail/new.php';
         $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['title']    = $this->lang('title_mail_reply');
         $this->app->view->content['nav_main'] = 'mail';

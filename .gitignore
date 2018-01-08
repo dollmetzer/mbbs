@@ -6,4 +6,5 @@ data/mail/
 data/user/
 vendor/
 logs/
+tmp/
 app/config.php

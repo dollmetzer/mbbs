@@ -37,17 +37,17 @@ class wallController extends \Application\modules\core\controllers\Controller
     public function indexAction()
     {
 
-        $this->app->view->content['title']    = $this->lang('title_wall');
-        $this->app->view->content['nav_main'] = 'wall';
+        $this->view->content['title']    = $this->lang('title_wall');
+        $this->view->content['nav_main'] = 'wall';
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
         // pagination
         $listEntries = $mailModel->getMaillistEntries('to', '!wall');
         $listLength  = 10;
         $page        = 0;
-        if (sizeof($this->app->params) > 0) {
-            $page = (int) $this->app->params[0] - 1;
+        if (sizeof($this->request->params) > 0) {
+            $page = (int) $this->request->params[0] - 1;
         }
         $maxPages   = ceil($listEntries / $listLength);
         $firstEntry = $page * $listLength;
@@ -55,16 +55,16 @@ class wallController extends \Application\modules\core\controllers\Controller
         $mailList = $mailModel->getMaillist('to', '!wall', false, $firstEntry,
             $listLength);
 
-        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         for ($i = 0; $i < sizeof($mailList); $i++) {
             $mailList[$i]['picture'] = $pictureModel->hasPicture('wall',
                 $mailList[$i]['mid']);
         }
 
-        $this->app->view->content['mails']               = $mailList;
-        $this->app->view->content['pagination_page']     = $page;
-        $this->app->view->content['pagination_maxpages'] = $maxPages;
-        $this->app->view->content['pagination_link']     = $this->buildURL('bbs/wall/index/%d');
+        $this->view->content['mails']               = $mailList;
+        $this->view->content['pagination_page']     = $page;
+        $this->view->content['pagination_maxpages'] = $maxPages;
+        $this->view->content['pagination_link']     = $this->buildURL('bbs/wall/index/%d');
     }
 
     /**
