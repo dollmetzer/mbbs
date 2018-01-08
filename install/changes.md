@@ -1,5 +1,8 @@
 Changes
 =======
+
+08.01.2018 - zzapapp 2.0 front- and backend working
+
 04.01.2018 - began switch to zzaplib 2.0.0
 
 15.10.2015 - added photo upload to board
