@@ -220,7 +220,7 @@ class accountController extends \Application\modules\core\controllers\Controller
                 }
 
                 $confirmcode = substr(md5($values['handle'] . $values['password'] . $values['language'] . time()), 8);
-                $uid = $userModel->create(
+                $uid = $userModel->new(
                     $values['handle'],
                     $values['password'],
                     $values['language'],

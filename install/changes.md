@@ -1,6 +1,8 @@
 Changes
 =======
 
+11.01.2018 - Eliminated some warnings
+
 08.01.2018 - Include BBS into setup and start of refactoring
 
 08.01.2018 - zzapapp 2.0 front- and backend working

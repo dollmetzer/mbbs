@@ -99,8 +99,6 @@ class adminmoduleController  extends Controller
 
         }
 
-
-
         $this->view->deleteNavigation();
         $this->view->deleteLanguageCore();
 
@@ -125,8 +123,6 @@ class adminmoduleController  extends Controller
             $this->request->log('core::adminmoduleController::deactivateAction() failed for module '.$moduleName);
             $this->forward($this->buildUrl('core/adminmodule'), $this->lang('error_module_deactivate'), 'error');
         }
-
-
 
         $this->view->deleteNavigation();
         $this->view->deleteLanguageCore();

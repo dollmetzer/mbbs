@@ -43,14 +43,14 @@ class userModel extends \dollmetzer\zzaplib\DBModel
      * @param string $_handle
      * @param string $_password Hash password only, if set
      * @param string $_language
-     * @param int $_active
+     * @param int $_active only 0 or 1 allowed
      * @param string $_email
      * @param string $_confirmcode
      * @param string $_created Datetime string
      * @param string $_confirmed Datetime string
      * @return integer
      */
-    public function create(
+    public function new(
         $_handle,
         $_password,
         $_language,

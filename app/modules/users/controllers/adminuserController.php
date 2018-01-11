@@ -172,7 +172,7 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
             if ($form->hasErrors === false) {
 
-                $uid = $userModel->create(
+                $uid = $userModel->new(
                     $values['handle'],
                     $values['password'],
                     $values['language'],

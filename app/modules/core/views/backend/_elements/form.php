@@ -37,6 +37,7 @@ foreach ($content['form']['fields'] as $name => $field) {
         }
 
         if ($field['type'] != 'divider') {
+            if (isset($field['label'])) {
             if ($field['label'] !== false) {
                 echo "    <label for='formfield_$name' class='control-label'>" . $this->lang('form_label_' . $name, false);
 
@@ -54,6 +55,7 @@ foreach ($content['form']['fields'] as $name => $field) {
                 }
 
                 echo "</label>\n";
+            }
             }
         }
 

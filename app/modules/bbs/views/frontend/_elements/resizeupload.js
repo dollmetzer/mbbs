@@ -26,8 +26,8 @@ function resizeAndUpload(file) {
         tempImg.src = reader.result;
         tempImg.onload = function () {
 
-            var MAX_WIDTH = <?php echo $this->app->config['bbs']['media']['pictures']['maxwidth']; ?> ;
-            var MAX_HEIGHT = <?php echo $this->app->config['bbs']['media']['pictures']['maxheight']; ?> ;
+            var MAX_WIDTH = <?php echo $this->config['media']['pictures']['maxwidth']; ?> ;
+            var MAX_HEIGHT = <?php echo $this->config['media']['pictures']['maxheight']; ?> ;
             var tempW = tempImg.width;
             var tempH = tempImg.height;
             if (tempW > tempH) {
