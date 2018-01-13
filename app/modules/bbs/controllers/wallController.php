@@ -72,30 +72,30 @@ class wallController extends \Application\modules\core\controllers\Controller
      */
     public function readAction()
     {
-        if (empty($this->app->params)) {
-            $this->app->forward($this->buildURL('/bbs/wall'),
+        if (empty($this->request->params)) {
+            $this->forward($this->buildURL('/bbs/wall'),
                 $this->lang('error_access_denied'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
         $mail      = $mailModel->read($id);
 
         if (empty($mail)) {
-            $this->app->forward($this->buildURL('/bbs/wall'),
+            $this->forward($this->buildURL('/bbs/wall'),
                 $this->lang('error_data_not_found'), 'error');
         }
 
-        if ($mail['read'] == '0000-00-00 00:00:00') {
+        if (!$mail['read']) {
             $mailModel->markRead($mail['id']);
         }
 
-        $this->app->view->content['title']    = $this->lang('title_mail_read');
-        $this->app->view->content['nav_main'] = 'wall';
-        $this->app->view->content['mail']     = $mail;
-        $pictureModel                         = new \Application\modules\bbs\models\pictureModel($this->app);
-        $this->app->view->content['picture']  = $pictureModel->hasPicture('wall',
+        $this->view->content['title']    = $this->lang('title_mail_read');
+        $this->view->content['nav_main'] = 'wall';
+        $this->view->content['mail']     = $mail;
+        $pictureModel                         = new \Application\modules\bbs\models\pictureModel($this->config);
+        $this->view->content['picture']  = $pictureModel->hasPicture('wall',
             $mail['mid']);
     }
 
@@ -105,7 +105,7 @@ class wallController extends \Application\modules\core\controllers\Controller
     public function newAction()
     {
 
-        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form         = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name   = 'mailform';
         $form->fields = array(
             'image' => array(
@@ -124,32 +124,31 @@ class wallController extends \Application\modules\core\controllers\Controller
             )
         );
 
-        $this->app->view->content['nav_main'] = 'wall';
+        $this->view->content['nav_main'] = 'wall';
 
         if ($form->process()) {
 
             $values = $form->getValues();
-
             $data      = array(
-                'from' => $this->app->session->user_handle,
+                'from' => $this->session->user_handle,
                 'to' => '!wall',
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
-            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
             $mailId    = $mailModel->create($data);
 
             // Process File upload
             if (!empty($values['image'])) {
                 $mail         = $mailModel->read($mailId);
-                $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+                $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
                 $pictureModel->saveEncodedPicture('wall', $mail['mid'],
                     $values['image']);
             }
         }
 
-        $this->app->forward($this->buildURL('bbs/wall'),
+        $this->forward($this->buildURL('bbs/wall'),
             $this->lang('msg_post_sent'), 'message');
     }
 
@@ -159,20 +158,20 @@ class wallController extends \Application\modules\core\controllers\Controller
     public function imgAction()
     {
 
-        if (empty($this->app->params)) {
+        if (empty($this->request->params)) {
             header("HTTP/1.0 404 Not Found");
             exit;
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
         $mail      = $mailModel->read($id);
         if (empty($mail)) {
             header("HTTP/1.0 404 Not Found");
             exit;
         }
 
-        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         $pictureModel->download('wall', $mail['mid']);
 
     }

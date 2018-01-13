@@ -44,7 +44,7 @@ INSERT INTO `board` (`id`, `parent_id`, `content`, `name`, `description`) VALUES
 CREATE TABLE `host` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(16) NOT NULL,
-  `lastexport` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `lastexport` datetime,
   `confirmed` tinyint(3) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -53,7 +53,7 @@ CREATE TABLE `host` (
 --
 
 INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
-  (1, 'mbbs', '0000-00-00 00:00:00', 0);
+  (1, 'mbbs', null, 0);
 
 -- --------------------------------------------------------
 
@@ -69,8 +69,8 @@ CREATE TABLE `mail` (
   `from` varchar(32) NOT NULL,
   `to` varchar(32) NOT NULL,
   `subject` varchar(80) NOT NULL,
-  `written` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `read` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `written` datetime,
+  `read` datetime,
   `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -95,7 +95,7 @@ CREATE TABLE `mail_attachment` (
 
 CREATE TABLE `session` (
   `id` varchar(32) NOT NULL,
-  `start` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `start` datetime,
   `lastquery` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `hits` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',

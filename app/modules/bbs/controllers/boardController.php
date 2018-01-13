@@ -177,7 +177,7 @@ class boardController extends \Application\modules\core\controllers\Controller
 
         $to = '#'.$board['name'];
 
-        $form         = new \dollmetzer\zzaplib\Form($this->config);
+        $form         = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name   = 'boardentryform';
         $form->fields = array(
             'image' => array(
@@ -211,7 +211,7 @@ class boardController extends \Application\modules\core\controllers\Controller
         if ($form->process()) {
 
             $values = $form->getValues();
-            $from   = $this->session->user_handle.'@'.$this->config['core']['name'];
+            $from   = $this->session->user_handle.'@'.$this->config['name'];
 
             $data      = array(
                 'from' => $from,
@@ -264,7 +264,7 @@ class boardController extends \Application\modules\core\controllers\Controller
         $message = sprintf($this->lang('txt_reply_header'), $mail['from'],
                 $mail['written']).$mail['message'];
 
-        $form         = new \dollmetzer\zzaplib\Form($this->config);
+        $form         = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name   = 'mailform';
         $form->action = $this->buildURL('bbs/board/new/'.$board['id']);
         $form->fields = array(
@@ -291,7 +291,7 @@ class boardController extends \Application\modules\core\controllers\Controller
 
             // get user
             $values = $form->getValues();
-            $from   = $this->session->user_handle.'@'.$this->config['core']['name'];
+            $from   = $this->session->user_handle.'@'.$this->config['name'];
 
             $data      = array(
                 'from' => $from,

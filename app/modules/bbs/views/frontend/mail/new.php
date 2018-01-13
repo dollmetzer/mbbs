@@ -5,7 +5,7 @@
     <img src="about:blank" alt="" id="show-picture">
 </p>
     
-<?php include PATH_APP . '/modules/core/views/frontend/_elements/form.php'; ?>
+<?php include PATH_APP . '/modules/core/views/backend/_elements/form.php'; ?>
 
 <script type="text/javascript">
     <?php include PATH_APP . 'modules/bbs/views/frontend/_elements/resizeupload.js' ?>

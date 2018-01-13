@@ -117,7 +117,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     public function getNewMailCount($_recipient)
     {
 
-        $sql    = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` LIKE '0000-00-00 00:00:00'";
+        $sql    = "SELECT COUNT(*) as newmails FROM mail WHERE `to`=? AND `read` IS NULL";
         $values = array($_recipient);
 
         $stmt   = $this->dbh->prepare($sql);
@@ -141,7 +141,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
                 FROM mail 
                 WHERE `to` LIKE '#%' 
                     AND written > '".$_datetime."'
-                    AND mid LIKE '".$this->app->config['core']['name']."_%'";
+                    AND mid LIKE '".$this->config['name']."_%'";
 
         $stmt       = $this->dbh->prepare($sql);
         $stmt->execute();
@@ -152,7 +152,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
                 FROM mail 
                 WHERE `to` LIKE '%@$_host' 
                     AND written > '".$_datetime."'
-                    AND mid LIKE '".$this->app->config['core']['name']."_%'";
+                    AND mid LIKE '".$this->config['name']."_%'";
 
         $stmt         = $this->dbh->prepare($sql);
         $stmt->execute();
@@ -186,7 +186,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     {
 
         $id  = parent::create($_data);
-        $mid = $this->app->config['core']['name'].'_'.$id;
+        $mid = $this->config['name'].'_'.$id;
         $sql = "UPDATE mail SET mid = ".$this->dbh->quote($mid)." WHERE id=".$id;
         if (empty($_data['origin_mid'])) {
             $sql = "UPDATE mail SET mid = ".$this->dbh->quote($mid).", origin_mid = ".$this->dbh->quote($mid)." WHERE id=".$id;

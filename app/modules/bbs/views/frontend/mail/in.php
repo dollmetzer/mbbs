@@ -15,7 +15,7 @@
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
-        <td><?php if($mail['read'] == '0000-00-00 00:00:00') {
+        <td><?php if(!$mail['read']) {
             echo '<i class="fa fa-asterisk"></i>&nbsp;'; } ?><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
             <?php echo $this->toDatetimeShort($mail['written'], false); ?>
             <?php if(!empty($mail['picture'])) { echo '&nbsp;<i class="fa fa-photo"></i>'; } ?>
