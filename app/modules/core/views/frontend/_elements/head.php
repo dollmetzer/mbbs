@@ -23,7 +23,7 @@
     <link href="<?php $this->buildMediaUrl('backend/vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?php $this->buildMediaURL('frontend/css/app.css'); ?>" rel="stylesheet">
+    <link href="<?php $this->buildMediaURL('frontend/css/mbbs.css'); ?>" rel="stylesheet">
 
     <?php
     $css = $this->getCSS();
@@ -91,7 +91,7 @@
     </nav>
 </header>
 
-<div class="content">
+<section>
     <?php
     if (!empty($_SESSION['flasherror'])) {
         echo '<div class="alert alert-danger alert-dismissible" id="alertbox">';

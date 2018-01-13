@@ -1,11 +1,11 @@
-</div>
+</section>
 
-<footer><p>&copy;&nbsp;2017 Dirk Ollmetzer&nbsp;[
+<footer><p>&copy;&nbsp;2018 Dirk Ollmetzer&nbsp;[
     <?php
     for($i=0; $i<sizeof($this->config['languages']); $i++) {
         if($i > 0) echo '|&nbsp;';
         if($this->config['languages'][$i] == $this->session->user_language) {
-            echo '<strong>'.$this->config['languages'][$i].'</strong>&nbsp;';
+            echo '<strong class="active">'.$this->config['languages'][$i].'</strong>&nbsp;';
         } else {
             echo '<a href="'.$this->buildURL('core/language/switchto/'.$this->config['languages'][$i], false).'">'.$this->config['languages'][$i].'</a>&nbsp;';
         }
