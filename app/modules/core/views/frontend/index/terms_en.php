@@ -1,0 +1,1 @@
+<p>Insert Terms of service here...</p>

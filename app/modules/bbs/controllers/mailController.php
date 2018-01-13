@@ -40,18 +40,18 @@ class mailController extends \Application\modules\core\controllers\Controller
     public function inAction()
     {
 
-        $this->app->view->content['title']    = $this->lang('title_mail_in');
-        $this->app->view->content['nav_main'] = 'mail';
+        $this->view->content['title']    = $this->lang('title_mail_in');
+        $this->view->content['nav_main'] = 'mail';
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
 
         // pagination
         $listEntries = $mailModel->getMaillistEntries('to', $username);
         $listLength  = 10;
         $page        = 0;
-        if (sizeof($this->app->params) > 0) {
-            $page = (int) $this->app->params[0] - 1;
+        if (sizeof($this->request->params) > 0) {
+            $page = (int) $this->request->params[0] - 1;
         }
         $maxPages   = ceil($listEntries / $listLength);
         $firstEntry = $page * $listLength;
@@ -59,16 +59,16 @@ class mailController extends \Application\modules\core\controllers\Controller
         $mailList = $mailModel->getMaillist('to', $username, false, $firstEntry,
             $listLength);
 
-        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         for ($i = 0; $i < sizeof($mailList); $i++) {
             $mailList[$i]['picture'] = $pictureModel->hasPicture('mail',
                 $mailList[$i]['mid']);
         }
 
-        $this->app->view->content['mails']               = $mailList;
-        $this->app->view->content['pagination_page']     = $page;
-        $this->app->view->content['pagination_maxpages'] = $maxPages;
-        $this->app->view->content['pagination_link']     = $this->buildURL('bbs/mail/in/%d');
+        $this->view->content['mails']               = $mailList;
+        $this->view->content['pagination_page']     = $page;
+        $this->view->content['pagination_maxpages'] = $maxPages;
+        $this->view->content['pagination_link']     = $this->buildURL('bbs/mail/in/%d');
     }
 
     /**
@@ -77,18 +77,18 @@ class mailController extends \Application\modules\core\controllers\Controller
     public function outAction()
     {
 
-        $this->app->view->content['title']    = $this->lang('title_mail_out');
-        $this->app->view->content['nav_main'] = 'mail';
+        $this->view->content['title']    = $this->lang('title_mail_out');
+        $this->view->content['nav_main'] = 'mail';
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
 
         // pagination
         $listEntries = $mailModel->getMaillistEntries('from', $username, true);
         $listLength  = 10;
         $page        = 0;
-        if (sizeof($this->app->params) > 0) {
-            $page = (int) $this->app->params[0] - 1;
+        if (sizeof($this->request->params) > 0) {
+            $page = (int) $this->request->params[0] - 1;
         }
         $maxPages   = ceil($listEntries / $listLength);
         $firstEntry = $page * $listLength;
@@ -96,16 +96,16 @@ class mailController extends \Application\modules\core\controllers\Controller
         $mailList = $mailModel->getMaillist('from', $username, true,
             $firstEntry, $listLength);
 
-        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         for ($i = 0; $i < sizeof($mailList); $i++) {
             $mailList[$i]['picture'] = $pictureModel->hasPicture('mail',
                 $mailList[$i]['mid']);
         }
 
-        $this->app->view->content['mails']               = $mailList;
-        $this->app->view->content['pagination_page']     = $page;
-        $this->app->view->content['pagination_maxpages'] = $maxPages;
-        $this->app->view->content['pagination_link']     = $this->buildURL('bbs/mail/out/%d');
+        $this->view->content['mails']               = $mailList;
+        $this->view->content['pagination_page']     = $page;
+        $this->view->content['pagination_maxpages'] = $maxPages;
+        $this->view->content['pagination_link']     = $this->buildURL('bbs/mail/out/%d');
     }
 
     /**
@@ -113,41 +113,41 @@ class mailController extends \Application\modules\core\controllers\Controller
      */
     public function readAction()
     {
-        if (empty($this->app->params)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+        if (empty($this->request->params)) {
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
         $mail      = $mailModel->read($id);
 
         if (empty($mail)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_data_not_found'), 'error');
         }
         if ((strtolower($mail['to']) != strtolower($username) ) && (strtolower($mail['from'])
             != strtolower($username))) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
 
-        if ($mail['read'] == '0000-00-00 00:00:00') {
+        if (!$mail['read']) {
             $mailModel->markRead($mail['id']);
         }
 
         if (strtolower($mail['from']) == strtolower($username)) {
-            $this->app->view->content['title'] = $this->lang('title_mail_read_outgoing');
+            $this->view->content['title'] = $this->lang('title_mail_read_outgoing');
         } else {
-            $this->app->view->content['title'] = $this->lang('title_mail_read_incoming');
+            $this->view->content['title'] = $this->lang('title_mail_read_incoming');
         }
 
-        $this->app->view->content['nav_main'] = 'mail';
-        $this->app->view->content['username'] = $username;
-        $this->app->view->content['mail']     = $mail;
-        $pictureModel                         = new \Application\modules\bbs\models\pictureModel($this->app);
-        $this->app->view->content['picture']  = $pictureModel->hasPicture('mail',
+        $this->view->content['nav_main'] = 'mail';
+        $this->view->content['username'] = $username;
+        $this->view->content['mail']     = $mail;
+        $pictureModel                         = new \Application\modules\bbs\models\pictureModel($this->config);
+        $this->view->content['picture']  = $pictureModel->hasPicture('mail',
             $mail['mid']);
     }
 
@@ -158,16 +158,16 @@ class mailController extends \Application\modules\core\controllers\Controller
     {
 
         $receiver = '';
-        if (sizeof($this->app->params) > 0) {
+        if (sizeof($this->request->params) > 0) {
             // try to determine receiver
-            $userModel = new \Application\modules\core\models\userModel($this->app);
-            $user      = $userModel->getByHandle($this->app->params[0]);
+            $userModel = new \Application\modules\core\models\userModel($this->config);
+            $user      = $userModel->getByHandle($this->request->params[0]);
             if (!empty($user)) {
                 $receiver = $user['handle'];
             }
         }
 
-        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form         = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name   = 'mailform';
         $form->fields = array(
             'image' => array(
@@ -207,11 +207,11 @@ class mailController extends \Application\modules\core\controllers\Controller
             // get user
             $values = $form->getValues();
 
-            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-            $from      = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+            $from      = $this->session->user_handle.'@'.$this->config['name'];
             $to        = $values['to'];
             if (strpos($to, '@') === false) {
-                $to .= '@'.$this->app->config['core']['name'];
+                $to .= '@'.$this->config['name'];
             }
             $data = array(
                 'from' => $from,
@@ -224,16 +224,16 @@ class mailController extends \Application\modules\core\controllers\Controller
 
             if (!empty($values['image'])) {
                 $mail         = $mailModel->read($id);
-                $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+                $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
                 $pictureModel->saveEncodedPicture('mail', $mail['mid'], $values['image']);
             }
 
-            $this->app->forward($this->buildURL('bbs/mail/out'),
+            $this->forward($this->buildURL('bbs/mail/out'),
                 $this->lang('msg_mail_sent'), 'message');
         }
-        $this->app->view->content['form']     = $form->getViewdata();
-        $this->app->view->content['title']    = $this->lang('title_mail_new');
-        $this->app->view->content['nav_main'] = 'mail';
+        $this->view->content['form']     = $form->getViewdata();
+        $this->view->content['title']    = $this->lang('title_mail_new');
+        $this->view->content['nav_main'] = 'mail';
     }
 
     /**
@@ -242,28 +242,28 @@ class mailController extends \Application\modules\core\controllers\Controller
     public function deleteAction()
     {
 
-        if (empty($this->app->params)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+        if (empty($this->request->params)) {
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
         // test, if mail is available and owned by the user
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
         $mail      = $mailModel->read($id);
         if (empty($mail)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_data_not_found'), 'error');
         }
         if (strtolower($mail['to']) != strtolower($username)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
 
         $mailModel->delete($id);
 
-        $this->app->forward($this->buildURL('bbs/mail'),
+        $this->forward($this->buildURL('bbs/mail'),
             $this->lang('msg_mail_deleted'), 'message');
     }
 
@@ -274,30 +274,30 @@ class mailController extends \Application\modules\core\controllers\Controller
     {
 
         // check if mail id exists
-        if (empty($this->app->params)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+        if (empty($this->request->params)) {
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
         // test, if mail is available and owned by the user
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-        $username  = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+        $username  = $this->session->user_handle.'@'.$this->config['name'];
         $mail      = $mailModel->read($id);
 
         if (empty($mail)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_data_not_found'), 'error');
         }
         if (strtolower($mail['to']) != strtolower($username)) {
-            $this->app->forward($this->buildURL('/bbs/mail'),
+            $this->forward($this->buildURL('/bbs/mail'),
                 $this->lang('error_access_denied'), 'error');
         }
 
         $message = sprintf($this->lang('txt_reply_header'), $mail['from'],
                 $mail['written']).$mail['message'];
 
-        $form         = new \dollmetzer\zzaplib\Form($this->app);
+        $form         = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name   = 'mailform';
         $form->action = "";
         $form->fields = array(
@@ -330,11 +330,11 @@ class mailController extends \Application\modules\core\controllers\Controller
             // get user
             $values = $form->getValues();
 
-            $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
-            $from      = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
+            $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
+            $from      = $this->session->user_handle.'@'.$this->config['name'];
             $to        = $values['to'];
             if (strpos($to, '@') === false) {
-                $to .= '@'.$this->app->config['core']['name'];
+                $to .= '@'.$this->config['name'];
             }
             $data = array(
                 'from' => $from,
@@ -347,13 +347,13 @@ class mailController extends \Application\modules\core\controllers\Controller
             );
 
             $id = $mailModel->create($data);
-            $this->app->forward($this->buildURL('bbs/mail/out'),
+            $this->forward($this->buildURL('bbs/mail/out'),
                 $this->lang('msg_mail_sent'), 'message');
         }
-        $this->app->view->template            = 'modules/bbs/views/web/mail/new.php';
-        $this->app->view->content['form']     = $form->getViewdata();
-        $this->app->view->content['title']    = $this->lang('title_mail_reply');
-        $this->app->view->content['nav_main'] = 'mail';
+        $this->view->template            = 'modules/bbs/views/frontend/mail/new.php';
+        $this->view->content['form']     = $form->getViewdata();
+        $this->view->content['title']    = $this->lang('title_mail_reply');
+        $this->view->content['nav_main'] = 'mail';
     }
 
     /**
@@ -362,20 +362,20 @@ class mailController extends \Application\modules\core\controllers\Controller
     public function imgAction()
     {
 
-        if (empty($this->app->params)) {
+        if (empty($this->request->params)) {
             header("HTTP/1.0 404 Not Found");
             exit;
         }
-        $id = (int) $this->app->params[0];
+        $id = (int) $this->request->params[0];
 
-        $mailModel = new \Application\modules\bbs\models\mailModel($this->app);
+        $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
         $mail      = $mailModel->read($id);
         if (empty($mail)) {
             header("HTTP/1.0 404 Not Found");
             exit;
         }
 
-        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->app);
+        $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         $pictureModel->download('mail', $mail['mid']);
     }
 }

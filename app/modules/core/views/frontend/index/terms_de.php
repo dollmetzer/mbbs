@@ -1,0 +1,1 @@
+<p>Allgemeine Geschäftsbedingungen hier einfügen</p>

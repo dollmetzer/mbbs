@@ -98,7 +98,7 @@ class adminboardController extends \Application\modules\core\controllers\Control
         $this->app->view->content['form']     = $form->getViewdata();
         $this->app->view->content['nav_main'] = 'board';
         $this->app->view->content['title']    = $this->lang('title_board_add');
-        $this->app->view->template            = 'modules/bbs/views/web/adminboard/edit.php';
+        $this->app->view->template            = 'modules/bbs/views/frontend/adminboard/edit.php';
     }
 
     /**

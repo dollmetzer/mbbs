@@ -39,7 +39,7 @@ class mailattachmentModel extends \dollmetzer\zzaplib\DBModel
     {
 
         $sql  = "SELECT * FROM mail_attachment WHERE mail_id=".(int) $_mailId.' ORDER BY sort';
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

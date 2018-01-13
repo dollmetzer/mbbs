@@ -38,7 +38,7 @@ class hostModel extends \dollmetzer\zzaplib\DBModel
     {
 
         $sql  = "SELECT * FROM host";
-        $stmt = $this->app->dbh->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -52,8 +52,8 @@ class hostModel extends \dollmetzer\zzaplib\DBModel
     public function getByName($_name)
     {
 
-        $sql  = "SELECT * FROM host WHERE name LIKE ".$this->app->dbh->quote($_name);
-        $stmt = $this->app->dbh->prepare($sql);
+        $sql  = "SELECT * FROM host WHERE name LIKE ".$this->dbh->quote($_name);
+        $stmt = $this->dbh->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }

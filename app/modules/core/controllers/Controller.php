@@ -1,44 +1,48 @@
 <?php
 /**
- * CORE - Web Application Core Elements
- * 
- * Typical Elements for every Web Application
- * 
- * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014-2015, Dirk Ollmetzer
- * @package Application
- * @subpackage core
+ * z z a p   a p p   e x a m p l e   a p p l i c a t i o n
+ * =======================================================
+ *
+ * This is a base application using the zzaplib frontend applications mini framework
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Application\modules\core\controllers;
 
 /**
- * CORE Controller
- * 
- * Base for all application controllers. 
- * Search for number of new mails to show in the navigation.
- * 
- * @author Dirk Ollmetzer <dirk.ollmetzer@ollmetzer.com>
- * @copyright (c) 2014-2015, Dirk Ollmetzer
- * @package Application
+ * Class Controller
+ *
+ * @author Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
+ * @copyright 2016-2017 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @package zzap_app
  * @subpackage core
  */
 class Controller extends \dollmetzer\zzaplib\Controller
 {
 
     /**
-     * Search for number of new mails to show in the navigation.
+     * @var array $accessGroups If not empty, hold information of groups with accessright for every action
      */
-    public function preAction()
+    protected $accessGroups;
+
+    /**
+     *
+     */
+    public function quicklogin()
     {
 
-        $recipient                            = $this->app->session->user_handle.'@'.$this->app->config['core']['name'];
-        $mailModel                            = new \Application\modules\bbs\models\mailModel($this->app);
-        $newMails                             = $mailModel->getNewMailCount($recipient);
-        $this->app->view->content['newMails'] = $mailModel->getNewMailCount($recipient);
-
-        if ($this->app->config['core']['tracking']['session'] === true) {
-            $this->app->session->track($this->app->moduleName.'/'.$this->app->controllerName.'/'.$this->app->actionName);
-        }
     }
+
 }
