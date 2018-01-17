@@ -42,7 +42,9 @@ class wallController extends \Application\modules\core\controllers\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
-        // pagination
+        // TODO: Pagination via Table object!!!
+
+        // pagination (not working)
         $listEntries = $mailModel->getMaillistEntries('to', '!wall');
         $listLength  = 10;
         $page        = 0;

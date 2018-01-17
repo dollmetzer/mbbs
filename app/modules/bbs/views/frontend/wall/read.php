@@ -1,6 +1,6 @@
 <?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
-<table>
+<table class="maildetails">
     <tr><td colspan="2"><hr /></td></tr>
     <tr>
         <td><?php $this->lang('table_col_from'); ?>&nbsp;:&nbsp;</td>

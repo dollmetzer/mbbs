@@ -1,6 +1,8 @@
 Changes
 =======
 
+17.01.2018 - Buttons styled
+
 13.01.2018 - Changed Frontend Styles
 
 13.01.2018 - Debugged BBS module (DB scheme, controllers, models)
