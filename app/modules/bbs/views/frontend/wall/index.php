@@ -45,8 +45,9 @@
     <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
         <td><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
             <?php echo $this->toDatetimeShort($mail['written'], false); ?>
+            <?php if(!empty($mail['message'])) { echo '&nbsp;<i class="fa fa-align-left"></i>'; } ?>
             <?php if(!empty($mail['picture'])) { echo '&nbsp;<i class="fa fa-photo"></i>'; } ?>
-            <?php if(!empty($mail['attachments'])) { echo '<i class="fa fa-paperclip"></i>'; } ?>
+            <?php if(!empty($mail['attachments'])) { echo '&nbsp;<i class="fa fa-paperclip"></i>'; } ?>
             <br />
             <strong><?php echo $mail['subject']; ?></strong></td>
     </tr>

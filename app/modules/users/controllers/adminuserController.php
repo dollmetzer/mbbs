@@ -25,7 +25,7 @@ namespace Application\modules\users\controllers;
  *
  * @author Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
- * @copyright 2016-2017 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @copyright 2016-2018 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @package zzap_app
  * @subpackage users
  */
@@ -44,7 +44,6 @@ class adminuserController extends \Application\modules\core\controllers\Controll
         'sort' => 'administrator',
         'assigngroup' => 'administrator',
         'resigngroup' => 'administrator',
-
         'settings' => 'administrator',
         'search' => 'administrator'
     );
@@ -199,7 +198,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
     }
 
-
+    /**
+     * Edit a user
+     *
+     * @throws \Exception
+     */
     public function editAction()
     {
 
@@ -283,7 +286,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
     }
 
-
+    /**
+     * Delete a user
+     *
+     * @throws \Exception
+     */
     public function deleteAction()
     {
 
@@ -350,6 +357,9 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
     }
 
+    /**
+     * Search for a user
+     */
     public function searchAction()
     {
 
@@ -406,7 +416,6 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
     }
 
-
     /**
      * Assign a user to a group
      */
@@ -441,7 +450,11 @@ class adminuserController extends \Application\modules\core\controllers\Controll
 
     }
 
-
+    /**
+     * Resign a user from a group
+     *
+     * @throws \Exception
+     */
     public function resigngroupAction()
     {
 
@@ -472,7 +485,6 @@ class adminuserController extends \Application\modules\core\controllers\Controll
             sprintf($this->lang('msg_group_resigned'), $user['handle'], $group['name']), 'message');
 
     }
-
 
     /**
      * Returns the columns definition array for the user table
@@ -552,6 +564,7 @@ class adminuserController extends \Application\modules\core\controllers\Controll
                 'value' => $_user['id'],
             ),
             'handle' => array(
+                'label' => 'handle',
                 'type' => 'text',
                 'value' => $_user['handle'],
                 'minlength' => 4,
@@ -560,11 +573,13 @@ class adminuserController extends \Application\modules\core\controllers\Controll
                 'help' => $this->lang('form_help_registerform_handle'),
             ),
             'email' => array(
+                'label' => 'email',
                 'type' => 'email',
                 'maxlength' => 255,
                 'value' => $_user['email'],
             ),
             'password' => array(
+                'label' => 'password',
                 'type' => 'password',
                 'minlength' => 4,
                 'maxlength' => 32,
@@ -572,12 +587,14 @@ class adminuserController extends \Application\modules\core\controllers\Controll
                 'help' => $this->lang('form_help_registerform_password'),
             ),
             'language' => array(
+                'label' => 'language',
                 'type' => 'select',
                 'options' => $languages,
                 'value' => $_user['language'],
                 'required' => true,
             ),
             'active' => array(
+                'label' => 'active',
                 'type' => 'checkbox',
                 'value' => $_user['active'],
             ),

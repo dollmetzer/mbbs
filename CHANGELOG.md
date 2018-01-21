@@ -1,7 +1,7 @@
 Changes
 =======
 
-21.01.2018 - Reorganized documentation a little bit
+21.01.2018 - Reorganized documentation a little bit, Repaired form labels, working on wall
 
 17.01.2018 - Buttons styled
 

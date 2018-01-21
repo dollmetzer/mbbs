@@ -26,7 +26,7 @@ namespace Application\modules\users\controllers;
  *
  * @author Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
- * @copyright 2016-2017 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @copyright 2016-2018 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @package zzap_app
  * @subpackage users
  */
@@ -64,11 +64,13 @@ class accountController extends \Application\modules\core\controllers\Controller
         $form->name = 'loginform';
         $form->fields = array(
             'handle' => array(
+                'label' => 'handle',
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 32,
             ),
             'password' => array(
+                'label' => 'password',
                 'type' => 'password',
                 'required' => true,
                 'maxlength' => 32,
@@ -137,8 +139,9 @@ class accountController extends \Application\modules\core\controllers\Controller
 
         $form = new \dollmetzer\zzaplib\Form($this->request, $this->view);
         $form->name = 'registerform';
-        if($this->config['register']['separate_handle'] === true) {
+        if ($this->config['register']['separate_handle'] === true) {
             $form->fields['handle'] = array(
+                'label' => 'handle',
                 'type' => 'text',
                 'required' => true,
                 'pattern' => '/^[a-z0-9_\-]*$/i',
@@ -150,6 +153,7 @@ class accountController extends \Application\modules\core\controllers\Controller
 
         if ($this->config['register']['mailcheck'] === true) {
             $form->fields['email'] = array(
+                'label' => 'email',
                 'type' => 'email',
                 'required' => true,
                 'maxlength' => 255,
@@ -157,6 +161,7 @@ class accountController extends \Application\modules\core\controllers\Controller
         }
 
         $form->fields['password'] = array(
+            'label' => 'password',
             'type' => 'password',
             'required' => true,
             'minlength' => 8,
@@ -164,12 +169,14 @@ class accountController extends \Application\modules\core\controllers\Controller
             'help' => $this->lang('form_help_registerform_password'),
         );
         $form->fields['password2'] = array(
+            'label' => 'password2',
             'type' => 'password',
             'required' => true,
             'minlength' => 8,
             'maxlength' => 32,
         );
         $form->fields['language'] = array(
+            'label' => 'language',
             'type' => 'select',
             'required' => true,
             'options' => $languages,
@@ -184,7 +191,7 @@ class accountController extends \Application\modules\core\controllers\Controller
 
             $values = $form->getValues();
 
-            if($this->config['register']['separate_handle'] !== true) {
+            if ($this->config['register']['separate_handle'] !== true) {
                 $values['handle'] = $values['email'];
             }
 
@@ -192,7 +199,7 @@ class accountController extends \Application\modules\core\controllers\Controller
             $userModel = new \Application\modules\users\models\userModel($this->config);
             $user = $userModel->getByHandle($values['handle']);
             if (!empty($user)) {
-                if($this->config['register']['separate_handle'] === true) {
+                if ($this->config['register']['separate_handle'] === true) {
                     $form->fields['handle']['error'] = $this->lang('error_users_handleexists');
                 } else {
                     $form->fields['email']['error'] = $this->lang('error_users_emailexists');
@@ -272,6 +279,7 @@ class accountController extends \Application\modules\core\controllers\Controller
         $form->name = 'confirmform';
         $form->fields = array(
             'confirmcode' => array(
+                'label' => 'confirmcode',
                 'type' => 'text',
                 'required' => true,
                 'pattern' => '/^[a-z0-9]{8}$/i',
@@ -334,6 +342,7 @@ class accountController extends \Application\modules\core\controllers\Controller
         $form->name = 'pwdresetform';
         $form->fields = array(
             'handle' => array(
+                'label' => 'handle',
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 32,
@@ -377,7 +386,11 @@ class accountController extends \Application\modules\core\controllers\Controller
 
     }
 
-
+    /**
+     * User settings page
+     *
+     * @throws \Exception
+     */
     public function settingsAction()
     {
 
@@ -455,8 +468,13 @@ class accountController extends \Application\modules\core\controllers\Controller
 
     }
 
-
-
+    /**
+     * Send registration mail to user
+     *
+     * @param $_uid
+     * @return bool
+     * @throws \Exception
+     */
     protected function sendRegistrationMail($_uid)
     {
 
@@ -476,6 +494,13 @@ class accountController extends \Application\modules\core\controllers\Controller
 
     }
 
+    /**
+     * Send confirmation mail to user
+     *
+     * @param $_uid
+     * @return bool
+     * @throws \Exception
+     */
     protected function sendConfirmationMail($_uid)
     {
 

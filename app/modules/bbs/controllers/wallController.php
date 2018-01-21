@@ -120,7 +120,7 @@ class wallController extends \Application\modules\core\controllers\Controller
             ),
             'message' => array(
                 'type' => 'textarea',
-                'required' => true,
+                //'required' => true,
                 'rows' => 8,
                 'maxlength' => 4096,
             )
@@ -132,6 +132,7 @@ class wallController extends \Application\modules\core\controllers\Controller
 
             $values = $form->getValues();
             $data      = array(
+                'mid' => $this->config['name'].'_board_'.time(),
                 'from' => $this->session->user_handle,
                 'to' => '!wall',
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),

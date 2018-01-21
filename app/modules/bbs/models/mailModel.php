@@ -185,6 +185,7 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     public function create($_data)
     {
 
+        $data['mid'] = '.'; // placeholder
         $id  = parent::create($_data);
         $mid = $this->config['name'].'_'.$id;
         $sql = "UPDATE mail SET mid = ".$this->dbh->quote($mid)." WHERE id=".$id;
