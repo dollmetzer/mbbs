@@ -2,7 +2,8 @@ nbproject/
 .idea/
 composer.phar
 composer.lock
-data/mail/
+!data/
+data/*
 data/user/
 vendor/
 logs/

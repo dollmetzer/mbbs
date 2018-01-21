@@ -1,6 +1,8 @@
 Changes
 =======
 
+21.01.2018 - Reorganized documentation a little bit
+
 17.01.2018 - Buttons styled
 
 13.01.2018 - Changed Frontend Styles
@@ -14,6 +16,9 @@ Changes
 08.01.2018 - zzapapp 2.0 front- and backend working
 
 04.01.2018 - began switch to zzaplib 2.0.0
+
+Version 1.x
+-----------
 
 15.10.2015 - added photo upload to board
 
