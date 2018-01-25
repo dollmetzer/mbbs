@@ -30,6 +30,34 @@ class mailModel extends \dollmetzer\zzaplib\DBModel
     protected $tablename = 'mail';
 
     /**
+     * @param $_fromto
+     * @param $_username
+     * @param bool $_outbox
+     * @return mixed
+     */
+    public function getListEntries($_fromto, $_username, $_outbox = false) {
+
+        if ($_fromto == 'to') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `to`=".$this->dbh->quote($_username);
+        } else if ($_fromto == 'from') {
+            $sql = "SELECT COUNT(*) as entries FROM mail WHERE `from`=".$this->dbh->quote($_username);
+            if ($_outbox !== false) {
+                $sql .= " AND `to` NOT LIKE '#%' AND `to` NOT LIKE '!%'";
+            }
+        } else {
+            $sql = "SELECT COUNT(*) as entries FROM mail";
+        }
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result['entries'];
+
+    }
+
+
+
+    /**
      * Get a list of mails
      * 
      * @param string $_fromto 'to', 'from' or 'all'

@@ -33,6 +33,8 @@ class wallController extends \Application\modules\core\controllers\Controller
 
     /**
      * The Startpage
+     *
+     * Show a list of messages
      */
     public function indexAction()
     {
@@ -43,19 +45,22 @@ class wallController extends \Application\modules\core\controllers\Controller
         $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
         // TODO: Pagination via Table object!!!
-
-        // pagination (not working)
-        $listEntries = $mailModel->getMaillistEntries('to', '!wall');
-        $listLength  = 10;
-        $page        = 0;
+//        $columns = $this->getColumns();
+        $table = new \dollmetzer\zzaplib\Table();
+        // calculate pagination
+        $page = 0;
         if (sizeof($this->request->params) > 0) {
-            $page = (int) $this->request->params[0] - 1;
+            $page = (int)$this->request->params[0];
         }
-        $maxPages   = ceil($listEntries / $listLength);
-        $firstEntry = $page * $listLength;
+        $table->page = $page;
+        $entriesPerPage = 10;
+        $table->entriesPerPage = $entriesPerPage;
+        $table->calculateMaxPage($mailModel->getListEntries('to', '!wall'));
+        $first = $page * $entriesPerPage;
+        $table->urlPage = 'bbs/wall/index';
 
-        $mailList = $mailModel->getMaillist('to', '!wall', false, $firstEntry,
-            $listLength);
+        $mailList = $mailModel->getMaillist('to', '!wall', false, $first,
+            $entriesPerPage);
 
         $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
         for ($i = 0; $i < sizeof($mailList); $i++) {
@@ -64,9 +69,8 @@ class wallController extends \Application\modules\core\controllers\Controller
         }
 
         $this->view->content['mails']               = $mailList;
-        $this->view->content['pagination_page']     = $page;
-        $this->view->content['pagination_maxpages'] = $maxPages;
-        $this->view->content['pagination_link']     = $this->buildURL('bbs/wall/index/%d');
+        $this->view->content['table'] = $table;
+
     }
 
     /**
@@ -178,4 +182,26 @@ class wallController extends \Application\modules\core\controllers\Controller
         $pictureModel->download('wall', $mail['mid']);
 
     }
+
+
+    protected function getColumns() {
+
+        return array(
+            'id' => array(
+                'type' => 'hidden',
+            ),
+            'active' => array(
+                'type' => 'active',
+                'sortable' => true,
+                'width' => '5%',
+            ),
+            'handle' => array(
+                'type' => 'text',
+                'sortable' => true,
+                'width' => '25%',
+            ),
+        );
+
+    }
+
 }
