@@ -214,12 +214,14 @@ class boardController extends \Application\modules\core\controllers\Controller
             $from   = $this->session->user_handle.'@'.$this->config['name'];
 
             $data      = array(
+                'mid' => $this->config['name'].'_'.md5(time()),
                 'from' => $from,
                 'to' => $to,
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
                 'subject' => $values['subject'],
                 'message' => $values['message']
             );
+
             $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
             $mailId    = $mailModel->create($data);
 

@@ -66,4 +66,11 @@ $config = array(
         'from' => 'your name <your.mail@yourdomain.com>',
         'replyto' => 'your name <your.mail@yourdomain.com>',
     ),
+    'media' => array(
+        'pictures' => array(
+            'maxwidth' => 1280,
+            'maxheight' => 1280
+        )
+    ),
+
 );

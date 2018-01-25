@@ -1,6 +1,12 @@
 Changes
 =======
 
+25.01.2018 - Wall now with pagination and file upload
+
+21.01.2018 - Reorganized documentation a little bit, Repaired form labels, working on wall
+
+17.01.2018 - Buttons styled
+
 13.01.2018 - Changed Frontend Styles
 
 13.01.2018 - Debugged BBS module (DB scheme, controllers, models)
@@ -12,6 +18,9 @@ Changes
 08.01.2018 - zzapapp 2.0 front- and backend working
 
 04.01.2018 - began switch to zzaplib 2.0.0
+
+Version 1.x
+-----------
 
 15.10.2015 - added photo upload to board
 

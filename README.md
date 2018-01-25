@@ -15,19 +15,27 @@ code is lightweight enough to run on cheap and tiny devices, like the Raspberry 
 Installation
 ------------
 I apologize for not finishing a setup routine until now. There is some work to
-do by hand. Assuming your application root is /var/www/mbbs and your webroot 
+do by hand. Be sure to have the following software installed and running:
+
+- Apache 2 Webserver
+- PHP
+- Composer (PHP Dependency Manager)
+- MySQL Database server and client
+- GIT Version control system
+
+
+Assuming your application root is /var/www/mbbs and your webroot 
 points to /var/www/mbbs/htdocs.
 
 To install mbbs, type in the following commands:
 
     cd /var/www/mbbs
     git clone https://github.com/dollmetzer/mbbs.git ./
-    curl -sS https://getcomposer.org/installer | php
     php composer.phar install
 
 To setup your configuration, go to app/ and type
 
-  mv config_dist.php config.php
+    mv config_dist.php config.php
 
 Now, edit the config.php file and change the Database settings in $config->db->slave
 and $config->core->name.

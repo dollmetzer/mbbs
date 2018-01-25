@@ -25,7 +25,7 @@ namespace Application\modules\users\controllers;
  *
  * @author Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
- * @copyright 2016-2017 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
+ * @copyright 2016-2018 Dirk Ollmetzer (dirk.ollmetzer@ollmetzer.com)
  * @package zzap_app
  * @subpackage users
  */
@@ -279,7 +279,9 @@ class admingroupController extends \Application\modules\core\controllers\Control
 
     }
 
-
+    /**
+     * Search for a specific group
+     */
     public function searchAction()
     {
 
@@ -336,7 +338,6 @@ class admingroupController extends \Application\modules\core\controllers\Control
         $this->view->content['searchterm'] = $searchterm;
 
     }
-
 
     /**
      * Returns the columns definition array for the group table
@@ -398,17 +399,20 @@ class admingroupController extends \Application\modules\core\controllers\Control
                 'value' => $_group['id'],
             ),
             'name' => array(
+                'label' => 'name',
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 32,
                 'value' => $_group['name'],
             ),
             'description' => array(
+                'label' => 'description',
                 'type' => 'text',
                 'maxlength' => 32,
                 'value' => $_group['description'],
             ),
             'active' => array(
+                'label' => 'active',
                 'type' => 'checkbox',
                 'value' => $_group['active'],
             ),

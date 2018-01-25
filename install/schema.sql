@@ -3,168 +3,77 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 03, 2015 at 02:48 PM
--- Server version: 5.5.40-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.5
+-- Erstellungszeit: 13. Jan 2017 um 18:51
+-- Server Version: 5.5.53-0ubuntu0.14.04.1
+-- PHP-Version: 5.5.9-1ubuntu4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `mbbs`
+-- Datenbank: `zzapapp`
 --
-
-CREATE DATABASE IF NOT EXISTS mbbs CHARACTER SET UTF8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `board`
---
-
-CREATE TABLE IF NOT EXISTS `board` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL,
-  `content` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `name` varchar(32) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `board`
---
-
-INSERT INTO `board` (`id`, `parent_id`, `content`, `name`, `description`) VALUES
-(1, 0, 1, 'mBBS', 'All about the micro bulletin board system');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group`
+-- Tabellenstruktur für Tabelle `group`
 --
 
 CREATE TABLE IF NOT EXISTS `group` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `protected` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `protected` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if group is protected from change or delete',
   `name` varchar(16) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `group`
+-- Daten für Tabelle `group`
 --
 
 INSERT INTO `group` (`id`, `active`, `protected`, `name`, `description`) VALUES
-(1, 1, 1, 'operator', 'System Operator'),
-(2, 1, 1, 'administrator', 'User/Group Administrator'),
-(3, 1, 1, 'moderator', 'Content Moderator'),
-(4, 1, 1, 'user', 'Basic User');
+(1, 1, 1, 'guest', 'Guest'),
+(2, 1, 1, 'user', 'Basic User'),
+(3, 1, 0, 'premium', 'Premium User'),
+(4, 1, 0, 'moderator', 'Content Moderator'),
+(5, 1, 0, 'operator', 'Operator'),
+(6, 1, 1, 'administrator', 'Administrator');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `host`
+-- Tabellenstruktur für Tabelle `user`
 --
 
-CREATE TABLE IF NOT EXISTS `host` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(16) NOT NULL,
-  `lastexport` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `confirmed` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `host`
---
-
-INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
-(1, 'mbbs', '0000-00-00 00:00:00', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mail`
---
-
-
-CREATE TABLE IF NOT EXISTS `mail` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `mid` varchar(32) NOT NULL,
-  `parent_mid` varchar(32) DEFAULT NULL,
-  `origin_mid` varchar(32) DEFAULT NULL,
-  `from` varchar(32) NOT NULL,
-  `to` varchar(32) NOT NULL,
-  `subject` varchar(80) NOT NULL,
-  `written` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `read` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `message` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `mail_attachment`
---
-
-CREATE TABLE IF NOT EXISTS `mail_attachment` (
-  `mail_id` int(10) unsigned NOT NULL,
-  `sort` int(10) unsigned NOT NULL,
-  `type` enum('image','audio','video') NOT NULL DEFAULT 'image',
-  `path` varchar(32) NOT NULL,
-  KEY `id` (`mail_id`)
+CREATE TABLE `user` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `handle` varchar(255) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `language` varchar(2) NOT NULL DEFAULT 'en',
+  `email` varchar(255) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `confirmed` datetime DEFAULT NULL,
+  `confirmcode` varchar(8) NOT NULL COMMENT 'Code for confirmin registration',
+  `lastlogin` datetime DEFAULT NULL,
+  `token` varchar(32) NOT NULL DEFAULT '' COMMENT 'Token ist used for quicklogin',
+  `useragent` varchar(255) NOT NULL DEFAULT '' COMMENT 'useragent used at last login'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `session`
+-- Daten für Tabelle `user`
 --
 
-CREATE TABLE IF NOT EXISTS `session` (
-  `id` varchar(32) NOT NULL,
-  `start` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `lastquery` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_handle` varchar(32) NOT NULL,
-  `area` varchar(255) NOT NULL,
-  `useragent` varchar(255) NOT NULL,
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `active` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `handle` varchar(16) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `language` varchar(2) NOT NULL DEFAULT 'de',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `lastlogin` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `active`, `handle`, `password`, `language`, `created`, `lastlogin`) VALUES
-(1, 1, 'operator', 'fe96dd39756ac41b74283a9292652d366d73931f', 'en', '2014-10-23 12:00:00', '0000-00-00 00:00:00'),
-(2, 1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'en', '2014-10-23 12:00:00', '2015-01-03 14:43:19'),
-(3, 1, 'moderator', '79f52b5b92498b00cb18284f1dcb466bd40ad559', 'en', '2014-10-23 12:00:00', '0000-00-00 00:00:00');
+INSERT INTO `user` (`id`, `active`, `handle`, `password`, `language`, `email`, `created`, `confirmed`, `confirmcode`, `lastlogin`, `token`, `useragent`) VALUES
+(1, 1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'de', 'your.name@yourdomain.com', '2017-01-01 12:00:00', '2017-01-01 12:00:00', '', '2017-01-01 12:00:00', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_group`
+-- Tabellenstruktur für Tabelle `user_group`
 --
 
 CREATE TABLE IF NOT EXISTS `user_group` (
@@ -175,16 +84,171 @@ CREATE TABLE IF NOT EXISTS `user_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user_group`
+-- Daten für Tabelle `user_group`
 --
 
 INSERT INTO `user_group` (`user_id`, `group_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+(1, 6),
+(1, 2);
 
 --
--- Constraints for dumped tables
+-- Constraints der exportierten Tabellen
+--
+
+--
+-- Constraints der Tabelle `user_group`
+--
+ALTER TABLE `user_group`
+  ADD CONSTRAINT `fk_ug_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_ug_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `board`
+--
+
+CREATE TABLE `board` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `parent_id` int(10) UNSIGNED NOT NULL,
+  `content` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `name` varchar(32) NOT NULL,
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `board`
+--
+
+INSERT INTO `board` (`id`, `parent_id`, `content`, `name`, `description`) VALUES
+  (1, 0, 1, 'mBBS', 'All about the micro bulletin board system');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `host`
+--
+
+CREATE TABLE `host` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `lastexport` datetime,
+  `confirmed` tinyint(3) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `host`
+--
+
+INSERT INTO `host` (`id`, `name`, `lastexport`, `confirmed`) VALUES
+  (1, 'mbbs', null, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `mail`
+--
+
+CREATE TABLE `mail` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `mid` varchar(32) NOT NULL,
+  `parent_mid` varchar(32) DEFAULT NULL,
+  `origin_mid` varchar(32) DEFAULT NULL,
+  `from` varchar(32) NOT NULL,
+  `to` varchar(32) NOT NULL,
+  `subject` varchar(80) NOT NULL,
+  `written` datetime,
+  `read` datetime,
+  `message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `mail_attachment`
+--
+
+CREATE TABLE `mail_attachment` (
+  `mail_id` int(10) UNSIGNED NOT NULL,
+  `sort` int(10) UNSIGNED NOT NULL,
+  `type` enum('image','audio','video') NOT NULL DEFAULT 'image',
+  `path` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `session`
+--
+
+CREATE TABLE `session` (
+  `id` varchar(32) NOT NULL,
+  `start` datetime,
+  `lastquery` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `hits` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_handle` varchar(32) NOT NULL,
+  `area` varchar(255) NOT NULL,
+  `useragent` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `board`
+--
+ALTER TABLE `board`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `host`
+--
+ALTER TABLE `host`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `mail`
+--
+ALTER TABLE `mail`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `mail_attachment`
+--
+ALTER TABLE `mail_attachment`
+  ADD KEY `id` (`mail_id`);
+
+--
+-- Indizes für die Tabelle `session`
+--
+ALTER TABLE `session`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `board`
+--
+ALTER TABLE `board`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT für Tabelle `host`
+--
+ALTER TABLE `host`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT für Tabelle `mail`
+--
+ALTER TABLE `mail`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- Constraints der exportierten Tabellen
 --
 
 --
@@ -192,10 +256,3 @@ INSERT INTO `user_group` (`user_id`, `group_id`) VALUES
 --
 ALTER TABLE `mail_attachment`
   ADD CONSTRAINT `fk_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_group`
---
-ALTER TABLE `user_group`
-  ADD CONSTRAINT `fk_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;

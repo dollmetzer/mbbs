@@ -159,6 +159,32 @@ td {
     vertical-align: top;
 }
 
+/**   B U T T O N S   */
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size:1em;
+    cursor: pointer;
+    color:#000000;
+    background:#dddddd;
+}
+btn-ok {
+    color:#33ff33;
+}
+btn-cancel {
+    color:#ff3333;
+}
+btn-small {
+    font-size:0.7em;
+}
+
+
 /**   M A I L L I S T   */
 
 table.maillist {
@@ -181,3 +207,6 @@ table.maillist td {
     vertical-align: top;
 }
 
+table.maildetails{
+    width:100%;
+}

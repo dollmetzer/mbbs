@@ -134,6 +134,8 @@ class pictureModel
         header('Content-Type: image/jpeg');
         header('Content-Disposition: attachment; filename="mail_'.$_context.'_'.$_id.'.jpg"');
         header('Content-Length: '.filesize($filename));
+        ob_clean();
+        flush();
         readfile($filename);
         exit;
 

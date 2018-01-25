@@ -20,7 +20,7 @@
     <link href="<?php $this->buildMediaURL('backend/vendor/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core CSS -->
-    <link href="<?php $this->buildMediaUrl('backend/vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?php $this->buildMediaUrl('backend/vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet" >
 
     <!-- Custom CSS -->
     <link href="<?php $this->buildMediaURL('frontend/css/mbbs.css'); ?>" rel="stylesheet">

@@ -1,7 +1,7 @@
 <?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
-<p><a href="<?php echo $this->buildURL('bbs/mail/in'); ?>" class="btn-small"><i class="fa fa-sign-in"></i> <?php $this->lang('link_inbox'); ?></a>
-<a href="<?php echo $this->buildURL('bbs/mail/out'); ?>" class="btn-small"><i class="fa fa-sign-out"></i> <?php $this->lang('link_outbox'); ?></a>
+<p><a href="<?php echo $this->buildURL('bbs/mail/in'); ?>" class="btn btn-small"><i class="fa fa-sign-in"></i> <?php $this->lang('link_inbox'); ?></a>
+<a href="<?php echo $this->buildURL('bbs/mail/out'); ?>" class="btn btn-small"><i class="fa fa-sign-out"></i> <?php $this->lang('link_outbox'); ?></a>
 </p><p>
 <a href="<?php echo $this->buildURL('bbs/mail/new'); ?>" class="btn"><i class="fa fa-pencil"></i> <?php $this->lang('link_new_mail'); ?></a>
 </p>
