@@ -1,6 +1,8 @@
 Changes
 =======
 
+28.01.2018 - Started with the BBS API
+
 25.01.2018 - Wall now with pagination and file upload
 
 21.01.2018 - Reorganized documentation a little bit, Repaired form labels, working on wall
