@@ -226,8 +226,14 @@ class accountController extends \Application\modules\core\controllers\Controller
                     $active = 1;
                 }
 
-                $confirmcode = substr(md5($values['handle'] . $values['password'] . $values['language'] . time()), 8);
-                $uid = $userModel->new(
+                // confirmcode only, if mailregistration is mandatory
+                if ($this->config['register']['mailcheck'] === true) {
+                    $confirmcode = substr(md5($values['handle'] . $values['password'] . $values['language'] . time()), 8,8);
+                } else {
+                    $confirmcode = '';
+                }
+
+                $uid = $userModel->createNew(
                     $values['handle'],
                     $values['password'],
                     $values['language'],
@@ -250,10 +256,10 @@ class accountController extends \Application\modules\core\controllers\Controller
                     if ($this->sendRegistrationMail($uid) === false) {
                         $this->request->log('Sending registration of user ' . $values['handle'] . ' failed!');
                     }
+                    $this->request->forward($this->buildURL('users/account/confirm'), $this->lang('msg_users_registersuccess'),
+                        'notice');
                 }
-
-                $this->request->forward($this->buildURL('users/account/confirm'), $this->lang('msg_users_registersuccess'),
-                    'notice');
+                $this->forward($this->buildURL(''), $this->lang('msg_users_confirmsuccess'), 'notice');
 
             }
         }
@@ -406,23 +412,27 @@ class accountController extends \Application\modules\core\controllers\Controller
         $form->name = 'settingsform';
 
         $form->fields['email'] = array(
+            'label' => 'email',
             'type' => 'email',
             'required' => true,
             'maxlength' => 255,
             'value' => $user['email'],
         );
         $form->fields['password'] = array(
+            'label' => 'password',
             'type' => 'password',
             'minlength' => 8,
             'maxlength' => 32,
             'help' => $this->lang('form_help_registerform_password'),
         );
         $form->fields['password2'] = array(
+            'label' => 'password2',
             'type' => 'password',
             'minlength' => 8,
             'maxlength' => 32,
         );
         $form->fields['language'] = array(
+            'label' => 'language',
             'type' => 'select',
             'required' => true,
             'options' => $languages,

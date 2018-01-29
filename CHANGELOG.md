@@ -1,6 +1,8 @@
 Changes
 =======
 
+28.01.2018 - fixed registration with and without mail confirmation. User settings for with correct labels.
+
 28.01.2018 - Started with the BBS API
 
 25.01.2018 - Wall now with pagination and file upload

@@ -50,7 +50,7 @@ class userModel extends \dollmetzer\zzaplib\DBModel
      * @param string $_confirmed Datetime string
      * @return integer
      */
-    public function new(
+    public function createNew(
         $_handle,
         $_password,
         $_language,
