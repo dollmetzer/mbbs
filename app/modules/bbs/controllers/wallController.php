@@ -136,7 +136,7 @@ class wallController extends \Application\modules\core\controllers\Controller
 
             $values = $form->getValues();
             $data      = array(
-                'mid' => $this->config['name'].'_board_'.time(),
+                'mid' => $this->config['name'].'_'.md5(time()),
                 'from' => $this->session->user_handle,
                 'to' => '!wall',
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),

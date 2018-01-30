@@ -1,6 +1,8 @@
 Changes
 =======
 
+30.01.2018 - Wall and Board: Posting and reading messages: Froms and CSS fixed
+
 28.01.2018 - fixed registration with and without mail confirmation. User settings for with correct labels.
 
 28.01.2018 - Started with the BBS API

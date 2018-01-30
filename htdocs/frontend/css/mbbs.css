@@ -210,3 +210,19 @@ table.maillist td {
 table.maildetails{
     width:100%;
 }
+
+
+/**   M E S S A G E   */
+article.messagehead {
+    margin:0;
+    border-top:1px solid #ffffff;
+    border-bottom: 1px solid #999999;
+    padding:0.5em 0;
+    background: #dddddd;
+}
+article.messagebody {
+    margin:0 0 0.5em 0;
+    border-bottom: 1px solid #dddddd;
+    padding:0.5em 0;
+
+}

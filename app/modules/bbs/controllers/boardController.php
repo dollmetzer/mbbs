@@ -188,11 +188,13 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'value' => $boardPath.'<br />'.$board['description']
             ),
             'subject' => array(
+                'label' => 'subject',
                 'type' => 'text',
                 'required' => true,
                 'maxlength' => 80,
             ),
             'message' => array(
+                'label' => 'message',
                 'type' => 'textarea',
                 'required' => true,
                 'rows' => 8,
@@ -204,7 +206,6 @@ class boardController extends \Application\modules\core\controllers\Controller
             ),
             'submit' => array(
                 'type' => 'submit',
-                'value' => 'send'
             ),
         );
 
