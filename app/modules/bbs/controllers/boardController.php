@@ -38,6 +38,8 @@ class boardController extends \Application\modules\core\controllers\Controller
 
     /**
      * Show a list of boards
+     *
+     * @todo Paginierung (dazu muss das System umgebaut werden)
      */
     public function indexAction()
     {
@@ -147,7 +149,9 @@ class boardController extends \Application\modules\core\controllers\Controller
     }
 
     /**
-     * Create a new mail
+     * Create a new entry
+     *
+     * @todo: add breadcrum board path
      */
     public function newAction()
     {
@@ -182,10 +186,6 @@ class boardController extends \Application\modules\core\controllers\Controller
         $form->fields = array(
             'image' => array(
                 'type' => 'hidden'
-            ),
-            'board' => array(
-                'type' => 'static',
-                'value' => $boardPath.'<br />'.$board['description']
             ),
             'subject' => array(
                 'label' => 'subject',
