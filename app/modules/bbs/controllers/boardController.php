@@ -72,11 +72,12 @@ class boardController extends \Application\modules\core\controllers\Controller
         $entriesPerPage = 10;
         $table->entriesPerPage = $entriesPerPage;
 
+        if($id == 0) {
 
+            $theme    = array();
+            $mailList = array();
 
-
-
-        if ($id != 0) {
+        } else {
 
             // Get Messages for the current Theme
             $theme     = $boardModel->read($id);
@@ -84,25 +85,17 @@ class boardController extends \Application\modules\core\controllers\Controller
             $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
             // pagination
-            $listEntries = $mailModel->getMaillistEntries('to', $username);
-            $listLength  = 10;
-            $page        = 0;
-            if (sizeof($this->request->params) > 1) {
-                $page = (int) $this->request->params[1] - 1;
-            }
-            $maxPages   = ceil($listEntries / $listLength);
-            $firstEntry = $page * $listLength;
+            $table->calculateMaxPage($mailModel->getListEntries('to', $username));
+            $first = $page * $entriesPerPage;
+            $table->urlPage = 'bbs/board/list/'.$id;
 
-            $mailList = $mailModel->getMaillist('to', $username, false, $firstEntry, $listLength);
+            $mailList = $mailModel->getMaillist('to', $username, false, $first, $entriesPerPage);
 
             $pictureModel = new \Application\modules\bbs\models\pictureModel($this->config);
             for ($i = 0; $i < sizeof($mailList); $i++) {
                 $mailList[$i]['picture'] = $pictureModel->hasPicture('board', $mailList[$i]['mid']);
             }
 
-        } else {
-            $theme    = array();
-            $mailList = array();
         }
 
         if (empty($board['name'])) {
@@ -111,16 +104,14 @@ class boardController extends \Application\modules\core\controllers\Controller
             $this->view->content['title'] = sprintf($this->lang('title_board'),
                 $board['name']);
         }
-        $this->view->template                       = 'modules/bbs/views/frontend/board/index.php';
-        $this->view->content['nav_main']            = 'board';
-        $this->view->content['board']               = $board;
-        $this->view->content['id']                  = $id;
-        $this->view->content['path']                = $path;
-        $this->view->content['themes']              = $themes;
-        $this->view->content['mails']               = $mailList;
-        $this->view->content['pagination_page']     = $page;
-        $this->view->content['pagination_maxpages'] = $maxPages;
-        $this->view->content['pagination_link']     = $this->buildURL('bbs/board/list/'.$id.'/%d');
+        $this->view->template               = 'modules/bbs/views/frontend/board/list.php';
+        $this->view->content['nav_main']    = 'board';
+        $this->view->content['board']       = $board;
+        $this->view->content['id']          = $id;
+        $this->view->content['path']        = $path;
+        $this->view->content['themes']      = $themes;
+        $this->view->content['mails']       = $mailList;
+        $this->view->content['table']       = $table;
 
     }
 
@@ -134,11 +125,10 @@ class boardController extends \Application\modules\core\controllers\Controller
             $this->forward($this->buildURL('/bbs/board'),
                 $this->lang('error_access_denied'), 'error');
         }
-        $id = (int) $this->request->params[0];
+        $id = (int)$this->request->params[0];
 
         // Get Messages for the current Theme
         $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
-        //$username = '#' . $theme['name'];
         $mail      = $mailModel->read($id);
 
         if (empty($mail)) {
@@ -146,9 +136,25 @@ class boardController extends \Application\modules\core\controllers\Controller
                 $this->lang('error_data_not_found'), 'error');
         }
 
+        // Get board and path
+        if(!preg_match('/^#/', $mail['to'])) {
+            $this->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_data_not_found'), 'error');
+        } else {
+            $boardName = preg_replace('/^#/', '', $mail['to']);
+            $boardModel = new \Application\modules\bbs\models\boardModel($this->config);
+            $board = $boardModel->getByName($boardName);
+        }
+        if(empty($board)) {
+            $this->forward($this->buildURL('/bbs/board'),
+                $this->lang('error_data_not_found'), 'error');
+        }
+
         $this->view->content['title']    = $this->lang('title_board_read');
         $this->view->content['nav_main'] = 'board';
         $this->view->content['mail']     = $mail;
+        $this->view->content['board']    = $board;
+        $this->view->content['path']     = $boardModel->getPath($board['id']);
         $pictureModel                    = new \Application\modules\bbs\models\pictureModel($this->config);
         $this->view->content['picture']  = $pictureModel->hasPicture('board', $mail['mid']);
     }

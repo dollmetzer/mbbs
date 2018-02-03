@@ -4,6 +4,10 @@
         
     <form action="<?php $this->buildURL('bbs/wall/new'); ?>" name="mailform" method="post" enctype="multipart/form-data">
     <input id="formfield_image" type="hidden" name="image" value="" />
+    <p class="photo" id="itemphoto" style="display:none;">
+        <label for="pic"><?php $this->lang('label_picture'); ?></label>
+        <img src="about:blank" alt="" id="show-picture" style="width:100%">
+    </p>
     <p>
         <label for='subject'><?php $this->lang('label_subject'); ?>&nbsp;<sup>*</sup></label>
         <input type="text" class="form-control" name="subject" maxlength="80" value="" />
@@ -16,11 +20,6 @@
         <label for="pic"><?php $this->lang('label_picture'); ?></label>
         <input type="file" id="formfield_picture" name="pic" />
     </p>
-    <p class="photo" id="itemphoto" style="display:none;">
-        <label for="pic"><?php $this->lang('label_picture'); ?></label>
-        <img src="about:blank" alt="" id="show-picture" style="width:60%">
-    </p>
-
     <p>
         <a href="#" class="btn btn-ok" onclick="document.mailform.submit();"><i class="fa fa-check"></i> <?php $this->lang('link_send'); ?></a>
     </p>
@@ -42,7 +41,7 @@
 
 <table class="maillist striped">
 <?php foreach($content['mails'] as $mail) {?>
-    <tr onclick="jumpto(<?php echo $mail['id']; ?>);">
+    <tr onclick="jumpto(<?php echo $mail['id']; ?>);" class="entry">
         <td><?php $this->lang('table_col_from'); ?> <?php echo $mail['from']; ?>
             <?php echo $this->toDatetimeShort($mail['written'], false); ?>
             <?php if(!empty($mail['message'])) { echo '&nbsp;<i class="fa fa-align-left"></i>'; } ?>

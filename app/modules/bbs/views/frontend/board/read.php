@@ -1,4 +1,20 @@
-<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
+<?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php';
+
+// B r e a d c r u m b
+echo '<p class="breadcrumb">';
+echo '<i class="fa fa-book fa-fw"></i>&nbsp;<a href="';
+$this->buildURL('bbs/board/list/0');
+echo '">';
+$this->lang('link_mainboard');
+echo '</a>';
+foreach($content['path'] as $step) {
+    echo '&nbsp;/&nbsp;<a href="'.$this->buildURL('bbs/board/list/'.$step['id'], false).'">';
+    echo $step['name'];
+    echo "</a>";
+}
+echo "</p>\n";
+
+?>
 
     <article class="messagehead">
         <table>
