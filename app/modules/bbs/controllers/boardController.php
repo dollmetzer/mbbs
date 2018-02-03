@@ -28,7 +28,6 @@ class boardController extends \Application\modules\core\controllers\Controller
      * @var array $accessGroups
      */
     protected $accessGroups = array(
-        'index' => array('user', 'operator', 'administrator', 'moderator'),
         'list' => array('user', 'operator', 'administrator', 'moderator'),
         'read' => array('user', 'operator', 'administrator', 'moderator'),
         'new' => array('user', 'operator', 'administrator', 'moderator'),
@@ -36,12 +35,13 @@ class boardController extends \Application\modules\core\controllers\Controller
         'img' => array('user', 'operator', 'administrator', 'moderator')
     );
 
+
     /**
      * Show a list of boards
      *
      * @todo Paginierung (dazu muss das System umgebaut werden)
      */
-    public function indexAction()
+    public function listAction()
     {
 
         $id = 0;
@@ -49,7 +49,7 @@ class boardController extends \Application\modules\core\controllers\Controller
             $id = (int) $this->request->params[0];
         }
 
-        // Get Path and List of the Themes 
+        // Get Path and List of the Themes
         $boardModel = new \Application\modules\bbs\models\boardModel($this->config);
         if (!empty($id)) {
             $board = $boardModel->read($id);
@@ -58,9 +58,23 @@ class boardController extends \Application\modules\core\controllers\Controller
                 'description' => $this->lang('txt_default_board_description')
             );
         }
-
         $path   = $boardModel->getPath($id);
         $themes = $boardModel->getList($id, true);
+
+
+        // Pagination
+        $page = 0;
+        if(sizeof($this->request->params) > 1) {
+            $page = (int) $this->request->params[1];
+        }
+        $table = new \dollmetzer\zzaplib\Table();
+        $table->page = $page;
+        $entriesPerPage = 10;
+        $table->entriesPerPage = $entriesPerPage;
+
+
+
+
 
         if ($id != 0) {
 
@@ -107,16 +121,7 @@ class boardController extends \Application\modules\core\controllers\Controller
         $this->view->content['pagination_page']     = $page;
         $this->view->content['pagination_maxpages'] = $maxPages;
         $this->view->content['pagination_link']     = $this->buildURL('bbs/board/list/'.$id.'/%d');
-    }
 
-    /**
-     * Show a list of boards (alias of index)
-     * 
-     * @return type
-     */
-    public function listAction()
-    {
-        return $this->indexAction();
     }
 
     /**
@@ -187,6 +192,11 @@ class boardController extends \Application\modules\core\controllers\Controller
             'image' => array(
                 'type' => 'hidden'
             ),
+            'board' => array(
+                'label' => 'boardname',
+                'type' => 'static',
+                'value' => $board['name'] . ' - ' . $board['description'],
+            ),
             'subject' => array(
                 'label' => 'subject',
                 'type' => 'text',
@@ -239,6 +249,7 @@ class boardController extends \Application\modules\core\controllers\Controller
         $this->view->content['title']    = $this->lang('title_board_write');
         $this->view->content['nav_main'] = 'board';
         $this->view->content['form']     = $form->getViewdata();
+
     }
 
     /**

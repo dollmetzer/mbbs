@@ -1,6 +1,8 @@
 Changes
 =======
 
+03.02.2018 - Alertbox closing after 3 seconds. Pagination visible only, if more than one page exists
+
 01.02.2018 - Board: Fixed Picture upload
 
 30.01.2018 - Wall and Board: Posting and reading messages: Froms and CSS fixed

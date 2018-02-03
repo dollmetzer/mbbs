@@ -44,10 +44,8 @@ class wallController extends \Application\modules\core\controllers\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
-        // TODO: Pagination via Table object!!!
-//        $columns = $this->getColumns();
+        // Pagination via Table object
         $table = new \dollmetzer\zzaplib\Table();
-        // calculate pagination
         $page = 0;
         if (sizeof($this->request->params) > 0) {
             $page = (int)$this->request->params[0];

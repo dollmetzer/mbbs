@@ -1,5 +1,5 @@
 <?php
-if(!empty($content['table']->urlPage)) {
+if(!empty($content['table']->urlPage) && ($content['table']->maxPage > 1) ) {
 
     $firstEntry = $content['table']->page - $content['table']->paginationWidth;
     if($firstEntry < 0) {
