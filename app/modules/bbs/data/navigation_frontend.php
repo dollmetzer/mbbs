@@ -8,7 +8,7 @@ return array(
     ),
     'board' => array(
         'icon' => 'fa-book',
-        'url' => 'bbs/board',
+        'url' => 'bbs/board/list',
         'group' => 'user',
         'sort' => 5,
     ),

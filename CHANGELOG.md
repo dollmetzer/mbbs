@@ -1,6 +1,16 @@
 Changes
 =======
 
+03.02.2018 - Alertbox closing after 3 seconds. Pagination visible only, if more than one page exists
+
+01.02.2018 - Board: Fixed Picture upload
+
+30.01.2018 - Wall and Board: Posting and reading messages: Froms and CSS fixed
+
+28.01.2018 - fixed registration with and without mail confirmation. User settings for with correct labels.
+
+28.01.2018 - Started with the BBS API
+
 25.01.2018 - Wall now with pagination and file upload
 
 21.01.2018 - Reorganized documentation a little bit, Repaired form labels, working on wall

@@ -1,25 +1,23 @@
 <?php include PATH_APP . '/modules/core/views/frontend/_elements/head.php'; ?>
 
-<table>
-    <tr><td colspan="2"><hr /></td></tr>
-    <tr>
-        <td><strong><?php $this->lang('table_col_from'); ?>&nbsp;</strong></td>
-        <td><?php echo $content['mail']['from']; ?></td>
-    </tr>
-    <tr>
-        <td><strong><?php $this->lang('table_col_date'); ?>&nbsp;</strong></td>
-        <td><?php echo $this->toDatetimeShort($content['mail']['written'], false); ?></td>
-    </tr>
-    <tr>
-        <td><strong><?php $this->lang('table_col_subject'); ?>&nbsp;</strong></td>
-        <td><?php echo $content['mail']['subject']; ?></td>
-    </tr>
-    <tr><td colspan="2"><hr /></td></tr>
-    <tr>
-        <td colspan="2"><?php echo nl2br($content['mail']['message']); ?></td>
-    </tr>
-    <tr><td colspan="2"><hr /></td></tr>
-</table>
+    <article class="messagehead">
+        <table>
+            <tr>
+                <td><strong><?php $this->lang('table_col_from'); ?></strong></td>
+                <td>&nbsp;:&nbsp;<?php echo $content['mail']['from']; ?></td>
+            </tr>
+            <tr>
+                <td><strong><?php $this->lang('table_col_date'); ?></strong></td>
+                <td>&nbsp;:&nbsp;<?php echo $this->toDatetimeShort($content['mail']['written'], false); ?></td>
+            </tr>
+            <tr>
+                <td><strong><?php $this->lang('table_col_subject'); ?></strong></td>
+                <td>&nbsp;:&nbsp;<?php echo $content['mail']['subject']; ?></td>
+            </tr>
+        </table>
+    </article>
+
+    <article class="messagebody"><?php echo nl2br($content['mail']['message']); ?></article>
 
 <?php if($content['picture'] === true) { ?>
 <p><img src="<?php $this->buildURL('bbs/board/img/'.$content['mail']['id']); ?>" style="width:100%;" /></p>

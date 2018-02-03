@@ -44,10 +44,8 @@ class wallController extends \Application\modules\core\controllers\Controller
 
         $mailModel = new \Application\modules\bbs\models\mailModel($this->config);
 
-        // TODO: Pagination via Table object!!!
-//        $columns = $this->getColumns();
+        // Pagination via Table object
         $table = new \dollmetzer\zzaplib\Table();
-        // calculate pagination
         $page = 0;
         if (sizeof($this->request->params) > 0) {
             $page = (int)$this->request->params[0];
@@ -136,7 +134,7 @@ class wallController extends \Application\modules\core\controllers\Controller
 
             $values = $form->getValues();
             $data      = array(
-                'mid' => $this->config['name'].'_board_'.time(),
+                'mid' => $this->config['name'].'_'.md5(time()),
                 'from' => $this->session->user_handle,
                 'to' => '!wall',
                 'written' => strftime('%Y-%m-%d %H:%M:%S', time()),
