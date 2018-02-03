@@ -121,5 +121,5 @@ class boardModel extends \dollmetzer\zzaplib\DBModel
         $values = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $values['COUNT(*)'];
     }
+
 }
-?>

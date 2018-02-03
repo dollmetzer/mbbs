@@ -1,6 +1,8 @@
 Changes
 =======
 
+03.02.2018 - CSS improvement in listview (cursor, breadcrumb,...). Identical behaviour in wall and baord form and detail view.
+
 03.02.2018 - Alertbox closing after 3 seconds. Pagination visible only, if more than one page exists
 
 01.02.2018 - Board: Fixed Picture upload
